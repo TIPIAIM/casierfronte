@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
 
 import sitemap from "vite-plugin-sitemap";
 
@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     sitemap({
       hostname: "https://tiptamcode.com", //si tu ne lie pas sa ne marchera pas
-      routes: ["/services", "/contact ", "apropos", "realisation", "/"],
+      routes: ["/", "/seconnecter ", "enregistrer"],
     }), // Remplace par ton domaine
   ],
 
