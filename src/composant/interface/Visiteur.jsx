@@ -11,7 +11,7 @@ import {
   FaDownload,
   FaQuestionCircle,
 } from "react-icons/fa";
-
+import "./Style.css";
 // Palette de couleurs
 const colors = {
   blueMarine: "#002B5B",
@@ -27,13 +27,17 @@ const Container = styled.div`
   margin: 2rem auto;
   padding: 0 1rem;
   font-family: "Arial", sans-serif;
+  @media (max-width: 768px) {
+    padding: 0 0.5rem;
+    margin: 1rem auto;
+  }
 `;
 
 const HeaderSection = styled.div`
   background-color: ${colors.blueMarine};
   color: ${colors.white};
   padding: 2.5rem;
-  border-radius: 8px;
+
   margin-bottom: 2rem;
 `;
 
@@ -52,7 +56,7 @@ const ProcedureSection = styled.div`
   background-color: ${colors.white};
   border-left: 4px solid ${colors.greenDark};
   padding: 1.8rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 `;
 
@@ -84,6 +88,20 @@ const SectionTitle = styled.h2`
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid ${colors.goldenYellow};
+
+  @media (max-width: 992px) {
+    margin: 1rem 1rem;
+  }
+
+  @media (max-width: 768px) {
+    margin: 1rem 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  @media (max-width: 576px) {
+    margin: 1rem 1rem;
+    text-align: center;
+  }
 `;
 
 const DeliveryMethods = styled.div`
@@ -91,20 +109,34 @@ const DeliveryMethods = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    gap: 2rem;
+  }
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const MethodCard = styled.div`
   background-color: ${colors.white};
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border: 0.1px solid #e0e0e0
+  
   padding: 1.8rem 1.5rem;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 3px 1px rgba(0, 0, 0, 0.55);
   text-align: center;
   transition: transform 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
     border-color: ${colors.blueMarine};
+      box-shadow: 3px 1px rgba(0, 0, 0, 0.15);
+
+  }
+
+   @media (max-width: 768px) {
+    padding: 1.5rem 1rem;
+   
   }
 `;
 
@@ -112,20 +144,34 @@ const MethodIcon = styled.div`
   font-size: 2.5rem;
   color: ${colors.blueMarine};
   margin-bottom: 1.2rem;
+
+  @media (max-width: 768px) {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
 `;
 
 const MethodTitle = styled.h3`
   color: ${colors.greenDark};
   margin-bottom: 0.8rem;
   font-size: 1.2rem;
+
+  @media (max-width: 768px) {
+    text-align: left;
+  }
 `;
 
 const FormSection = styled.div`
   background-color: ${colors.white};
-  border-radius: 8px;
+
   padding: 2.5rem;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
   margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    text-align: left;
+  }
 `;
 
 const CheckboxContainer = styled.div`
@@ -136,9 +182,17 @@ const CheckboxContainer = styled.div`
   padding: 1.5rem;
   background: ${({ error }) => (error ? "#FFF4F4" : colors.white)};
   border: 1px solid ${({ error }) => (error ? colors.errorRed : "#E0E0E0")};
-  border-radius: 8px;
+
   transition: all 0.3s ease;
-`;
+ @media (max-width: 768px) {
+    padding: 1.2rem;
+    margin: 1.5rem 0;
+  }
+ @media (max-width: 576px) {
+    flex-direction: column;
+    gap: 8px;
+  }
+  `;
 
 const CheckboxInput = styled.input`
   margin-top: 3px;
@@ -157,7 +211,12 @@ const CheckboxLabel = styled.label`
 const MainText = styled.span`
   font-weight: 500;
   color: ${colors.blueMarine};
-`;
+
+
+  @media (max-width: 576px) {
+    font-size: 0.95rem;
+  }
+  `;
 
 const LinkText = styled.a`
   color: ${colors.blueMarine};
@@ -192,7 +251,7 @@ const RadioLabel = styled.label`
   gap: 10px;
   cursor: pointer;
   padding: 0.8rem 1.5rem;
-  border-radius: 6px;
+
   background: ${({ selected }) =>
     selected ? colors.blueMarine + "15" : "transparent"};
   border: 1px solid ${({ selected }) => (selected ? colors.blueMarine : "#ddd")};
@@ -212,7 +271,7 @@ const PrimaryButton = styled.button`
   color: ${colors.white};
   border: none;
   padding: 1rem 2rem;
-  border-radius: 6px;
+
   font-size: 1.1rem;
   font-weight: 600;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
@@ -258,7 +317,7 @@ const GuideLink = styled.a`
   font-weight: 600;
   padding: 0.8rem 1.2rem;
   border: 1px solid ${colors.blueMarine};
-  border-radius: 6px;
+
   transition: all 0.2s ease;
 
   &:hover {
