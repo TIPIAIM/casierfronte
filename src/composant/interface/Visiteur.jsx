@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { 
-  FaFileAlt, 
-  FaCheckCircle, 
-  FaExclamationTriangle, 
+import React, { useState } from "react";
+import styled from "styled-components";
+import {
+  FaFileAlt,
+  FaCheckCircle,
+  FaExclamationTriangle,
   FaArrowRight,
   FaHome,
   FaEnvelope,
   FaMobileAlt,
   FaDownload,
-  FaQuestionCircle
-} from 'react-icons/fa';
+  FaQuestionCircle,
+} from "react-icons/fa";
 
 // Palette de couleurs
 const colors = {
-  blueMarine: '#002B5B',
-  greenDark: '#1A4D2E',
-  goldenYellow: '#F2C94C',
-  white: '#FAFAFA',
-  errorRed: '#E74C3C'
+  blueMarine: "#002B5B",
+  greenDark: "#1A4D2E",
+  goldenYellow: "#F2C94C",
+  white: "#FAFAFA",
+  errorRed: "#E74C3C",
 };
 
 // Styles avec styled-components
@@ -26,7 +26,7 @@ const Container = styled.div`
   max-width: 1000px;
   margin: 2rem auto;
   padding: 0 1rem;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 `;
 
 const HeaderSection = styled.div`
@@ -53,7 +53,7 @@ const ProcedureSection = styled.div`
   border-left: 4px solid ${colors.greenDark};
   padding: 1.8rem;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 `;
 
 const StepList = styled.ul`
@@ -98,7 +98,7 @@ const MethodCard = styled.div`
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 1.8rem 1.5rem;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
   text-align: center;
   transition: transform 0.3s ease;
 
@@ -124,7 +124,7 @@ const FormSection = styled.div`
   background-color: ${colors.white};
   border-radius: 8px;
   padding: 2.5rem;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
   margin-bottom: 2rem;
 `;
 
@@ -134,8 +134,8 @@ const CheckboxContainer = styled.div`
   gap: 12px;
   margin: 2rem 0;
   padding: 1.5rem;
-  background: ${({ error }) => (error ? '#FFF4F4' : colors.white)};
-  border: 1px solid ${({ error }) => (error ? colors.errorRed : '#E0E0E0')};
+  background: ${({ error }) => (error ? "#FFF4F4" : colors.white)};
+  border: 1px solid ${({ error }) => (error ? colors.errorRed : "#E0E0E0")};
   border-radius: 8px;
   transition: all 0.3s ease;
 `;
@@ -193,8 +193,9 @@ const RadioLabel = styled.label`
   cursor: pointer;
   padding: 0.8rem 1.5rem;
   border-radius: 6px;
-  background: ${({ selected }) => (selected ? colors.blueMarine + '15' : 'transparent')};
-  border: 1px solid ${({ selected }) => (selected ? colors.blueMarine : '#ddd')};
+  background: ${({ selected }) =>
+    selected ? colors.blueMarine + "15" : "transparent"};
+  border: 1px solid ${({ selected }) => (selected ? colors.blueMarine : "#ddd")};
   transition: all 0.2s ease;
 
   &:hover {
@@ -214,7 +215,7 @@ const PrimaryButton = styled.button`
   border-radius: 6px;
   font-size: 1.1rem;
   font-weight: 600;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   display: flex;
   align-items: center;
   gap: 12px;
@@ -227,7 +228,7 @@ const PrimaryButton = styled.button`
   &:hover:not(:disabled) {
     background-color: #144126;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -277,24 +278,29 @@ const TermsCheckbox = ({ accepted, onChange, error }) => {
       />
       <CheckboxLabel htmlFor="terms-checkbox">
         <MainText>
-          Je reconnais avoir lu et j'accepte les{' '}
-          <LinkText onClick={(e) => {
-            e.preventDefault();
-            window.open('/conditions', '_blank');
-          }}>
+          Je reconnais avoir lu et j'accepte les{" "}
+          <LinkText
+            onClick={(e) => {
+              e.preventDefault();
+              window.open("/conditions", "_blank");
+            }}
+          >
             conditions générales d'utilisation
-          </LinkText>{' '}
-          et la{' '}
-          <LinkText onClick={(e) => {
-            e.preventDefault();
-            window.open('/confidentialite', '_blank');
-          }}>
+          </LinkText>{" "}
+          et la{" "}
+          <LinkText
+            onClick={(e) => {
+              e.preventDefault();
+              window.open("/confidentialite", "_blank");
+            }}
+          >
             politique de confidentialité
           </LinkText>
         </MainText>
         {error && (
           <ErrorMessage>
-            <FaExclamationTriangle /> Vous devez accepter les conditions pour continuer
+            <FaExclamationTriangle /> Vous devez accepter les conditions pour
+            continuer
           </ErrorMessage>
         )}
       </CheckboxLabel>
@@ -310,16 +316,16 @@ const Visiteur = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitAttempted(true);
-    
+
     if (!acceptedTerms || !birthPlace) {
       return;
     }
-    
+
     // Redirection en fonction du choix
-    if (birthPlace === 'maroc') {
-      window.location.href = '/demande-maroc';
+    if (birthPlace === "maroc") {
+      window.location.href = "/demande-maroc";
     } else {
-      window.location.href = '/demande-etranger';
+      window.location.href = "/demande-etranger";
     }
   };
 
@@ -328,7 +334,9 @@ const Visiteur = () => {
   return (
     <Container>
       <HeaderSection>
-        <MainTitle>Bienvenue sur le site de demande d'extrait de Casier Judiciaire</MainTitle>
+        <MainTitle>
+          Bienvenue sur le site de demande d'extrait de Casier Judiciaire
+        </MainTitle>
         <SubTitle className="animate-fade-in">
           Ce service permet de demander en ligne l'extrait de Casier Judiciaire.
           La démarche ne prend que quelques minutes.
@@ -336,16 +344,27 @@ const Visiteur = () => {
       </HeaderSection>
 
       <ProcedureSection>
-        <h2 style={{ color: colors.blueMarine, marginBottom: '1.5rem' }}>Procédure à suivre :</h2>
+        <h2 style={{ color: colors.blueMarine, marginBottom: "1.5rem" }}>
+          Procédure à suivre :
+        </h2>
         <StepList className="header-wave">
-          <StepItem><FaCheckCircle color={colors.greenDark} /> Remplissez le formulaire de demande</StepItem>
-          <StepItem><FaCheckCircle color={colors.greenDark} /> Vérifiez votre demande</StepItem>
-          <StepItem><FaCheckCircle color={colors.greenDark} /> Présentez-vous à l'administration centrale du ministère de la Justice avec votre numéro de demande et vos pièces d'identité</StepItem>
+          <StepItem>
+            <FaCheckCircle color={colors.greenDark} /> Remplissez le formulaire
+            de demande
+          </StepItem>
+          <StepItem>
+            <FaCheckCircle color={colors.greenDark} /> Vérifiez votre demande
+          </StepItem>
+          <StepItem>
+            <FaCheckCircle color={colors.greenDark} /> Présentez-vous à
+            l'administration centrale du ministère de la Justice avec votre
+            numéro de demande et vos pièces d'identité
+          </StepItem>
         </StepList>
       </ProcedureSection>
 
       <DownloadSection>
-        <PrimaryButton as="a" href="#" style={{ textDecoration: 'none' }}>
+        <PrimaryButton as="a" href="#" style={{ textDecoration: "none" }}>
           <FaDownload /> Télécharger l'application mobile
         </PrimaryButton>
       </DownloadSection>
@@ -354,21 +373,30 @@ const Visiteur = () => {
         <SectionTitle>Vous pouvez recevoir votre document par :</SectionTitle>
         <DeliveryMethods>
           <MethodCard>
-            <MethodIcon><FaHome /></MethodIcon>
+            <MethodIcon>
+              <FaHome />
+            </MethodIcon>
             <MethodTitle>Retrait au tribunal</MethodTitle>
             <p>Retirez votre document au tribunal de votre choix</p>
           </MethodCard>
 
           <MethodCard>
-            <MethodIcon><FaEnvelope /></MethodIcon>
+            <MethodIcon>
+              <FaEnvelope />
+            </MethodIcon>
             <MethodTitle>Courrier sécurisé</MethodTitle>
             <p>Frais de livraison à régler électroniquement</p>
           </MethodCard>
 
           <MethodCard>
-            <MethodIcon><FaMobileAlt /></MethodIcon>
+            <MethodIcon>
+              <FaMobileAlt />
+            </MethodIcon>
             <MethodTitle>Reception par email</MethodTitle>
-            <p>Nécessite un téléphone compatible NFC et une carte d'identité valide</p>
+            <p>
+              Nécessite un téléphone compatible NFC et une carte d'identité
+              valide
+            </p>
           </MethodCard>
         </DeliveryMethods>
       </DeliverySection>
@@ -376,40 +404,56 @@ const Visiteur = () => {
       <FormSection>
         <SectionTitle>Faire une demande</SectionTitle>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '1.5rem' }}>
-            <p style={{ fontWeight: '600', marginBottom: '12px', color: colors.blueMarine }}>
-              Lieu de naissance <span style={{ color: colors.errorRed }}>*</span>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <p
+              style={{
+                fontWeight: "600",
+                marginBottom: "12px",
+                color: colors.blueMarine,
+              }}
+            >
+              Lieu de naissance{" "}
+              <span style={{ color: colors.errorRed }}>*</span>
             </p>
             <RadioGroup>
-              <RadioLabel className="animate-check" selected={birthPlace === 'maroc'}>
+              <RadioLabel
+                className="animate-check"
+                selected={birthPlace === "maroc"}
+              >
                 <RadioInput
                   type="radio"
                   name="birthPlace"
                   value="maroc"
-                  checked={birthPlace === 'maroc'}
-                  onChange={() => setBirthPlace('maroc')}
+                  checked={birthPlace === "maroc"}
+                  onChange={() => setBirthPlace("maroc")}
                 />
-                Maroc
+                Guinée
               </RadioLabel>
-              <RadioLabel className="animate-check" selected={birthPlace === 'etranger'}>
-                <RadioInput 
+              <RadioLabel
+                className="animate-check"
+                selected={birthPlace === "etranger"}
+              >
+                <RadioInput
                   type="radio"
                   name="birthPlace"
                   value="etranger"
-                  checked={birthPlace === 'etranger'}
-                  onChange={() => setBirthPlace('etranger')}
+                  checked={birthPlace === "etranger"}
+                  onChange={() => setBirthPlace("etranger")}
                 />
                 Étranger
               </RadioLabel>
             </RadioGroup>
             {submitAttempted && !birthPlace && (
-              <ErrorMessage style={{ marginTop: '-0.5rem', marginBottom: '1rem' }}>
-                <FaExclamationTriangle /> Veuillez sélectionner votre lieu de naissance
+              <ErrorMessage
+                style={{ marginTop: "-0.5rem", marginBottom: "1rem" }}
+              >
+                <FaExclamationTriangle /> Veuillez sélectionner votre lieu de
+                naissance
               </ErrorMessage>
             )}
           </div>
 
-          <TermsCheckbox 
+          <TermsCheckbox
             accepted={acceptedTerms}
             onChange={(e) => {
               setAcceptedTerms(e.target.checked);
@@ -418,7 +462,11 @@ const Visiteur = () => {
             error={submitAttempted && !acceptedTerms}
           />
 
-          <PrimaryButton className="animate-pulse important-button" type="submit" disabled={!isFormValid}>
+          <PrimaryButton
+            className="animate-pulse important-button"
+            type="submit"
+            disabled={!isFormValid}
+          >
             <FaFileAlt /> Commencer la démarche <FaArrowRight />
           </PrimaryButton>
         </form>
@@ -426,7 +474,10 @@ const Visiteur = () => {
 
       <FormSection>
         <SectionTitle>Suivre ma demande</SectionTitle>
-        <p style={{ marginBottom: '1.5rem' }}>Si vous souhaitez suivre l'état d'avancement d'une précédente demande :</p>
+        <p style={{ marginBottom: "1.5rem" }}>
+          Si vous souhaitez suivre l'état d'avancement d'une précédente demande
+          :
+        </p>
         <SecondaryButton as="a" href="#">
           <FaQuestionCircle /> Accéder au suivi
         </SecondaryButton>
