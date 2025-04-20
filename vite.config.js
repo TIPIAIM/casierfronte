@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     sitemap({
-      hostname: "https://tiptamcode.com", //si tu ne lie pas sa ne marchera pas
+      hostname: "https://casiergn.vercel.app", //si tu ne lie pas sa ne marchera pas
       routes: ["/", "/seconnecter ", "enregistrer"],
     }), // Remplace par ton domaine
   ],

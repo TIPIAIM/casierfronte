@@ -1,0 +1,127 @@
+/* animations.css */
+
+/* 1. Animation d'entrée principale */
+@keyframes fadeIn {
+    from { 
+      opacity: 0; 
+      transform: translateY(20px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+  
+  /* 2. Vague institutionnelle */
+  @keyframes wave {
+    0% { 
+      background-position-x: 0%; 
+    }
+    100% { 
+      background-position-x: 100%; 
+    }
+  }
+  
+  /* 3. Pulsation pour éléments importants */
+  @keyframes pulse {
+    0% { 
+      box-shadow: 0 0 0 0 rgba(26, 77, 46, 0.4); 
+    }
+    70% { 
+      box-shadow: 0 0 0 12px rgba(26, 77, 46, 0); 
+    }
+    100% { 
+      box-shadow: 0 0 0 0 rgba(26, 77, 46, 0); 
+    }
+  }
+  
+  /* 4. Checklist animée */
+  @keyframes checkBounce {
+    0%, 100% { 
+      transform: scale(1); 
+    }
+    50% { 
+      transform: scale(1.2); 
+    }
+  }
+  
+  /* 5. Flottement des cartes */
+  @keyframes floatCard {
+    0% { 
+      transform: translateY(0); 
+    }
+    50% { 
+      transform: translateY(-8px); 
+    }
+    100% { 
+      transform: translateY(0); 
+    }
+  }
+  
+  /* 6. Barre de progression */
+  @keyframes progressShine {
+    to { 
+      background-position: 200% center; 
+    }
+  }
+  
+  /* 7. Effet de focus */
+  @keyframes focusGlow {
+    from { 
+      box-shadow: 0 0 0 0 rgba(0, 43, 91, 0.1); 
+    }
+    to { 
+      box-shadow: 0 0 0 6px rgba(0, 43, 91, 0); 
+    }
+  }
+  
+  /* Classes d'animation */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .header-wave::after {
+    content: '';
+    display: block;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      #002B5B 0%, 
+      #1A4D2E 50%, 
+      #F2C94C 100%);
+    animation: wave 3s ease-in-out infinite alternate;
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  .animate-check {
+    animation: checkBounce 0.6s ease;
+  }
+  
+  .card-float:hover {
+    animation: floatCard 3s ease-in-out infinite;
+  }
+  
+  .progress-shine {
+    background: linear-gradient(
+      to right,
+      #1A4D2E 0%,
+      #F2C94C 100%
+    );
+    background-size: 200% auto;
+    animation: progressShine 2s linear infinite;
+  }
+  
+  .input-focus:focus {
+    animation: focusGlow 1.5s ease-out infinite alternate;
+  }
+  
+  /* Transitions de base */
+  .button-transition {
+    transition: all 0.3s ease;
+  }
+  
+  .card-transition {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }

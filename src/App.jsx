@@ -7,6 +7,8 @@ import Adminfils from "./composant/interface/Adminfils";
 import ProtectedRoute from "./composant/identification/ProtectedRoute ";
 import Visiteur from "./composant/interface/Visiteur";
 import Senregistrer from "./composant/identification/Senregistrer";
+import Guineedemrce from "./composant/Pourlecsier/Guineedemrce";
+import Etrngerguinee from "./composant/Pourlecsier/Etrngerguinee";
 
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
@@ -40,22 +42,22 @@ function App() {
 
           {/* Protection des route admin lors de connexion */}
           <Route
-            path="/utilisateur"
+            path="/demande-maroc"
             element={
               <ProtectedRoute>
-                <Adminfils />
+                <Guineedemrce />
               </ProtectedRoute>
             }
           />{" "}
           {/* Protection des route admin lors de connexion */}
-          <Route path="/administrateur"
+          <Route path="/demande-etranger"
            element={
             <ProtectedRoute>
-             <Adminmere />
+             <Etrngerguinee />
           </ProtectedRoute>
           
            } />
-          <Route path="/visiteur" element={<Visiteur />} />
+          <Route path="/visiteur" element={<Visiteur />} />{/*à retirer pres */}
          
           <Route path="/enregistrement" element={<RegisterForm />} /> {/*à retirer pres */}
         </Routes>

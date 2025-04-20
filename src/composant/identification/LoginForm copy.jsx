@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import jurid1 from "../../assets/jurid1.avif";
+import guinee from "../../assets/guinee.avif";
+import jurid from "../../assets/cabinet.avif";
+import guine from "../../assets/guine.avif";
 
 // Palette de couleurs
 const colors = {
@@ -11,7 +15,13 @@ const colors = {
   goldenYellow: "#F2C94C",
   white: "#FFFFFF",
 };
-
+const Logo = styled.img`
+  width: 50px; /* Taille du logo */
+  height: 50px; /* Taille du logo */
+  border-radius: 50%; /* Rend l'image circulaire */
+  object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le cercle */
+  margin-bottom: 10px; /* Ajoute un espace sous le logo */
+`;
 // Conteneur principal
 const Container = styled.div`
   display: flex;
@@ -26,9 +36,8 @@ const Container = styled.div`
   }
 `;
 
-// Section pour l'image avec carrousel
 const ImageSection = styled.div`
-  flex: 2;
+  flex: 1;
   position: relative;
   background: ${colors.blueMarine};
   overflow: hidden;
@@ -51,7 +60,7 @@ const ImageSection = styled.div`
 
   .carousel-text {
     position: absolute;
-    bottom: 10%;
+    bottom: 30%;
     left: 50%;
     transform: translateX(-50%);
     color: ${colors.white};
@@ -60,31 +69,29 @@ const ImageSection = styled.div`
     text-align: center;
     line-height: 1.5;
     background: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 8px;
-    white-space: pre-wrap; /* Permet les sauts de ligne */
-    animation: fadeIn 1s ease-in-out;
+    padding: 15px;
+
+    white-space: pre-wrap;
 
     @media (max-width: 768px) {
-      font-size: 1.2rem;
-      padding: 15px;
+      font-size: 1.2rem; /* Réduit la taille du texte sur tablette */
+      padding: 10px;
     }
 
     @media (max-width: 480px) {
-      font-size: 1rem;
-      padding: 10px;
+      font-size: 1rem; /* Réduit la taille du texte sur mobile */
+      padding: 8px;
     }
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateX(-50%) translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+  @media (max-width: 768px) {
+    flex: none; /* Permet à l'image de ne pas être compressée */
+    height: 50vh; /* Ajuste la hauteur de l'image sur tablette */
+  }
+
+  @media (max-width: 480px) {
+    flex: none; /* Permet à l'image de ne pas être compressée */
+    height: 40vh; /* Ajuste la hauteur de l'image sur mobile */
   }
 `;
 
@@ -107,7 +114,7 @@ const FormSection = styled.div`
 const Form = styled(motion.form)`
   background: ${colors.white};
   padding: 2.5rem;
-  border-radius: 16px;
+
   box-shadow: 3px 2px 0px ${colors.goldenYellow};
   display: flex;
   flex-direction: column;
@@ -115,6 +122,12 @@ const Form = styled(motion.form)`
   width: 100%;
   max-width: 450px;
 
+  &:hover {
+    transform: scale(1.02); /* Légère mise en avant */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée */
+    border: 1px solid ${colors.goldenYellow}; /* Bordure dorée au survol */
+  }
+    
   @media (max-width: 480px) {
     padding: 1.5rem;
   }
@@ -149,7 +162,7 @@ const InputGroup = styled.div`
     width: 100%;
     padding: 0.8rem 0.8rem 0.8rem 2.8rem;
     border: 1px solid #ddd;
-    border-radius: 8px;
+
     font-size: 1rem;
     transition: all 0.3s ease;
 
@@ -189,34 +202,28 @@ const Button = styled(motion.button)`
 
 // Lien de mot de passe oublié
 const ForgotPasswordLink = styled(Link)`
-  color: ${colors.goldenYellow};
+  color: ${colors.greenDark};
   text-decoration: none;
   font-size: 0.9rem;
   text-align: center;
   transition: color 0.3s;
 
   &:hover {
-    color: ${colors.white};
+    color: ${colors.greenDark};
+    text-decoration: underline;
   }
 `;
 
 const LoginForm = () => {
   const [currentImage, setCurrentImage] = useState(0);
 
-  const images = [
-    "/img/jurid1.avif",
-    "/img/jurid2.avif",
-    "/img/jurid3.avif",
-    "/img/jurid4.avif",
-  ];
-
+  const images = [jurid1, jurid, guine, guinee];
   const texts = [
     "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
     "Accédez à vos informations en toute sécurité.\nUn service rapide et fiable.",
     "Gérez vos documents juridiques en ligne.\nUne plateforme moderne et intuitive.",
     "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
   ];
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % images.length);
@@ -232,7 +239,9 @@ const LoginForm = () => {
         {images.map((image, index) => (
           <div
             key={index}
-            className={`carousel-image ${index === currentImage ? "active" : ""}`}
+            className={`carousel-image ${
+              index === currentImage ? "active" : ""
+            }`}
             style={{ backgroundImage: `url(${image})` }}
           ></div>
         ))}
@@ -250,7 +259,21 @@ const LoginForm = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Title>Connexion</Title>
+          {/* Conteneur pour centrer le titre et le logo */}
+          <div
+           
+           style={{
+            display: "flex",
+            flexDirection: "row", // Aligne les éléments horizontalement
+            alignItems: "center", // Centre verticalement le logo et le titre
+            justifyContent: "center", // Centre horizontalement dans le formulaire
+            marginBottom: "10px", // Ajoute un espace sous le conteneur
+            gap: "10px", // Ajoute un espace entre le logo et le titre
+          }}
+          >
+            <Logo src={jurid1} alt="Logo" />
+            <Title>Connexion</Title>
+          </div>
 
           {/* Champ Email */}
           <InputGroup>
@@ -265,13 +288,21 @@ const LoginForm = () => {
           </InputGroup>
 
           {/* Bouton Connexion */}
-          <Button type="submit" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <Button
+            type="submit"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
             Connexion
           </Button>
-
-          <ForgotPasswordLink to="/motdepasseoublie">
-            Mot de passe oublié ?
-          </ForgotPasswordLink>
+          <div className=" text-center">
+            <ForgotPasswordLink className="mx-3" to="/motdepasseoublie">
+              Mot de passe oublié ?
+            </ForgotPasswordLink>
+            <ForgotPasswordLink to="/enregistrer">
+              Pas de compte ?
+            </ForgotPasswordLink>
+          </div>
         </Form>
       </FormSection>
     </Container>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import axios from "axios";
 import jurid1 from "../../assets/jurid1.avif";
 import guinee from "../../assets/guinee.avif";
 import jurid from "../../assets/cabinet.avif";
@@ -15,14 +16,23 @@ const colors = {
   goldenYellow: "#F2C94C",
   white: "#FFFFFF",
 };
+
 const Logo = styled.img`
-  width: 50px; /* Taille du logo */
-  height: 50px; /* Taille du logo */
-  border-radius: 50%; /* Rend l'image circulaire */
-  object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le cercle */
-  margin-bottom: 10px; /* Ajoute un espace sous le logo */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
 `;
-// Conteneur principal
+
+// Message d'erreur stylisé
+const ErrorMessage = styled.div`
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -32,7 +42,7 @@ const Container = styled.div`
   background: ${colors.blueMarine};
 
   @media (max-width: 768px) {
-    flex-direction: column; /* Empile l'image et le formulaire sur petits écrans */
+    flex-direction: column;
   }
 `;
 
@@ -70,32 +80,30 @@ const ImageSection = styled.div`
     line-height: 1.5;
     background: rgba(0, 0, 0, 0.5);
     padding: 15px;
-
     white-space: pre-wrap;
 
     @media (max-width: 768px) {
-      font-size: 1.2rem; /* Réduit la taille du texte sur tablette */
+      font-size: 1.2rem;
       padding: 10px;
     }
 
     @media (max-width: 480px) {
-      font-size: 1rem; /* Réduit la taille du texte sur mobile */
+      font-size: 1rem;
       padding: 8px;
     }
   }
 
   @media (max-width: 768px) {
-    flex: none; /* Permet à l'image de ne pas être compressée */
-    height: 50vh; /* Ajuste la hauteur de l'image sur tablette */
+    flex: none;
+    height: 50vh;
   }
 
   @media (max-width: 480px) {
-    flex: none; /* Permet à l'image de ne pas être compressée */
-    height: 40vh; /* Ajuste la hauteur de l'image sur mobile */
+    flex: none;
+    height: 40vh;
   }
 `;
 
-// Section pour le formulaire
 const FormSection = styled.div`
   flex: 1;
   display: flex;
@@ -110,11 +118,9 @@ const FormSection = styled.div`
   }
 `;
 
-// Formulaire
 const Form = styled(motion.form)`
   background: ${colors.white};
   padding: 2.5rem;
-
   box-shadow: 3px 2px 0px ${colors.goldenYellow};
   display: flex;
   flex-direction: column;
@@ -123,17 +129,16 @@ const Form = styled(motion.form)`
   max-width: 450px;
 
   &:hover {
-    transform: scale(1.02); /* Légère mise en avant */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée */
-    border: 1px solid ${colors.goldenYellow}; /* Bordure dorée au survol */
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid ${colors.goldenYellow};
   }
-    
+
   @media (max-width: 480px) {
     padding: 1.5rem;
   }
 `;
 
-// Titre
 const Title = styled.h2`
   color: ${colors.blueMarine};
   font-size: 1.8rem;
@@ -145,7 +150,6 @@ const Title = styled.h2`
   }
 `;
 
-// Champ de saisie avec icône
 const InputGroup = styled.div`
   position: relative;
 
@@ -162,9 +166,9 @@ const InputGroup = styled.div`
     width: 100%;
     padding: 0.8rem 0.8rem 0.8rem 2.8rem;
     border: 1px solid #ddd;
-
     font-size: 1rem;
     transition: all 0.3s ease;
+    border-color: ${({ error }) => (error ? "#e53e3e" : "#ddd")};
 
     &:focus {
       border-color: ${colors.goldenYellow};
@@ -178,7 +182,6 @@ const InputGroup = styled.div`
   }
 `;
 
-// Bouton
 const Button = styled(motion.button)`
   padding: 0.8rem;
   background-color: ${colors.greenDark};
@@ -200,7 +203,6 @@ const Button = styled(motion.button)`
   }
 `;
 
-// Lien de mot de passe oublié
 const ForgotPasswordLink = styled(Link)`
   color: ${colors.greenDark};
   text-decoration: none;
@@ -214,9 +216,14 @@ const ForgotPasswordLink = styled(Link)`
   }
 `;
 
-const LoginForm = () => {
-  const [currentImage, setCurrentImage] = useState(0);
+const LoginForm = ({ onLogin }) => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
+  // Carrousel d'images
+  const [currentImage, setCurrentImage] = useState(0);
   const images = [jurid1, jurid, guine, guinee];
   const texts = [
     "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
@@ -224,17 +231,81 @@ const LoginForm = () => {
     "Gérez vos documents juridiques en ligne.\nUne plateforme moderne et intuitive.",
     "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
   ];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % images.length);
-    }, 5000); // Change d'image toutes les 5 secondes
+    }, 5000);
 
-    return () => clearInterval(interval); // Nettoie l'intervalle à la fin
+    return () => clearInterval(interval);
   }, [images.length]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: "" });
+    }
+  };
+
+  const validateFields = () => {
+    const newErrors = {};
+
+    if (!formData.email.trim()) {
+      newErrors.email = "L'email est requis.";
+    } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formData.email)) {
+      newErrors.email = "Veuillez entrer un email valide.";
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Le mot de passe est requis.";
+    } else if (formData.password.length < 6) {
+      newErrors.password =
+        "Le mot de passe doit contenir au moins 6 caractères.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateFields()) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:2027/api/auth/login",
+        formData,
+        {
+          headers: { "Content-Type": "application/json" },
+          timeout: 2000,
+        }
+      );
+
+      const data = response.data;
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        if (typeof onLogin === "function") {
+          onLogin();
+        }
+        alert("Connexion réussie !");
+        navigate("/visiteur");
+      } else {
+        alert(data.message || "Erreur de connexion");
+      }
+    } catch (err) {
+      console.error("Erreur lors de la connexion :", err);
+      alert("Une erreur est survenue lors de la connexion.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <Container>
-      {/* Section Image avec carrousel */}
       <ImageSection>
         {images.map((image, index) => (
           <div
@@ -248,54 +319,61 @@ const LoginForm = () => {
         <div className="carousel-text">{texts[currentImage]}</div>
       </ImageSection>
 
-      {/* Section Formulaire */}
       <FormSection>
         <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log("Connexion soumise");
-          }}
+          onSubmit={handleSubmit}
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Conteneur pour centrer le titre et le logo */}
           <div
-           
-           style={{
-            display: "flex",
-            flexDirection: "row", // Aligne les éléments horizontalement
-            alignItems: "center", // Centre verticalement le logo et le titre
-            justifyContent: "center", // Centre horizontalement dans le formulaire
-            marginBottom: "10px", // Ajoute un espace sous le conteneur
-            gap: "10px", // Ajoute un espace entre le logo et le titre
-          }}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "10px",
+              gap: "10px",
+            }}
           >
             <Logo src={jurid1} alt="Logo" />
             <Title>Connexion</Title>
           </div>
 
-          {/* Champ Email */}
-          <InputGroup>
+          <InputGroup error={!!errors.email}>
             <FaEnvelope />
-            <input type="email" placeholder="Votre Email" required />
+            <input
+              type="email"
+              name="email"
+              placeholder="Votre Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
           </InputGroup>
 
-          {/* Champ Mot de passe */}
-          <InputGroup>
+          <InputGroup error={!!errors.password}>
             <FaLock />
-            <input type="password" placeholder="Mot de passe" required />
+            <input
+              type="password"
+              name="password"
+              placeholder="Mot de passe"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
           </InputGroup>
 
-          {/* Bouton Connexion */}
           <Button
             type="submit"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            disabled={isSubmitting}
           >
-            Connexion
+            {isSubmitting ? "Connexion en cours..." : "Connexion"}
           </Button>
-          <div className=" text-center">
+
+          <div className="text-center">
             <ForgotPasswordLink className="mx-3" to="/motdepasseoublie">
               Mot de passe oublié ?
             </ForgotPasswordLink>
