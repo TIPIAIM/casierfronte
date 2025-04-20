@@ -40,18 +40,20 @@ function App() {
           <Route index element={<Senregistrer />} />
           <Route path="/seconnecter" element={<LoginForm />} />
           <Route path="/enregistrer" element={<Senregistrer />} />
+          <Route path="/demande-guinee" element={<Guineedemrce />} />
+          <Route path="/demande-etranger" element={<Etrngerguinee />} />
 
-          {/* Protection des route admin lors de connexion */}
+          {/* Protection des route admin lors de connexion config àpres  */}
           <Route
-            path="/demande-guinee"
+            path="/demande"
             element={
               <ProtectedRoute>
                 <Guineedemrce />
               </ProtectedRoute>
             }
           />{" "}
-          {/* Protection des route admin lors de connexion */}
-          <Route path="/demande-etranger"
+          {/* Protection des route admin lors de connexion config àpres */}
+          <Route path="/etranger"
            element={
             <ProtectedRoute>
              <Etrngerguinee />
