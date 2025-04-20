@@ -43,7 +43,7 @@ function App() {
 
           {/* Protection des route admin lors de connexion */}
           <Route
-            path="/demande-maroc"
+            path="/demande-guinee"
             element={
               <ProtectedRoute>
                 <Guineedemrce />
@@ -58,9 +58,8 @@ function App() {
           </ProtectedRoute>
           
            } />
-          <Route path="/visiteur" element={<Visiteur />} />{/*à retirer pres */}
-         
-          <Route path="/videoexplic" element={<Videoexpli />} /> {/*à retirer pres */}
+          <Route path="/visiteur" element={<Visiteur />} />{/*à informàtion */}
+          <Route path="/videoexplic" element={<Videoexpli />} /> {/*à video */}
         </Routes>
       </BrowserRouter>
     </div>

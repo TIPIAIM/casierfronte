@@ -381,8 +381,8 @@ const Visiteur = () => {
     }
 
     // Redirection en fonction du choix
-    if (birthPlace === "maroc") {
-      window.location.href = "/demande-maroc";
+    if (birthPlace === "guinee") {
+      window.location.href = "/demande-guinee";
     } else {
       window.location.href = "/demande-etranger";
     }
@@ -477,14 +477,14 @@ const Visiteur = () => {
             <RadioGroup>
               <RadioLabel
                 className="animate-check"
-                selected={birthPlace === "maroc"}
+                selected={birthPlace === "guinee"}
               >
                 <RadioInput
                   type="radio"
                   name="birthPlace"
-                  value="maroc"
-                  checked={birthPlace === "maroc"}
-                  onChange={() => setBirthPlace("maroc")}
+                  value="guinee"
+                  checked={birthPlace === "guinee"}
+                  onChange={() => setBirthPlace("guinee")}
                 />
                 Guinée
               </RadioLabel>
