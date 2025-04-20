@@ -546,7 +546,7 @@ const Visiteur = () => {
         <GuideLink href="#">
           <FaFileAlt /> Guide utilisateur (PDF)
         </GuideLink>
-        <GuideLink href="#">
+        <GuideLink href="/videoexplic">
           <FaMobileAlt /> Vidéo tutorielle
         </GuideLink>
       </GuideSection>

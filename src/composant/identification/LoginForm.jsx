@@ -5,9 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import axios from "axios";
 import jurid1 from "../../assets/jurid1.avif";
-import guinee from "../../assets/guinee.avif";
-import jurid from "../../assets/cabinet.avif";
+
 import guine from "../../assets/guine.avif";
+import guine1 from "../../assets/guin1.avif";
+import guine2 from "../../assets/guin2.avif";
+import guine3 from "../../assets/guin3.avif";
+import guine4 from "../../assets/guin4.avif";
+import guine5 from "../../assets/guin5.avif";
 
 // Palette de couleurs
 const colors = {
@@ -224,12 +228,15 @@ const LoginForm = ({ onLogin }) => {
 
   // Carrousel d'images
   const [currentImage, setCurrentImage] = useState(0);
-  const images = [jurid1, jurid, guine, guinee];
+  const images = [guine1,jurid1,guine4,guine2, guine, guine5,guine3];
   const texts = [
     "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
     "Accédez à vos informations en toute sécurité.\nUn service rapide et fiable.",
     "Gérez vos documents juridiques en ligne.\nUne plateforme moderne et intuitive.",
     "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
+    "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
+    "Service disponible 24h/24, 7j/7.\nConsultez quand vous voulez, où vous voulez.",
+      "Validation instantanée pour vos démarches.\nGagnez du temps sur vos formalités."
   ];
 
   useEffect(() => {

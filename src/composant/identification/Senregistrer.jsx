@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -6,6 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaCalendarAlt } from "react-icons/fa";
 import jurid1 from "../../assets/jurid1.avif";
 
+import guine from "../../assets/guine.avif";
+import guine1 from "../../assets/guin1.avif";
+import guine2 from "../../assets/guin2.avif";
+import guine3 from "../../assets/guin3.avif";
+import guine4 from "../../assets/guin4.avif";
+import guine5 from "../../assets/guin5.avif";
 // Palette de couleurs
 const colors = {
   blueMarine: "#002B5B",
@@ -18,58 +24,80 @@ const colors = {
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
   min-height: 100vh;
   background: ${colors.blueMarine};
 
   @media (max-width: 768px) {
     flex-direction: column;
+ 
+
   }
 `;
 
 // Section pour l'image
 const ImageSection = styled.div`
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: url("/img/jurid1.avif") no-repeat center center;
-  background-size: cover;
   position: relative;
-  min-height: 50vh;
+  background: ${colors.blueMarine};
+  overflow: hidden;
 
-  &::after {
-    content: "Bienvenue sur la plateforme officielle du casier judiciaire. \\A Simplifiez vos démarches administratives en toute sécurité.";
+ .carousel-image {
     position: absolute;
-    top: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1s ease-in-out;
+    opacity: 0;
+  }
+ .carousel-image.active {
+    opacity: 1;
+  }
+
+
+  .carousel-text {
+    position: absolute;
+    bottom: 30%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     color: ${colors.white};
     font-size: 1.5rem;
     font-weight: bold;
     text-align: center;
     line-height: 1.5;
     background: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-   
+    padding: 15px;
     white-space: pre-wrap;
-    width: 80%;
-    max-width: 600px;
-  }
+
 
   @media (max-width: 768px) {
-    min-height: 30vh;
-    
-    &::after {
       font-size: 1.2rem;
-      padding: 15px;
-    }
+      padding: 10px;   
   }
 
-  @media (max-width: 480px) {
-    &::after {
-      font-size: 1rem;
+ @media (max-width: 768px) {
+      font-size: 1.2rem;
       padding: 10px;
     }
+
+    @media (max-width: 480px) {
+      font-size: 1rem;
+      padding: 8px;
+    }
+
+}
+   @media (max-width: 480px) {
+    flex: none;
+    height: 50vh;
+  }
+    
+  @media (max-width: 480px) {
+    flex: none;
+    height: 40vh;
   }
 `;
 
@@ -208,8 +236,28 @@ const Senregistrer = () => {
   const [age, setAge] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = [guine3,guine4,guine5 ,jurid1, guine2, guine, guine1];
 
+
+const texts = [
+  "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
+  "Accédez à vos informations en toute sécurité.\nUn service rapide et fiable.",
+  "Gérez vos documents juridiques en ligne.\nUne plateforme moderne et intuitive.",
+  "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
+  "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
+  "Service disponible 24h/24, 7j/7.\nConsultez quand vous voulez, où vous voulez.",
+    "Validation instantanée pour vos démarches.\nGagnez du temps sur vos formalités."
+
+];
   const navigate = useNavigate();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+    }, 2000); // Change d'image toutes les 2 secondes
+
+    return () => clearInterval(interval); // Nettoie l'intervalle à la fin
+  }, [images.length]);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -244,8 +292,17 @@ const Senregistrer = () => {
 
   return (
     <Container>
-      <ImageSection />
-      
+      <ImageSection>
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className={`carousel-image ${index === currentImage ? "active" : ""}`}
+            style={{ backgroundImage: `url(${image})` }}
+          ></div>
+        ))}
+        <div className="carousel-text">{texts[currentImage]}</div>
+      </ImageSection>
+       {/* Section Formulaire */}
       <FormSection>
         <Form
           onSubmit={handleRegister}

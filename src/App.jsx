@@ -9,6 +9,7 @@ import Visiteur from "./composant/interface/Visiteur";
 import Senregistrer from "./composant/identification/Senregistrer";
 import Guineedemrce from "./composant/Pourlecsier/Guineedemrce";
 import Etrngerguinee from "./composant/Pourlecsier/Etrngerguinee";
+import Videoexpli from "./composant/Pourlecsier/Videoexpli";
 
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
@@ -59,7 +60,7 @@ function App() {
            } />
           <Route path="/visiteur" element={<Visiteur />} />{/*à retirer pres */}
          
-          <Route path="/enregistrement" element={<RegisterForm />} /> {/*à retirer pres */}
+          <Route path="/videoexplic" element={<Videoexpli />} /> {/*à retirer pres */}
         </Routes>
       </BrowserRouter>
     </div>
