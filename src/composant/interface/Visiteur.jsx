@@ -120,6 +120,11 @@ const MethodCard = styled.div`
     padding: 1.5rem 1rem;
    
   }
+      @media (max-width: 480px) {
+    text-align: left;
+    margin-left: 1rem;
+    margin-bottom: 20px;
+  }
 `;
 
 const MethodIcon = styled.div`
