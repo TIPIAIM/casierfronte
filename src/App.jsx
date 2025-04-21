@@ -1,14 +1,13 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 //import "./App.css";
-import RegisterForm from "./composant/identification/RegisterForm";
 import LoginForm from "./composant/identification/LoginForm";
 import Adminmere from "./composant/interface/Adminmere";
 import Adminfils from "./composant/interface/Adminfils";
 import ProtectedRoute from "./composant/identification/ProtectedRoute ";
 import Visiteur from "./composant/interface/Visiteur";
 import Senregistrer from "./composant/identification/Senregistrer";
-import Guineedemrce from "./composant/Pourlecsier/Guineedemrce";
-import Etrngerguinee from "./composant/Pourlecsier/Etrngerguinee";
+import Guineedemrce from "./composant/Pourlecsier/Guineen/Guineedemrce";
+import Etrngerguinee from "./composant/Pourlecsier/Etrnger/Etrngerguinee";
 import Videoexpli from "./composant/Pourlecsier/Videoexpli";
 
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.

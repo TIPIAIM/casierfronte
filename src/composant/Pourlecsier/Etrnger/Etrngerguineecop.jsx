@@ -27,7 +27,7 @@ const backgroundAnimation = keyframes`
 const fadeIn = keyframes`
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-40px);
   }
   to {
     opacity: 1;
@@ -43,13 +43,13 @@ const Container = styled.div`
   justify-content: center;
   min-height: 100vh;
   background: linear-gradient(
-    135deg,
+    150deg,
     ${colors.blueMarine},
     ${colors.greenDark},
-    ${colors.goldenYellow}
+    ${colors.blueMarine}
   );
   background-size: 300% 300%;
-  animation: ${backgroundAnimation} 10s ease infinite; /* Animation de fond */
+  animation: ${backgroundAnimation} 5s ease infinite; /* Animation de fond */
   color: ${colors.white};
   text-align: center;
   padding: 20px;
@@ -57,12 +57,13 @@ const Container = styled.div`
 
 // Titre principal
 const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 2rem;
+  font-weight: bold;
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: ${colors.goldenYellow};
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
   animation: ${fadeIn} 1.5s ease;
 
   @media (max-width: 768px) {
@@ -79,6 +80,7 @@ const Description = styled.p`
   font-size: 1.5rem;
   margin-bottom: 30px;
   line-height: 1.8;
+
   max-width: 800px;
   color: ${colors.white};
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -102,7 +104,7 @@ const ConnectButton = styled(Link)`
   font-size: 1.2rem;
   font-weight: bold;
   text-decoration: none;
-  border-radius: 50px;
+  border-radius: 0px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s ease, transform 0.2s ease,
     box-shadow 0.3s ease;
