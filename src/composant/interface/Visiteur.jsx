@@ -34,24 +34,7 @@ const Container = styled.div`
   }
 `;
 
-const HeaderSection = styled.div`
-  background-color: ${colors.blueMarine};
-  color: ${colors.white};
-  padding: 2.5rem;
 
-  margin-bottom: 2rem;
-`;
-
-const MainTitle = styled.h1`
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-`;
-
-const SubTitle = styled.p`
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-`;
 
 const ProcedureSection = styled.div`
   background-color: ${colors.white};
@@ -74,10 +57,7 @@ const StepItem = styled.li`
   line-height: 1.5;
 `;
 
-const DownloadSection = styled.div`
-  text-align: center;
-  margin: 2.5rem 0;
-`;
+
 
 const DeliverySection = styled.div`
   margin: 3rem 0;
@@ -116,12 +96,13 @@ const DeliveryMethods = styled.div`
   }
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
+    
   }
 `;
 
 const MethodCard = styled.div`
   background-color: ${colors.white};
-  border: 0.1px solid #e0e0e0
+
   
   padding: 1.8rem 1.5rem;
   box-shadow: 3px 1px rgba(0, 0, 0, 0.55);
