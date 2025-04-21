@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaCalendarAlt } from "react-icons/fa";
 import jurid1 from "../../assets/jurid1.avif";
+import { FaArrowLeft } from "react-icons/fa"; // Import de l'icône de retour
 
 import guine from "../../assets/guine.avif";
 import guine1 from "../../assets/guin1.avif";
@@ -20,6 +21,34 @@ const colors = {
   white: "#FFFFFF",
 };
 
+const BackButton = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 10px;
+  padding: 10px 10px;
+  //background-color: ${colors.goldenYellow};
+  color: ${colors.goldenYellow};
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50%;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  &:hover {
+   // background-color: ${colors.greenDark};
+    color: ${colors.white};
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
+  }
+`;
 // Conteneur principal
 const Container = styled.div`
   display: flex;
@@ -304,6 +333,9 @@ const texts = [
       </ImageSection>
        {/* Section Formulaire */}
       <FormSection>
+          <BackButton to="/">
+                      <FaArrowLeft /> {/* Icône de retour */}
+                    </BackButton>
         <Form
           onSubmit={handleRegister}
           initial={{ opacity: 0, y: -50 }}

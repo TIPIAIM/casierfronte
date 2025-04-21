@@ -36,7 +36,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Senregistrer />} />
+          <Route index element={<Visiteur />} />
           <Route path="/seconnecter" element={<LoginForm />} />
           <Route path="/enregistrer" element={<Senregistrer />} />
           <Route path="/demande-guinee" element={<Guineedemrce />} />
@@ -47,7 +47,7 @@ function App() {
             path="/demande"
             element={
               <ProtectedRoute>
-                <Guineedemrce />
+                {/*<Guineedemrce />*/}
               </ProtectedRoute>
             }
           />{" "}
@@ -55,11 +55,10 @@ function App() {
           <Route path="/etranger"
            element={
             <ProtectedRoute>
-             <Etrngerguinee />
+            {/* <Etrngerguinee />*/}
           </ProtectedRoute>
           
            } />
-          <Route path="/visiteur" element={<Visiteur />} />{/*à informàtion */}
           <Route path="/videoexplic" element={<Videoexpli />} /> {/*à video */}
         </Routes>
       </BrowserRouter>

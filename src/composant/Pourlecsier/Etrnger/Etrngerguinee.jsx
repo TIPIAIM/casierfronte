@@ -1,179 +1,171 @@
-import React, { useEffect, useRef } from "react";
-import styled, { keyframes, css } from "styled-components";
+import React from "react";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa"; // Import de l'icône de retour
 
-// Couleurs premium
+// Palette de couleurs
 const colors = {
-  deepBlue: "#001A3A",
-  emerald: "#0E7146",
-  gold: "#FFD700",
-  platinum: "#E5E4E2",
-  electricBlue: "#00B4FF",
+  blueMarine: "#002B5B",
+  greenDark: "#1A4D2E",
+  goldenYellow: "#F2C94C",
+  white: "#FFFFFF",
+
+  bleuProfond: "#003566", 
+  beigeSableux: "#F2E9DC",
 };
 
-// Animations avancées
-const particleExplosion = keyframes`
-  0% { transform: scale(0); opacity: 0; }
-  50% { opacity: 1; }
-  100% { transform: scale(1.5); opacity: 0; }
-`;
-
-const cyberGlow = keyframes`
-  0% { text-shadow: 0 0 5px ${colors.electricBlue}; }
-  50% { text-shadow: 0 0 20px ${colors.electricBlue}, 0 0 30px ${colors.gold}; }
-  100% { text-shadow: 0 0 5px ${colors.electricBlue}; }
-`;
-
-const binaryRain = keyframes`
-  from { background-position: 0 0; }
-  to { background-position: 0 100vh; }
-`;
-
-// Composant de particules animées
-const Particle = styled.div`
-  position: absolute;
-  width: 6px;
-  height: 6px;
+const BackButton = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 10px;
+  padding: 10px 10px;
+  //background-color: ${colors.goldenYellow};
+  color: ${colors.goldenYellow};
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
   border-radius: 50%;
-  background: ${colors.electricBlue};
-  opacity: 0;
-  animation: ${particleExplosion} 1.5s ease-out;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  &:hover {
+   // background-color: ${colors.greenDark};
+    color: ${colors.white};
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
+  }
 `;
 
-// Overlay binaire futuriste
-const BinaryOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    linear-gradient(transparent 95%, rgba(0, 180, 255, 0.05) 95%),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 1px,
-      rgba(0, 180, 255, 0.03) 1px,
-      rgba(0, 180, 255, 0.03) 2px
-    );
-  background-size: 100% 30px;
-  animation: ${binaryRain} 40s linear infinite;
-  pointer-events: none;
-  mix-blend-mode: screen;
+// Animation de changement de couleur
+const colorAnimation = keyframes`
+  0% {
+    color: ${colors.jauneOcre};
+  }
+  33% {
+    color: ${colors.goldenYellow };
+  }
+  66% {
+    color: ${colors.bleuProfond };
+  }
+  100% {
+    color: ${colors.beigeSableux};
+  }
+    
+`;
+// Animation de fond
+const backgroundAnimation = keyframes`
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 `;
 
-// Conteneur principal avec effet de profondeur
+// Animation pour le texte
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+// Conteneur principal
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: 
-    radial-gradient(circle at 20% 30%, ${colors.deepBlue} 0%, #000 70%),
-    linear-gradient(135deg, ${colors.deepBlue} 0%, ${colors.emerald} 100%);
-  color: ${colors.platinum};
+  background: linear-gradient(
+    150deg,
+    ${colors.blueMarine},
+    ${colors.greenDark},
+    ${colors.blueMarine}
+  );
+  background-size: 300% 300%;
+  animation: ${backgroundAnimation} 5s ease infinite; /* Animation de fond */
+  color: ${colors.white};
   text-align: center;
-  padding: 2rem;
-  overflow: hidden;
-  position: relative;
-  perspective: 1000px;
+  padding: 20px;
 `;
 
-// Titre avec effet 3D et lueur cybernétique
+// Titre principal
 const Title = styled.h1`
-  font-size: clamp(2.5rem, 6vw, 2.5rem);
-  font-weight: 800;
-  margin-bottom: 2rem;
-  letter-spacing: 3px;
-  color: ${colors.gold};
-  text-transform: uppercase;
-  transform-style: preserve-3d;
-  animation: ${cyberGlow} 3s ease-in-out infinite, float3D 6s ease-in-out infinite;
-  position: relative;
-  z-index: 2;
-
-  @keyframes float3D {
-    0%, 100% { transform: rotateY(0deg) translateY(0); }
-    50% { transform: rotateY(5deg) translateY(-10px); }
-  }
-`;
-
-// Description avec apparition séquentielle des mots
-const Description = styled.p`
-  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
-  margin-bottom: 3rem;
-  line-height: 1.8;
-  max-width: 800px;
-  color: ${colors.platinum};
-  opacity: 0;
-  animation: fadeInUp 1s ease 1.5s forwards;
-  position: relative;
-  z-index: 2;
-
-  span {
-    display: inline-block;
-    opacity: 0;
-    animation: wordFadeIn 0.5s ease forwards;
-  }
-
-  @keyframes wordFadeIn {
-    to { opacity: 1; }
-  }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-`;
-
-// Bouton futuriste avec effet d'onde
-const ConnectButton = styled(Link)`
-  position: relative;
-  padding: 1.2rem 3rem;
-  background: transparent;
-  color: ${colors.platinum};
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-decoration: none;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  border: 2px solid ${colors.electricBlue};
-  border-radius: 0;
-  overflow: hidden;
-  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-  opacity: 0;
-  animation: fadeIn 1s ease 3s forwards;
-  z-index: 2;
-  transform-style: preserve-3d;
+  //color: ${colors.goldenYellow};
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+  animation: ${fadeIn} 1.5s ease;
+  
+  animation: ${colorAnimation} 10s infinite; /* Animation de 5 secondes en boucle */
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      45deg,
-      transparent,
-      rgba(0, 180, 255, 0.2),
-      transparent
-    );
-    transform: translateX(-100%);
-    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
   }
 
-  &:hover {
-    color: ${colors.gold};
-    border-color: ${colors.gold};
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
-                0 0 40px rgba(0, 180, 255, 0.3);
-    transform: translateY(-3px) rotateX(5deg);
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
+`;
 
-    &::before {
-      transform: translateX(100%);
-    }
+// Message descriptif
+const Description = styled.p`
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  line-height: 1.8;
+
+  max-width: 800px;
+  color: ${colors.white};
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  animation: ${fadeIn} 2s ease;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
+`;
+
+// Bouton de connexion
+const ConnectButton = styled(Link)`
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: ${colors.goldenYellow};
+  color: ${colors.blueMarine};
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 0px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
+  animation: ${fadeIn} 2.5s ease;
+
+  &:hover {
+    background-color: ${colors.greenDark};
+    color: ${colors.white};
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
   }
 
   &:active {
@@ -182,51 +174,13 @@ const ConnectButton = styled(Link)`
 `;
 
 const Etrngerguinee = () => {
-  const containerRef = useRef(null);
-  const descriptionRef = useRef(null);
-
-  // Effet de particules au chargement
-  useEffect(() => {
-    const container = containerRef.current;
-    const description = descriptionRef.current;
-
-    // Animation des mots de la description
-    if (description) {
-      const words = description.textContent.split(" ");
-      description.innerHTML = words.map(word => `<span>${word}</span>`).join(" ");
-      
-      const spans = description.querySelectorAll("span");
-      spans.forEach((span, i) => {
-        span.style.animationDelay = `${1.5 + (i * 0.1)}s`;
-      });
-    }
-
-    // Effet de particules
-    const createParticles = () => {
-      if (!container) return;
-      
-      const particle = document.createElement("div");
-      particle.className = "particle";
-      particle.style.left = `${Math.random() * 100}%`;
-      particle.style.top = `${Math.random() * 100}%`;
-      particle.style.animationDelay = `${Math.random() * 0.5}s`;
-      container.appendChild(particle);
-
-      setTimeout(() => {
-        particle.remove();
-      }, 1500);
-    };
-
-    const interval = setInterval(createParticles, 300);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <Container ref={containerRef}>
-      <BinaryOverlay />
-      
+    <Container>
+        <BackButton to="/">
+              <FaArrowLeft /> {/* Icône de retour */}
+            </BackButton>
       <Title>Bienvenue sur la plateforme officielle</Title>
-      <Description ref={descriptionRef}>
+      <Description>
         Simplifiez vos démarches administratives en ligne. Connectez-vous pour
         commencer votre demande de casier judiciaire en toute sécurité et
         confidentialité.

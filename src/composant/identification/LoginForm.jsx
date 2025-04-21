@@ -12,6 +12,7 @@ import guine2 from "../../assets/guin2.avif";
 import guine3 from "../../assets/guin3.avif";
 import guine4 from "../../assets/guin4.avif";
 import guine5 from "../../assets/guin5.avif";
+import { FaArrowLeft } from "react-icons/fa"; // Import de l'icône de retour
 
 // Palette de couleurs
 const colors = {
@@ -20,6 +21,34 @@ const colors = {
   goldenYellow: "#F2C94C",
   white: "#FFFFFF",
 };
+const BackButton = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 10px;
+  padding: 10px 10px;
+  //background-color: ${colors.goldenYellow};
+  color: ${colors.goldenYellow};
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50%;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  &:hover {
+   // background-color: ${colors.greenDark};
+    color: ${colors.white};
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
+  }
+`;
 
 const Logo = styled.img`
   width: 50px;
@@ -327,6 +356,9 @@ const LoginForm = ({ onLogin }) => {
       </ImageSection>
 
       <FormSection>
+          <BackButton to="/">
+                      <FaArrowLeft /> {/* Icône de retour */}
+                    </BackButton>
         <Form
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: -50 }}

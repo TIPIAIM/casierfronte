@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa"; // Import de l'icône de retour
 
 // Palette de couleurs
 const colors = {
@@ -8,8 +9,56 @@ const colors = {
   greenDark: "#1A4D2E",
   goldenYellow: "#F2C94C",
   white: "#FFFFFF",
+
+  bleuProfond: "#003566", 
+  beigeSableux: "#F2E9DC",
 };
 
+const BackButton = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 10px;
+  padding: 10px 10px;
+  //background-color: ${colors.goldenYellow};
+  color: ${colors.goldenYellow};
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50%;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  &:hover {
+   // background-color: ${colors.greenDark};
+    color: ${colors.white};
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
+  }
+`;
+
+// Animation de changement de couleur
+const colorAnimation = keyframes`
+  0% {
+    color: ${colors.jauneOcre};
+  }
+  33% {
+    color: ${colors.goldenYellow };
+  }
+  66% {
+    color: ${colors.bleuProfond };
+  }
+  100% {
+    color: ${colors.beigeSableux};
+  }
+    
+`;
 // Animation de fond
 const backgroundAnimation = keyframes`
   0% {
@@ -27,7 +76,7 @@ const backgroundAnimation = keyframes`
 const fadeIn = keyframes`
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-40px);
   }
   to {
     opacity: 1;
@@ -43,13 +92,13 @@ const Container = styled.div`
   justify-content: center;
   min-height: 100vh;
   background: linear-gradient(
-    135deg,
+    150deg,
     ${colors.blueMarine},
     ${colors.greenDark},
-    ${colors.goldenYellow}
+    ${colors.blueMarine}
   );
   background-size: 300% 300%;
-  animation: ${backgroundAnimation} 10s ease infinite; /* Animation de fond */
+  animation: ${backgroundAnimation} 5s ease infinite; /* Animation de fond */
   color: ${colors.white};
   text-align: center;
   padding: 20px;
@@ -57,13 +106,16 @@ const Container = styled.div`
 
 // Titre principal
 const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 2.5rem;
+  font-weight: bold;
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: ${colors.goldenYellow};
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  //color: ${colors.goldenYellow};
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
   animation: ${fadeIn} 1.5s ease;
+  
+  animation: ${colorAnimation} 10s infinite; /* Animation de 5 secondes en boucle */
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -79,6 +131,7 @@ const Description = styled.p`
   font-size: 1.5rem;
   margin-bottom: 30px;
   line-height: 1.8;
+
   max-width: 800px;
   color: ${colors.white};
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -102,7 +155,7 @@ const ConnectButton = styled(Link)`
   font-size: 1.2rem;
   font-weight: bold;
   text-decoration: none;
-  border-radius: 50px;
+  border-radius: 0px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s ease, transform 0.2s ease,
     box-shadow 0.3s ease;
@@ -123,6 +176,9 @@ const ConnectButton = styled(Link)`
 const Guineedemrce = () => {
   return (
     <Container>
+        <BackButton to="/">
+              <FaArrowLeft /> {/* Icône de retour */}
+            </BackButton>
       <Title>Bienvenue sur la plateforme officielle</Title>
       <Description>
         Simplifiez vos démarches administratives en ligne. Connectez-vous pour
