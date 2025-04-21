@@ -12,6 +12,7 @@ import {
   FaQuestionCircle,
 } from "react-icons/fa";
 import "./Style.css";
+import Header from "./Headervisiteur";
 // Palette de couleurs
 const colors = {
   blueMarine: "#002B5B",
@@ -391,45 +392,24 @@ const Visiteur = () => {
   const isFormValid = acceptedTerms && birthPlace;
 
   return (
-    <Container>
-      <HeaderSection>
-        <MainTitle>
-          Bienvenue sur le site de demande d'extrait de Casier Judiciaire
-        </MainTitle>
-        <SubTitle className="animate-fade-in">
-          Ce service permet de demander en ligne l'extrait de Casier Judiciaire.
-          La démarche ne prend que quelques minutes.
-        </SubTitle>
-      </HeaderSection>
-
+    <div>
+  <Header/>
+  <Container>
       <ProcedureSection>
         <h2 style={{ color: colors.blueMarine, marginBottom: "1.5rem" }}>
-          Procédure à suivre :
+        Vous pouvez recevoir votre document par :
         </h2>
         <StepList className="header-wave">
           <StepItem>
-            <FaCheckCircle color={colors.greenDark} /> Remplissez le formulaire
-            de demande
+            <FaCheckCircle color={colors.greenDark} />
+            Ce service permet de demander en ligne l'extrait de Casier Judiciaire.
+          La démarche ne prend que quelques minutes.
+       
           </StepItem>
-          <StepItem>
-            <FaCheckCircle color={colors.greenDark} /> Vérifiez votre demande
-          </StepItem>
-          <StepItem>
-            <FaCheckCircle color={colors.greenDark} /> Présentez-vous à
-            l'administration centrale du ministère de la Justice avec votre
-            numéro de demande et vos pièces d'identité
-          </StepItem>
+        
         </StepList>
       </ProcedureSection>
-
-      <DownloadSection>
-        <PrimaryButton as="a" href="#" style={{ textDecoration: "none" }}>
-          <FaDownload /> Télécharger l'application mobile
-        </PrimaryButton>
-      </DownloadSection>
-
       <DeliverySection>
-        <SectionTitle>Vous pouvez recevoir votre document par :</SectionTitle>
         <DeliveryMethods>
           <MethodCard>
             <MethodIcon>
@@ -551,6 +531,8 @@ const Visiteur = () => {
         </GuideLink>
       </GuideSection>
     </Container>
+    </div>
+  
   );
 };
 
