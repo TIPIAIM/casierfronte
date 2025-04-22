@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     sitemap({
       hostname: "https://casiergn.vercel.app", //si tu ne lie pas sa ne marchera pas
-      routes: ["/", "/seconnecter ", "enregistrer","videoexplic", "demande-guinee", "demande-etranger", "visiteur"], // Remplace par les routes de ton application
+      routes: ["/", "/seconnecter ", "enregistrer","videoexplic", "demande-guinee", "demande-etranger", "visiteur","adminfils","adminmere"], // Remplace par les routes de ton application
     }), // Remplace par ton domaine
   ],
 

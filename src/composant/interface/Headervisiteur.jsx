@@ -228,7 +228,7 @@ const Reader = () => {
           vous, sans file d'attente, en toute sécurité et légalité.
         </HeroSubtitle>
         <ButtonContainer>
-          <ActionButton to="/suivre-casier">Accéder au suivi</ActionButton>
+          <ActionButton to="/seconnecter">Accéder au suivi</ActionButton>
           <ActionButton to="/videoexplic">Vidéo tutorielle ?</ActionButton>
         </ButtonContainer>
       </HeroSection>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -36,7 +36,7 @@ const BackButton = styled(Link)`
   text-align: center;
   transition: background-color 0.3s ease, transform 0.2s ease;
   &:hover {
-   // background-color: ${colors.greenDark};
+    // background-color: ${colors.greenDark};
     color: ${colors.white};
     transform: scale(1.05);
   }
@@ -60,8 +60,6 @@ const Container = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
- 
-
   }
 `;
 
@@ -72,7 +70,7 @@ const ImageSection = styled.div`
   background: ${colors.blueMarine};
   overflow: hidden;
 
- .carousel-image {
+  .carousel-image {
     position: absolute;
     top: 0;
     left: 0;
@@ -83,10 +81,9 @@ const ImageSection = styled.div`
     transition: opacity 1s ease-in-out;
     opacity: 0;
   }
- .carousel-image.active {
+  .carousel-image.active {
     opacity: 1;
   }
-
 
   .carousel-text {
     position: absolute;
@@ -102,13 +99,12 @@ const ImageSection = styled.div`
     padding: 15px;
     white-space: pre-wrap;
 
-
-  @media (max-width: 768px) {
+    @media (max-width: 768px) {
       font-size: 1.2rem;
-      padding: 10px;   
-  }
+      padding: 10px;
+    }
 
- @media (max-width: 768px) {
+    @media (max-width: 768px) {
       font-size: 1.2rem;
       padding: 10px;
     }
@@ -117,13 +113,12 @@ const ImageSection = styled.div`
       font-size: 1rem;
       padding: 8px;
     }
-
-}
-   @media (max-width: 480px) {
+  }
+  @media (max-width: 480px) {
     flex: none;
     height: 50vh;
   }
-    
+
   @media (max-width: 480px) {
     flex: none;
     height: 40vh;
@@ -145,11 +140,11 @@ const FormSection = styled.div`
   }
 `;
 
-// Formulaire 
+// Formulaire
 const Form = styled(motion.form)`
   background: ${colors.white};
   padding: 2.5rem;
- 
+
   box-shadow: 3px 2px 0px ${colors.goldenYellow};
   display: flex;
   flex-direction: column;
@@ -167,7 +162,7 @@ const Title = styled(motion.h2)`
   margin-bottom: 0.5rem;
   color: ${colors.blueMarine};
   font-size: 1.8rem;
-  
+
   font-weight: 600;
 
   @media (max-width: 480px) {
@@ -192,7 +187,7 @@ const InputGroup = styled.div`
     width: 100%;
     padding: 0.8rem 0.8rem 0.8rem 2.8rem;
     border: 1px solid #ddd;
-    
+
     font-size: 1rem;
     transition: all 0.3s ease;
 
@@ -209,7 +204,7 @@ const InputGroup = styled.div`
 `;
 
 // Bouton blueMarine: "#002B5B", : "#1A4D2E",
- 
+
 const Button = styled(motion.button)`
   padding: 0.8rem;
   background-color: ${colors.greenDark};
@@ -250,7 +245,7 @@ const ErrorMessage = styled.p`
   color: #e74c3c;
   font-size: 0.9rem;
   text-align: center;
-  margin-bottom: 0;
+  margin-bottom: 0.2rem;
 `;
 const Logo = styled.img`
   width: 50px; /* Taille du logo */
@@ -266,19 +261,17 @@ const Senregistrer = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
-  const images = [guine3,guine4,guine5 ,jurid1, guine2, guine, guine1];
+  const images = [guine3, guine4, guine5, jurid1, guine2, guine, guine1];
 
-
-const texts = [
-  "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
-  "Accédez à vos informations en toute sécurité.\nUn service rapide et fiable.",
-  "Gérez vos documents juridiques en ligne.\nUne plateforme moderne et intuitive.",
-  "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
-  "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
-  "Service disponible 24h/24, 7j/7.\nConsultez quand vous voulez, où vous voulez.",
-    "Validation instantanée pour vos démarches.\nGagnez du temps sur vos formalités."
-
-];
+  const texts = [
+    "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
+    "Accédez à vos informations en toute sécurité.\nUn service rapide et fiable.",
+    "Gérez vos documents juridiques en ligne.\nUne plateforme moderne et intuitive.",
+    "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
+    "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
+    "Service disponible 24h/24, 7j/7.\nConsultez quand vous voulez, où vous voulez.",
+    "Validation instantanée pour vos démarches.\nGagnez du temps sur vos formalités.",
+  ];
   const navigate = useNavigate();
   useEffect(() => {
     const interval = setInterval(() => {
@@ -292,7 +285,7 @@ const texts = [
     e.preventDefault();
     setIsSubmitting(true);
     setErrorMessage("");
-    
+
     try {
       const response = await axios.post(
         "http://localhost:2027/api/auth/register",
@@ -311,8 +304,8 @@ const texts = [
       }
     } catch (error) {
       setErrorMessage(
-        error.response?.data?.message || 
-        "Erreur lors de l'enregistrement. Veuillez réessayer."
+        error.response?.data?.message ||
+          "Erreur lors de l'enregistrement. Veuillez réessayer."
       );
     } finally {
       setIsSubmitting(false);
@@ -325,36 +318,38 @@ const texts = [
         {images.map((image, index) => (
           <div
             key={index}
-            className={`carousel-image ${index === currentImage ? "active" : ""}`}
+            className={`carousel-image ${
+              index === currentImage ? "active" : ""
+            }`}
             style={{ backgroundImage: `url(${image})` }}
           ></div>
         ))}
         <div className="carousel-text">{texts[currentImage]}</div>
       </ImageSection>
-       {/* Section Formulaire */}
+      {/* Section Formulaire */}
       <FormSection>
-          <BackButton to="/">
-                      <FaArrowLeft /> {/* Icône de retour */}
-                    </BackButton>
+        <BackButton to="/">
+          <FaArrowLeft /> {/* Icône de retour */}
+        </BackButton>
         <Form
           onSubmit={handleRegister}
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-            <div
-      style={{
-        display: "flex",
-        flexDirection: "row", // Aligne le logo et le titre sur la même ligne
-        alignItems: "center", // Centre verticalement
-        justifyContent: "center", // Centre horizontalement
-        marginBottom: "0px", // Ajoute un espace sous le conteneur
-        gap: "10px", // Ajoute un espace entre le logo et le titre
-      }}
-    >
-      <Logo src={jurid1} alt="Logo" />
-      <Title>S'enregistrer</Title>
-    </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row", // Aligne le logo et le titre sur la même ligne
+              alignItems: "center", // Centre verticalement
+              justifyContent: "center", // Centre horizontalement
+              marginBottom: "0px", // Ajoute un espace sous le conteneur
+              gap: "10px", // Ajoute un espace entre le logo et le titre
+            }}
+          >
+            <Logo src={jurid1} alt="Logo" />
+            <Title>S'enregistrer</Title>
+          </div>
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
 
           <InputGroup>

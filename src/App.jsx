@@ -41,17 +41,18 @@ function App() {
           <Route path="/enregistrer" element={<Senregistrer />} />
           <Route path="/demande-guinee" element={<Guineedemrce />} />
           <Route path="/demande-etranger" element={<Etrngerguinee />} />
-
+          <Route path="/videoexplic" element={<Videoexpli />} /> {/*à video */}
           {/* Protection des route admin lors de connexion config àpres  */}
           <Route
             path="/demande"
             element={
               <ProtectedRoute>
-                {/*<Guineedemrce />*/}
+                {/*<Adminfils />*/}
               </ProtectedRoute>
             }
           />{" "}
           {/* Protection des route admin lors de connexion config àpres */}
+          <Route path="/adminfils" element={<Adminfils />} /> {/*à video */}
           <Route path="/etranger"
            element={
             <ProtectedRoute>
@@ -59,7 +60,7 @@ function App() {
           </ProtectedRoute>
           
            } />
-          <Route path="/videoexplic" element={<Videoexpli />} /> {/*à video */}
+        
         </Routes>
       </BrowserRouter>
     </div>
