@@ -36,7 +36,7 @@ const BackButton = styled(Link)`
   text-align: center;
   transition: background-color 0.3s ease, transform 0.2s ease;
   &:hover {
-   // background-color: ${colors.greenDark};
+    // background-color: ${colors.greenDark};
     color: ${colors.white};
     transform: scale(1.05);
   }
@@ -62,7 +62,7 @@ const Logo = styled.img`
 const ErrorMessage = styled.div`
   color: #e53e3e;
   font-size: 0.875rem;
-  margin-top: -0.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 `;
 
@@ -257,7 +257,7 @@ const LoginForm = ({ onLogin }) => {
 
   // Carrousel d'images
   const [currentImage, setCurrentImage] = useState(0);
-  const images = [guine1,jurid1,guine4,guine2, guine, guine5,guine3];
+  const images = [guine1, jurid1, guine4, guine2, guine, guine5, guine3];
   const texts = [
     "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
     "Accédez à vos informations en toute sécurité.\nUn service rapide et fiable.",
@@ -265,7 +265,7 @@ const LoginForm = ({ onLogin }) => {
     "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
     "Votre casier judiciaire à portée de main.\nConfiance et confidentialité garanties.",
     "Service disponible 24h/24, 7j/7.\nConsultez quand vous voulez, où vous voulez.",
-      "Validation instantanée pour vos démarches.\nGagnez du temps sur vos formalités."
+    "Validation instantanée pour vos démarches.\nGagnez du temps sur vos formalités.",
   ];
 
   useEffect(() => {
@@ -356,9 +356,9 @@ const LoginForm = ({ onLogin }) => {
       </ImageSection>
 
       <FormSection>
-          <BackButton to="/">
-                      <FaArrowLeft /> {/* Icône de retour */}
-                    </BackButton>
+        <BackButton to="/">
+          <FaArrowLeft /> {/* Icône de retour */}
+        </BackButton>
         <Form
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: -50 }}
