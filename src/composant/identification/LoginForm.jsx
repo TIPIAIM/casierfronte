@@ -62,7 +62,7 @@ const Logo = styled.img`
 const ErrorMessage = styled.div`
   color: #e53e3e;
   font-size: 0.875rem;
-  margin-top: 0.5rem;
+  margin-top: 0rem;
   margin-bottom: 0.5rem;
 `;
 
