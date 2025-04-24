@@ -1,7 +1,6 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 //import "./App.css";
 import LoginForm from "./composant/identification/LoginForm";
-import Adminmere from "./composant/interface/Adminmere";
 import Adminfils from "./composant/interface/Adminfils";
 import ProtectedRoute from "./composant/identification/ProtectedRoute ";
 import Visiteur from "./composant/interface/Visiteur";
@@ -9,6 +8,8 @@ import Senregistrer from "./composant/identification/Senregistrer";
 import Guineedemrce from "./composant/Pourlecsier/Guineen/Guineedemrce";
 import Etrngerguinee from "./composant/Pourlecsier/Etrnger/Etrngerguinee";
 import Videoexpli from "./composant/Pourlecsier/Videoexpli";
+import Voirmademande from "./composant/Pourlecsier/Voirmademande";
+import Commencerdem from "./composant/Pourlecsier/Commencerdem";
 
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
@@ -42,25 +43,22 @@ function App() {
           <Route path="/demande-guinee" element={<Guineedemrce />} />
           <Route path="/demande-etranger" element={<Etrngerguinee />} />
           <Route path="/videoexplic" element={<Videoexpli />} /> {/*à video */}
-          {/* Protection des route admin lors de connexion config àpres  */}
+        
+          <Route path="/demande" element={<Commencerdem />} /> {/*à video */}
+       
+          {/*  Protection des route admin lors de connexion config àpres  */}
           <Route
             path="/demande"
-            element={
-              <ProtectedRoute>
-                {/*<Adminfils />*/}
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute>{/*<Adminfils />*/}</ProtectedRoute>}
           />{" "}
           {/* Protection des route admin lors de connexion config àpres */}
           <Route path="/adminfils" element={<Adminfils />} /> {/*à video */}
-          <Route path="/etranger"
-           element={
-            <ProtectedRoute>
-            {/* <Etrngerguinee />*/}
-          </ProtectedRoute>
-          
-           } />
-        
+          <Route path="/voir-mes-demandes" element={<Voirmademande />} />{" "}
+          {/*à video */}
+          <Route
+            path="/etranger"
+            element={<ProtectedRoute>{/* <Etrngerguinee /> */}</ProtectedRoute>}
+          />
         </Routes>
       </BrowserRouter>
     </div>

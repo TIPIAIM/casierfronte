@@ -23,6 +23,41 @@ const glowAnimation = keyframes`
     box-shadow: 0 0 1px ${colors.goldenYellow}, 0 0 2px ${colors.greenDark};
   }
 `;
+// Conteneur principal avec une image en arrière-plan et un overlay noir
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 100vh;
+  padding: 20px;
+  background-image: url("/img/jurid1.avif"); /* Chemin de l'image */
+  background-size: cover; /* L'image couvre tout l'écran */
+  background-position: center; /* Centrer l'image */
+  background-repeat: no-repeat; /* Pas de répétition de l'image */
+  color: ${colors.white};
+  text-align: center;
+
+  /* Overlay noir transparent */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fond noir avec transparence */
+    z-index: 1; /* Place l'overlay derrière le contenu */
+  }
+
+  /* Assure que le contenu est au-dessus de l'overlay */
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+`;
 
 // Animation d'apparition pour le texte accrocheur
 const fadeIn = keyframes`
@@ -48,22 +83,7 @@ const dropdownFadeIn = keyframes`
   }
 `;
 
-// Conteneur principal avec une image en arrière-plan
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  min-height: 100vh;
-  padding: 20px;
-  background-image: url("/img/guin3.avif"); /* Chemin de l'image */
-  background-size: cover; /* L'image couvre tout l'écran */
-  background-position: center; /* Centrer l'image */
-  background-repeat: no-repeat; /* Pas de répétition de l'image */
-  color: ${colors.white};
-  text-align: center;
-`;
+
 
 // Texte accrocheur
 const Heading = styled.h1`
@@ -94,10 +114,10 @@ const MainButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 15px 30px;
+  padding: 10px 60px;
   font-size: 1.5rem;
   font-weight: bold;
-  color: ${colors.white};
+  color: ${colors.greenDark};
   background-color: ${colors.goldenYellow};
   border: none;
  
@@ -108,7 +128,7 @@ const MainButton = styled.button`
 
   &:hover {
     background-color: ${colors.greenDark};
-    color: ${colors.white};
+    color: ${colors.goldenYellow};
     transform: scale(1.05);
   }
 
@@ -122,8 +142,8 @@ const DropdownContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 20px;
+  margin-top: 5px;
   max-height: ${(props) => (props.isOpen ? "200px" : "0")};
   overflow: hidden;
   animation: ${(props) => (props.isOpen ? dropdownFadeIn : "none")} 0.3s ease-out;
@@ -131,7 +151,7 @@ const DropdownContainer = styled.div`
 
 // Boutons internes
 const DropdownButton = styled(Link)`
-  padding: 10px 20px;
+  padding: 10px 10px;
   font-size: 1.2rem;
   font-weight: bold;
   color: ${colors.blueMarine};
@@ -162,7 +182,7 @@ const Adminfils = () => {
   return (
     <Container>
       {/* Texte accrocheur */}
-      <Heading>Sécurité et légalité depuis chez vous et sans file d'attente.</Heading>
+      <Heading>Sécurité et légalité depuis chez vous sans file d'attente.</Heading>
 
       {/* Bouton principal */}
       <MainButton onClick={toggleDropdown}>
@@ -172,7 +192,7 @@ const Adminfils = () => {
 
       {/* Contenu dépliable */}
       <DropdownContainer isOpen={isOpen}>
-        <DropdownButton to="/commencer-demarche">
+        <DropdownButton to="/demande">
           Commencer ma démarche
         </DropdownButton>
         <DropdownButton to="/voir-mes-demandes">
