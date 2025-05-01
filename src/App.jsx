@@ -9,7 +9,13 @@ import Guineedemrce from "./composant/Pourlecsier/Guineen/Guineedemrce";
 import Etrngerguinee from "./composant/Pourlecsier/Etrnger/Etrngerguinee";
 import Videoexpli from "./composant/Pourlecsier/Videoexpli";
 import Voirmademande from "./composant/Pourlecsier/Voirmademande";
-import Commencerdem from "./composant/Pourlecsier/Commencerdem";
+import Commencerdem from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/Commencerdem";
+import DemandesList from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/DemandesList";
+import DemandeDetail from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/DemandeDetail";
+import DemandeMisejour from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/DemandeMisejour";
+import EnregistreCondntion from "./composant/Pourlecsier/GestionAdmin/gestioncond/CondntionEnregistre";
+import ListeCondamnations from "./composant/Pourlecsier/GestionAdmin/gestioncond/ListeCondamnations";
+import Casier from "./composant/Pourlecsier/GestionAdmin/CsierJudicir";
 
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
@@ -31,6 +37,11 @@ function App() {
       
       </BrowserRouter>
     </div> 
+
+      <Route
+          path="/miseajourAclientRecup/:id"
+          element={<MiseajourAjoutclientRecup />}
+        />
       */
   }
   return (
@@ -43,10 +54,24 @@ function App() {
           <Route path="/demande-guinee" element={<Guineedemrce />} />
           <Route path="/demande-etranger" element={<Etrngerguinee />} />
           <Route path="/videoexplic" element={<Videoexpli />} /> {/*à video */}
-        
           <Route path="/demande" element={<Commencerdem />} /> {/*à video */}
-       
-          {/*  Protection des route admin lors de connexion config àpres  */}
+          <Route path="/demandesList" element={<DemandesList />} />{" "}
+          {/*à video */}
+          <Route path="/demandeid/:id" element={<DemandeDetail />} />
+          {/** pour les detil */}
+          <Route path="/demandemisejour/:id" element={<DemandeMisejour />} />
+          {/** pour les mise à jour */}
+          <Route
+            path="/EnregistreCondanation"
+            element={<EnregistreCondntion />}
+          />
+          <Route path="/listeCondamnations" element={<ListeCondamnations />} />
+          <Route path="/casier" element={<Casier />} />
+          {/*à video   */}
+          {/* 
+          
+          
+          Protection des route admin lors de connexion config àpres  */}
           <Route
             path="/demande"
             element={<ProtectedRoute>{/*<Adminfils />*/}</ProtectedRoute>}

@@ -9,7 +9,6 @@ const colors = {
   greenDark: "#1A4D2E",
   goldenYellow: "#F2C94C",
   white: "#FFFFFF",
-
   bleuProfond: "#003566", 
   beigeSableux: "#F2E9DC",
 };

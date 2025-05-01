@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { FaSearch } from "react-icons/fa"; // Import de l'icône pour le bouton
+import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-// Animation pour le texte
+// Animations et styles existants...
 const fadeInUp = keyframes`
   from {
     opacity: 0;
@@ -14,7 +15,6 @@ const fadeInUp = keyframes`
   }
 `;
 
-// Animation pour la main qui pointe
 const handBounce = keyframes`
   0%, 100% {
     transform: translateY(0);
@@ -24,12 +24,11 @@ const handBounce = keyframes`
   }
 `;
 
-// Conteneur principal
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
   height: 100vh;
-  background-image: url("/img/guin2.avif"); /* Remplace avec le bon chemin */
+  background-image: url("/img/guin2.avif");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -37,7 +36,6 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-// Overlay noir transparent
 const Overlay = styled.div`
   position: absolute;
   width: 100%;
@@ -46,7 +44,6 @@ const Overlay = styled.div`
   z-index: 1;
 `;
 
-// Contenu principal
 const Content = styled.div`
   position: relative;
   z-index: 2;
@@ -56,7 +53,6 @@ const Content = styled.div`
   animation: ${fadeInUp} 1.2s ease-out;
 `;
 
-// Titre principal
 const Title = styled.h1`
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
@@ -66,7 +62,6 @@ const Title = styled.h1`
   }
 `;
 
-// Texte descriptif
 const Subtitle = styled.p`
   font-size: 1.2rem;
   margin-top: 1rem;
@@ -78,30 +73,24 @@ const Subtitle = styled.p`
   }
 `;
 
-// Conteneur pour le champ de saisie et le bouton
 const InputGroup = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 1.5rem;
- // gap: 10px; /* Espacement entre le champ et le bouton */
-
-  @media (max-width: 768px) {
-    gap: 0px;
-  }
 `;
 
-// Champ de saisie
 const InputField = styled.input`
   padding: 10px;
   font-size: 1rem;
   border: none;
   width: 100%;
+  color: #333;
   max-width: 250px;
+
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-// Bouton de soumission avec une icône
 const IconButton = styled.button`
   padding: 0.8rem;
   font-size: 1.2rem;
@@ -125,7 +114,6 @@ const IconButton = styled.button`
   }
 `;
 
-// Icône de la main animée
 const HandIcon = styled.div`
   position: absolute;
   top: 60%;
@@ -136,42 +124,81 @@ const HandIcon = styled.div`
   animation: ${handBounce} 1.5s infinite;
 `;
 
+const ErrorMessage = styled.div`
+  color: #ff6b6b;
+  margin-top: 1rem;
+  font-weight: 500;
+  animation: ${fadeInUp} 0.5s ease-out;
+`;
+
 const Voirmademande = () => {
-  const [idNumber, setIdNumber] = useState("");
+  const [reference, setReference] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    setIdNumber(e.target.value);
+    setReference(e.target.value);
+    setError("");
   };
 
-  const handleSubmit = () => {
-    alert(`Recherche pour le numéro : ${idNumber}`);
+  const handleSubmit = async () => {
+    if (!reference.trim()) {
+      setError("Veuillez entrer votre référence de demande");
+      return;
+    }
+  
+    try {
+      setError("");
+      const response = await fetch(
+        `http://localhost:2027/api/demande/by-reference/${reference}`,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Référence non trouvée");
+      }
+  
+      if (data.success) {
+        navigate(`/demandeid/${data.data._id}`, { state: { demande: data.data } });
+      }
+    } catch (err) {
+      setError(err.message || "Une erreur s'est produite");
+      console.error("Erreur:", err);
+    }
   };
-
   return (
     <Wrapper>
       <Overlay />
       <Content>
         <Title>Vérifiez votre casier judiciaire</Title>
         <Subtitle>
-          Entrez votre numéro de passeport ou de carte d'identité pour vérifier
-          si votre casier judiciaire est disponible.
+          Entrez votre référence de demande (ex: CR-123456-0001) pour vérifier
+          l'état de votre dossier.
         </Subtitle>
 
-        {/* Icône de la main animée au-dessus du champ de saisie */}
         <HandIcon>👇</HandIcon>
 
-        {/* Champ de saisie et bouton sur la même ligne */}
         <InputGroup>
           <InputField
             type="text"
-            placeholder="Numéro de passeport ou carte d'identité"
-            value={idNumber}
+            placeholder="Référence de demande (CR-...)"
+            value={reference}
             onChange={handleInputChange}
+            onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
           />
           <IconButton onClick={handleSubmit}>
             <FaSearch />
           </IconButton>
         </InputGroup>
+
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </Content>
     </Wrapper>
   );
