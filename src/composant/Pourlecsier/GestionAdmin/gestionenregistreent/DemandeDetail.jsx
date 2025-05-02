@@ -19,9 +19,12 @@ import {
   Snowflake,
   HandHeart,
   Printer,
-  FileText
+  FileText,
+  View,
+  Eye
 } from "lucide-react";
 import path from "path-browserify";
+import Interfcehed from "../../../interface/Interfceheddetil";
 
 // Palette de couleurs
 const colors = {
@@ -56,7 +59,7 @@ const BackButton = styled.button`
   background: ${colors.blueMarine};
   color: ${colors.white};
   border: none;
-  border-radius: 4px;
+  
   padding: 0.5rem 1rem;
   cursor: pointer;
   display: flex;
@@ -134,7 +137,7 @@ const StatusBadge = styled.div`
   padding: 0.35rem 0.75rem;
   border-radius: 20px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 700;
   &.pending {
     background: ${colors.goldenYellow}15;
     color: ${colors.goldenYellow};
@@ -152,8 +155,8 @@ const StatusBadge = styled.div`
 const FileViewerContainer = styled.div`
   margin-top: 1rem;
   border: 1px solid ${colors.beigeSableux};
-  border-radius: 8px;
-  padding: 1rem;
+
+ // padding: 1rem;
   max-height: 500px;
   overflow: auto;
 `;
@@ -355,7 +358,7 @@ function DemandeDetail() {
 
   return (
     <div className=" bg-green-0">
-
+<Interfcehed/>
         <Container>
       <Header>
         <BackButton onClick={() => navigate(-1)}>
@@ -418,7 +421,7 @@ function DemandeDetail() {
                   Documents à présenter
                 </h4>
                 <ul style={{ paddingLeft: '1.5rem' }}>
-                  <li>Pièce d'identité originale (CNI ou Passeport)</li>
+                  <li>Pièce d'identité originale ou Passeport</li>
                   <li>Ce récapitulatif (à imprimer)</li>
                   <li>Numéro de référence: <strong>{demande.reference}</strong></li>
                 </ul>
@@ -443,13 +446,13 @@ function DemandeDetail() {
             Tribunal compétent
           </h3>
           <p>
-            <strong>Adresse :</strong> Tribunal de Grande Instance, Place du Palais, Conakry
+            <strong>Adresse :</strong> Tribunal de Guinée, Place du Palais, Conakry
           </p>
           <p>
             <strong>Horaires :</strong> Lundi-Vendredi, 8h-15h
           </p>
           <p>
-            <strong>Téléphone :</strong> +224 123 456 789
+            <strong>Téléphone :</strong> +224 612 254 254
           </p>
         </TribunalInfo>
       </Section>
@@ -644,27 +647,25 @@ function DemandeDetail() {
         </SectionTitle>
         <InfoGrid>
           <InfoItem>
-            <IconWrapper>
-              <Download size={16} />
-            </IconWrapper>
+
             <InfoContent>
-              <Label>Pièce justificative 1</Label>
+             
               {demande.contactInfo?.piece1 ? (
                 <>
                   <FileViewerButton
                     onClick={() => window.open(
-                      `http://localhost:2027/uploads/${path.basename(
+                      `http://localhost:2027/${path.basename(
                         demande.contactInfo.piece1
                       )}`,
                       '_blank'
                     )}
                   >
-                    <Download size={16} />
-                    Ouvrir dans un nouvel onglet
+                    <Eye size={16} />
+                    Ouvrir
                   </FileViewerButton>
                   <FileViewerContainer>
                     <FileViewer
-                      src={`http://localhost:2027/uploads/${path.basename(
+                      src={`http://localhost:2027/${path.basename(
                         demande.contactInfo.piece1
                       )}`}
                       title="Pièce justificative 1"
@@ -677,11 +678,9 @@ function DemandeDetail() {
             </InfoContent>
           </InfoItem>
           <InfoItem>
-            <IconWrapper>
-              <Download size={16} />
-            </IconWrapper>
+          
             <InfoContent>
-              <Label>Pièce justificative 2</Label>
+            
               {demande.contactInfo?.piece2 ? (
                 <>
                   <FileViewerButton
@@ -692,10 +691,11 @@ function DemandeDetail() {
                       '_blank'
                     )}
                   >
-                    <Download size={16} />
-                    Ouvrir dans un nouvel onglet
+                    <Eye size={16} />
+                    Ouvrir
                   </FileViewerButton>
                   <FileViewerContainer>
+
                     <FileViewer
                       src={`http://localhost:2027/${path.basename(
                         demande.contactInfo.piece2

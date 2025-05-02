@@ -175,7 +175,7 @@ const ConnectButton = styled(Link)`
 const Guineedemrce = () => {
   return (
     <Container>
-        <BackButton to="/">
+        <BackButton to="/debut">
               <FaArrowLeft /> {/* Icône de retour */}
             </BackButton>
       <Title>Bienvenue sur la plateforme officielle</Title>

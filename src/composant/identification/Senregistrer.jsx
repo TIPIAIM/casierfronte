@@ -328,7 +328,7 @@ const Senregistrer = () => {
       </ImageSection>
       {/* Section Formulaire */}
       <FormSection>
-        <BackButton to="/">
+        <BackButton to="/debut">
           <FaArrowLeft /> {/* Icône de retour */}
         </BackButton>
         <Form

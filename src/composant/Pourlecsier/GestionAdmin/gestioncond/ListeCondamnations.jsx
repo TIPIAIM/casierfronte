@@ -9,11 +9,11 @@ import {
   Trash2, 
   Eye,
   Search,
-  ChevronDown,
-  ChevronUp
+
 } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Interfcehederlistecondn from "../../../interface/Interfcehederlistecondn";
 
 // Palette de couleurs
 const colors = {
@@ -38,8 +38,8 @@ const ListContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   background: ${colors.white};
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 43, 91, 0.1);
+ 
+  box-shadow: -10px 0px 0px ${colors.darkBlue};
   overflow: hidden;
 `;
 
@@ -272,6 +272,8 @@ function ListeCondamnations() {
   };
 
   return (
+  <div>
+<Interfcehederlistecondn/>
     <PageContainer>
       <ListContainer>
         <ListHeader>
@@ -350,6 +352,8 @@ function ListeCondamnations() {
         )}
       </ListContainer>
     </PageContainer>
+  </div>
+    
   );
 }
 

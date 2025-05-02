@@ -356,7 +356,7 @@ const LoginForm = ({ onLogin }) => {
       </ImageSection>
 
       <FormSection>
-        <BackButton to="/">
+        <BackButton to="/debut">
           <FaArrowLeft /> {/* Icône de retour */}
         </BackButton>
         <Form

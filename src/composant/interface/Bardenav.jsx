@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaBars, FaTimes } from 'react-icons/fa';
 import guine1 from "../../assets/guin1.avif";
 
-const Header = () => {
+const Bardenav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -25,8 +25,8 @@ const Header = () => {
         </TopBarContainer>
       </TopBar>
 
-      <MainHeader>
-        <HeaderContainer>
+      <MainBardenav>
+        <BardenavContainer>
           <LogoContainer>
             <Logo src={guine1} alt="Logo Service Casier Judiciaire" />
             <LogoText>
@@ -44,15 +44,15 @@ const Header = () => {
             <MobileCta href="#demande">Demande en ligne</MobileCta>
           </NavMenu>
 
-          <HeaderCta>
+          <BardenavCta>
             <PrimaryButton href="#demande">Demande en ligne</PrimaryButton>
-          </HeaderCta>
+          </BardenavCta>
 
           <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <FaTimes /> : <FaBars />}
           </MobileMenuButton>
-        </HeaderContainer>
-      </MainHeader>
+        </BardenavContainer>
+      </MainBardenav>
 
       <HeroBanner>
         <HeroContainer>
@@ -146,7 +146,7 @@ const FaqLink = styled.a`
   }
 `;
 
-const MainHeader = styled.header`
+const MainBardenav = styled.Bardenav`
   background-color: white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
@@ -155,7 +155,7 @@ const MainHeader = styled.header`
   padding: 1rem 0;
 `;
 
-const HeaderContainer = styled.div`
+const BardenavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -258,7 +258,7 @@ const NavLink = styled.a`
   }
 `;
 
-const HeaderCta = styled.div`
+const BardenavCta = styled.div`
   @media (max-width: 992px) {
     display: none;
   }
@@ -372,4 +372,4 @@ const OutlineButton = styled.a`
   }
 `;
 
-export default Header;
+export default Bardenav;

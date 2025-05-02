@@ -10,7 +10,8 @@ import {
   SquareCheck,
 } from "lucide-react";
 import styled, { keyframes } from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 // Palette de couleurs gouvernementale améliorée
 const colors = {
@@ -503,6 +504,34 @@ const ImportantNote = styled.div`
     margin: 0;
     font-size: 0.9rem;
     font-weight: 500;
+  }
+`;
+const BackButton = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 1px;
+  padding: 4px 4px;
+  //background-color: ${colors.goldenYellow};
+  color: ${colors.blueMarine};
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5%;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  &:hover {
+    background-color: ${colors.greenDark}20;
+    color: ${colors.white};
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
   }
 `;
 
@@ -1246,8 +1275,8 @@ function Commencerdem() {
                 n’en avez pas besoin. Cliquez sur "Retourner" ou "Annuler".
                 Merci de faire preuve de responsabilité et de sincérité.
               </p>
-            </ImportantNote>      
-            
+            </ImportantNote>
+
             <ImportantNote>
               <AlertCircle size={18} />
               <p>
@@ -1325,7 +1354,10 @@ function Commencerdem() {
                 ? "3 à 5 jours ouvrés"
                 : "24 à 78 heures"}
             </p>
-            <Button className="secondary" onClick={() => navigate("/voir-mes-demandes")}>
+            <Button
+              className="secondary"
+              onClick={() => navigate("/voir-mes-demandes")}
+            >
               Retour à l'accueil
             </Button>
           </SuccessContainer>
@@ -1337,9 +1369,14 @@ function Commencerdem() {
 
   return (
     <Container>
+       <BackButton to="/">
+          <FaArrowLeft /> {/* Icône de retour */}
+        </BackButton>
       <Header>
+       
         <h1>Demande d'extrait de casier judiciaire</h1>
         <p>Service en ligne sécurisé du Ministère de la Justice</p>
+     
       </Header>
 
       {step < 4 && (

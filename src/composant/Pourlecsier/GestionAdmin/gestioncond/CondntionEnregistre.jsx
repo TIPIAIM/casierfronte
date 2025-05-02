@@ -11,8 +11,10 @@ import {
   Key,
 } from "lucide-react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
+import Interfcehedenrecondn from "../../../interface/Interfcehedenrecondn";
+import { FaArrowLeft } from "react-icons/fa";
 
 // Palette de couleurs améliorée
 const colors = {
@@ -237,6 +239,35 @@ const Select = styled.select`
     background-color: ${colors.white};
   }
 `;
+
+const BackButton = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 1px;
+  padding: 4px 4px;
+  //background-color: ${colors.goldenYellow};
+  color: ${colors.blueMarine};
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5%;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  &:hover {
+    background-color: ${colors.greenDark};
+    color: ${colors.goldenYellow};
+    transform: scale(1.35);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
+  }
+`;
 const TRIBUNALS = [
   "TPI de Conakry",
   "TPI de Kaloum",
@@ -433,234 +464,241 @@ function EnregistreCondntion() {
   };
 
   return (
-    <PageContainer>
-      <FormContainer>
-        <FormHeader>
-          <FormTitle>
-            <BookOpenCheck size={32} />
-            Enregistrement des Condamnations
-          </FormTitle>
-          <FormDescription>
-            Renseignez précisément les informations relatives aux condamnations
-            judiciaires. Tous les champs marqués d'un{" "}
-            <RequiredIndicator>*</RequiredIndicator> sont obligatoires.
-          </FormDescription>
-        </FormHeader>
+    <div>
+      <Interfcehedenrecondn />
+      <PageContainer>
+        <FormContainer>
+          <BackButton to="/gestioncondanation">
+            <FaArrowLeft /> {/* Icône de retour */}
+          </BackButton>
+          <FormHeader>
+            <FormTitle>
+              <BookOpenCheck size={32} />
+              Enregistrement des Condamnations
+            </FormTitle>
+            <FormDescription>
+              Renseignez précisément les informations relatives aux
+              condamnations judiciaires. Tous les champs marqués d'un{" "}
+              <RequiredIndicator>*</RequiredIndicator> sont obligatoires.
+            </FormDescription>
+          </FormHeader>
 
-        {formError && (
-          <ErrorMessage>
-            <AlertCircle size={18} />
-            {formError}
-          </ErrorMessage>
-        )}
+          {formError && (
+            <ErrorMessage>
+              <AlertCircle size={18} />
+              {formError}
+            </ErrorMessage>
+          )}
 
-        {success && (
-          <SuccessMessage>
-            <Save size={18} />
-            Enregistrement réussi! Redirection en cours...
-          </SuccessMessage>
-        )}
+          {success && (
+            <SuccessMessage>
+              <Save size={18} />
+              Enregistrement réussi! Redirection en cours...
+            </SuccessMessage>
+          )}
 
-        <form onSubmit={handleSubmit} noValidate>
-          <FormGrid>
-            {/* Colonne 1 */}
-            <div>
-              <FormGroup>
-                <Label>
-                  <Key size={18} />
-                  Identifiant <RequiredIndicator>*</RequiredIndicator>
-                </Label>
-                <Input
-                  type="text"
-                  name="carteidentite"
-                  value={formData.carteidentite}
-                  onChange={handleChange}
-                  maxLength="50"
-                  required
-                  placeholder="N° du Carte d'identité ou n° du passeport"
-                />
-                {errors.carteidentite && (
-                  <ErrorMessage>
-                    <AlertCircle size={14} />
-                    {errors.carteidentite}
-                  </ErrorMessage>
-                )}
-              </FormGroup>
+          <form onSubmit={handleSubmit} noValidate>
+            <FormGrid>
+              {/* Colonne 1 */}
+              <div>
+                <FormGroup>
+                  <Label>
+                    <Key size={18} />
+                    Identifiant <RequiredIndicator>*</RequiredIndicator>
+                  </Label>
+                  <Input
+                    type="text"
+                    name="carteidentite"
+                    value={formData.carteidentite}
+                    onChange={handleChange}
+                    maxLength="50"
+                    required
+                    placeholder="N° du Carte d'identité ou n° du passeport"
+                  />
+                  {errors.carteidentite && (
+                    <ErrorMessage>
+                      <AlertCircle size={14} />
+                      {errors.carteidentite}
+                    </ErrorMessage>
+                  )}
+                </FormGroup>
 
-              <FormGroup>
-                <Label>
-                  <Gavel size={18} />
-                  Cours/Tribunaux <RequiredIndicator>*</RequiredIndicator>
-                </Label>
-                <Select
-                  name="courtsTribunaux"
-                  value={formData.courtsTribunaux}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Sélectionnez un tribunal</option>
-                  {TRIBUNALS.map((tribunal, index) => (
-                    <option key={index} value={tribunal}>
-                      {tribunal}
-                    </option>
-                  ))}
-                </Select>
-                {errors.courtsTribunaux && (
-                  <ErrorMessage>
-                    <AlertCircle size={14} />
-                    {errors.courtsTribunaux}
-                  </ErrorMessage>
-                )}
-              </FormGroup>
+                <FormGroup>
+                  <Label>
+                    <Gavel size={18} />
+                    Cours/Tribunaux <RequiredIndicator>*</RequiredIndicator>
+                  </Label>
+                  <Select
+                    name="courtsTribunaux"
+                    value={formData.courtsTribunaux}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Sélectionnez un tribunal</option>
+                    {TRIBUNALS.map((tribunal, index) => (
+                      <option key={index} value={tribunal}>
+                        {tribunal}
+                      </option>
+                    ))}
+                  </Select>
+                  {errors.courtsTribunaux && (
+                    <ErrorMessage>
+                      <AlertCircle size={14} />
+                      {errors.courtsTribunaux}
+                    </ErrorMessage>
+                  )}
+                </FormGroup>
 
-              <FormGroup>
-                <Label>
-                  <Calendar size={18} />
-                  Date de Condamnation <RequiredIndicator>*</RequiredIndicator>
-                </Label>
-                <Input
-                  type="date"
-                  name="dateCondamnations"
-                  value={formData.dateCondamnations}
-                  onChange={handleChange}
-                  required
-                />
-                {errors.dateCondamnations && (
-                  <ErrorMessage>
-                    <AlertCircle size={14} />
-                    {errors.dateCondamnations}
-                  </ErrorMessage>
-                )}
-              </FormGroup>
+                <FormGroup>
+                  <Label>
+                    <Calendar size={18} />
+                    Date de Condamnation{" "}
+                    <RequiredIndicator>*</RequiredIndicator>
+                  </Label>
+                  <Input
+                    type="date"
+                    name="dateCondamnations"
+                    value={formData.dateCondamnations}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.dateCondamnations && (
+                    <ErrorMessage>
+                      <AlertCircle size={14} />
+                      {errors.dateCondamnations}
+                    </ErrorMessage>
+                  )}
+                </FormGroup>
 
-              <FormGroup>
-                <Label>
-                  <AlertCircle size={18} />
-                  Nature de l'Infraction{" "}
-                  <RequiredIndicator>*</RequiredIndicator>
-                </Label>
-                <Input
-                  type="text"
-                  name="natureDesCrimes"
-                  value={formData.natureDesCrimes}
-                  onChange={handleChange}
-                  maxLength="200"
-                  required
-                  placeholder="Délit, crime, nature précise..."
-                />
-                {errors.natureDesCrimes && (
-                  <ErrorMessage>
-                    <AlertCircle size={14} />
-                    {errors.natureDesCrimes}
-                  </ErrorMessage>
-                )}
-              </FormGroup>
-            </div>
+                <FormGroup>
+                  <Label>
+                    <AlertCircle size={18} />
+                    Nature de l'Infraction{" "}
+                    <RequiredIndicator>*</RequiredIndicator>
+                  </Label>
+                  <Input
+                    type="text"
+                    name="natureDesCrimes"
+                    value={formData.natureDesCrimes}
+                    onChange={handleChange}
+                    maxLength="200"
+                    required
+                    placeholder="Délit, crime, nature précise..."
+                  />
+                  {errors.natureDesCrimes && (
+                    <ErrorMessage>
+                      <AlertCircle size={14} />
+                      {errors.natureDesCrimes}
+                    </ErrorMessage>
+                  )}
+                </FormGroup>
+              </div>
 
-            {/* Colonne 2 */}
-            <div>
-              <FormGroup>
-                <Label>
-                  <Calendar size={18} />
-                  Date de crime ou delits{" "}
-                  <RequiredIndicator>*</RequiredIndicator>
-                </Label>
-                <Input
-                  type="date"
-                  name="dateCrimesOuDelits"
-                  value={formData.dateCrimesOuDelits}
-                  onChange={handleChange}
-                  required
-                />
-                {errors.dateCrimesOuDelits && (
-                  <ErrorMessage>
-                    <AlertCircle size={14} />
-                    {errors.dateCrimesOuDelits}
-                  </ErrorMessage>
-                )}
-              </FormGroup>
+              {/* Colonne 2 */}
+              <div>
+                <FormGroup>
+                  <Label>
+                    <Calendar size={18} />
+                    Date de crime ou delits{" "}
+                    <RequiredIndicator>*</RequiredIndicator>
+                  </Label>
+                  <Input
+                    type="date"
+                    name="dateCrimesOuDelits"
+                    value={formData.dateCrimesOuDelits}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.dateCrimesOuDelits && (
+                    <ErrorMessage>
+                      <AlertCircle size={14} />
+                      {errors.dateCrimesOuDelits}
+                    </ErrorMessage>
+                  )}
+                </FormGroup>
 
-              <FormGroup>
-                <Label>
+                <FormGroup>
+                  <Label>
+                    <Clock size={18} />
+                    Durée de Peine <RequiredIndicator>*</RequiredIndicator>
+                  </Label>
+                  <Input
+                    type="text"
+                    name="dureeDePeine"
+                    value={formData.dureeDePeine}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ex: 5 ans et 3 mois"
+                    maxLength="50"
+                  />
+                  {errors.dureeDePeine && (
+                    <ErrorMessage>
+                      <AlertCircle size={14} />
+                      {errors.dureeDePeine}
+                    </ErrorMessage>
+                  )}
+                </FormGroup>
+
+                <FormGroup>
+                  <Label>
+                    <Calendar size={18} />
+                    Date de mise en prison{" "}
+                    <RequiredIndicator>*</RequiredIndicator>
+                  </Label>
+                  <Input
+                    type="date"
+                    name="dateMiseEnPrison"
+                    value={formData.dateMiseEnPrison}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.dateMiseEnPrison && (
+                    <ErrorMessage>
+                      <AlertCircle size={14} />
+                      {errors.dateMiseEnPrison}
+                    </ErrorMessage>
+                  )}
+                </FormGroup>
+              </div>
+            </FormGrid>
+
+            <FormGroup>
+              <Label>
+                <ScrollText size={18} />
+                Observations complémentaires
+              </Label>
+              <TextArea
+                name="observations"
+                value={formData.observations}
+                onChange={handleChange}
+                maxLength="500"
+                placeholder="Détails supplémentaires, circonstances atténuantes, etc."
+              />
+              {errors.observations && (
+                <ErrorMessage>
+                  <AlertCircle size={14} />
+                  {errors.observations}
+                </ErrorMessage>
+              )}
+            </FormGroup>
+
+            <SubmitButton type="submit" disabled={loading}>
+              {loading ? (
+                <>
                   <Clock size={18} />
-                  Durée de Peine <RequiredIndicator>*</RequiredIndicator>
-                </Label>
-                <Input
-                  type="text"
-                  name="dureeDePeine"
-                  value={formData.dureeDePeine}
-                  onChange={handleChange}
-                  required
-                  placeholder="Ex: 5 ans et 3 mois"
-                  maxLength="50"
-                />
-                {errors.dureeDePeine && (
-                  <ErrorMessage>
-                    <AlertCircle size={14} />
-                    {errors.dureeDePeine}
-                  </ErrorMessage>
-                )}
-              </FormGroup>
-
-              <FormGroup>
-                <Label>
-                  <Calendar size={18} />
-                  Date de mise en prison{" "}
-                  <RequiredIndicator>*</RequiredIndicator>
-                </Label>
-                <Input
-                  type="date"
-                  name="dateMiseEnPrison"
-                  value={formData.dateMiseEnPrison}
-                  onChange={handleChange}
-                  required
-                />
-                {errors.dateMiseEnPrison && (
-                  <ErrorMessage>
-                    <AlertCircle size={14} />
-                    {errors.dateMiseEnPrison}
-                  </ErrorMessage>
-                )}
-              </FormGroup>
-            </div>
-          </FormGrid>
-
-          <FormGroup>
-            <Label>
-              <ScrollText size={18} />
-              Observations complémentaires
-            </Label>
-            <TextArea
-              name="observations"
-              value={formData.observations}
-              onChange={handleChange}
-              maxLength="500"
-              placeholder="Détails supplémentaires, circonstances atténuantes, etc."
-            />
-            {errors.observations && (
-              <ErrorMessage>
-                <AlertCircle size={14} />
-                {errors.observations}
-              </ErrorMessage>
-            )}
-          </FormGroup>
-
-          <SubmitButton type="submit" disabled={loading}>
-            {loading ? (
-              <>
-                <Clock size={18} />
-                Enregistrement en cours...
-              </>
-            ) : (
-              <>
-                <Save size={18} />
-                Enregistrer la Condamnation
-              </>
-            )}
-          </SubmitButton>
-        </form>
-      </FormContainer>
-    </PageContainer>
+                  Enregistrement en cours...
+                </>
+              ) : (
+                <>
+                  <Save size={18} />
+                  Enregistrer la Condamnation
+                </>
+              )}
+            </SubmitButton>
+          </form>
+        </FormContainer>
+      </PageContainer>
+    </div>
   );
 }
 

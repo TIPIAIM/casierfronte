@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+
 import {
   Search,
-  FileText,
   CheckCircle,
   Clock,
   AlertCircle,
@@ -10,10 +10,17 @@ import {
   ChevronUp,
   Filter,
   Loader2,
+  Edit3,
+  Trash2,
+  Eye,
 } from "lucide-react";
 import styled from "styled-components";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+
+
 import { Link, useNavigate } from "react-router-dom";
-import { ImPencil2 } from "react-icons/im";
+import { FaArrowLeft } from "react-icons/fa";
 
 // Palette de couleurs
 const colors = {
@@ -44,7 +51,91 @@ const StatsContainer = styled.div`
   gap: 1rem;
   margin-bottom: 2rem;
 `;
+const ActionContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
 
+  @media (max-width: 768px) {
+    justify-content: center;
+    gap: 0.3rem;
+  }
+`;
+
+const ActionIcon = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: ${(props) => props.$bg || colors.primary};
+  color: white;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (min-width: 768px) {
+    width: auto;
+    padding: 0.5rem 0.8rem;
+    gap: 0.5rem;
+
+    span {
+      display: inline;
+      font-size: 0.85rem;
+    }
+  }
+`;
+const BackButton = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 1px;
+  padding: 4px 4px;
+  //background-color: ${colors.goldenYellow};
+  color: ${colors.blueMarine};
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5%;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  &:hover {
+    background-color: ${colors.greenDark}20;
+    color: ${colors.white};
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
+  }
+`;
+// Styles pour les tooltips
+const TooltipStyles = styled.div`
+  .tooltip-style {
+    font-size: 0.8rem !important;
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 4px !important;
+    z-index: 1000 !important;
+    background: ${colors.primary} !important;
+  }
+`;
 const StatCard = styled.div`
   background: ${colors.white};
   border-radius: 10px;
@@ -87,18 +178,26 @@ const Header = styled.div`
   margin-bottom: 2rem;
   border-bottom: 2px solid ${colors.primary};
   padding-bottom: 1rem;
-
+  text-align: center;
   h1 {
     color: ${colors.primary};
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
+    @media (max-width: 480px) {
+      text-align: left;
+      margin-bottom: 1.8rem;
+      font-size: 1.9rem;
+    }
   }
 
   p {
     color: ${colors.textLight};
     font-size: 1rem;
     line-height: 1.6;
+  }
+  @media (max-width: 480px) {
+    text-align: left;
   }
 `;
 
@@ -462,46 +561,39 @@ function DemandesList() {
     }
   };
 
-  const handleDownload = async (id) => {
-    try {
-      const response = await fetch(
-        `http://localhost:2027/api/demande/${id}/download`
-      );
-      if (!response.ok) throw new Error("Erreur de téléchargement");
+  
+  // Dans le composant DemandesList, ajoutez cette fonction
+  const handleDelete = async (id) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cette demande ?")) {
+      try {
+        const response = await fetch(
+          `http://localhost:2027/api/demande/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `demande-${id}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    } catch (error) {
-      console.error("Erreur:", error);
-      alert(error.message);
+        if (!response.ok) throw new Error("Erreur lors de la suppression");
+
+        // Mettre à jour la liste des demandes après suppression
+        setDemandes(demandes.filter((demande) => demande._id !== id));
+      } catch (error) {
+        console.error("Erreur:", error);
+        alert(error.message);
+      }
     }
   };
-// Dans le composant DemandesList, ajoutez cette fonction
-const handleDelete = async (id) => {
-  if (window.confirm("Êtes-vous sûr de vouloir supprimer cette demande ?")) {
-    try {
-      const response = await fetch(`http://localhost:2027/api/demande/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) throw new Error("Erreur lors de la suppression");
-
-      // Mettre à jour la liste des demandes après suppression
-      setDemandes(demandes.filter(demande => demande._id !== id));
-    } catch (error) {
-      console.error("Erreur:", error);
-      alert(error.message);
-    }
-  }
-};
   return (
     <Container>
+      <Tooltip
+        id="action-tooltip"
+        place="top"
+        effect="solid"
+        className="tooltip-style"
+      />
+      <BackButton to="/gestiondemandes">
+        <FaArrowLeft /> {/* Icône de retour */}
+      </BackButton>
       <Header>
         <h1>Gestion des demandes de casier judiciaire</h1>
         <p>
@@ -590,6 +682,7 @@ const handleDelete = async (id) => {
             <thead>
               <tr>
                 <th>Référence</th>
+                <th>Identité</th>
                 <th>Nom & Prénom</th>
                 <th>Date demande</th>
                 <th>Mode livraison</th>
@@ -602,6 +695,7 @@ const handleDelete = async (id) => {
                 filteredDemandes.map((demande) => (
                   <tr key={demande._id}>
                     <td>{demande.reference}</td>
+                    <td>{demande.personalInfo.passport} </td>
                     <td>
                       {demande.personalInfo.lastName}{" "}
                       {demande.personalInfo.firstName}
@@ -624,20 +718,25 @@ const handleDelete = async (id) => {
                           : "Rejeté"}
                       </StatusBadge>
                     </td>
-                    <td>
+                    {/* <td>
                       <Link
                         to={`/demandeid/${demande._id}`}
                         className="text-yellow-400 edit hover:text-yellow-800"
                       >
-                        <ImPencil2 />
+                        <Eye />
                       </Link>
-                      <Link to={`/demandemisejour/${demande._id}`}>Mjour</Link>
+                      <Link to={`/demandemisejour/${demande._id}`}>
+                        <Edit3  />
+                      </Link>
                       <ActionButton
-  onClick={() => handleDelete(demande._id)}
-  style={{ marginLeft: "0.5rem", background: colors.error }}
->
-  Supprimer
-</ActionButton>
+                        onClick={() => handleDelete(demande._id)}
+                        style={{
+                          marginLeft: "0.5rem",
+                          background: colors.error,
+                        }}
+                      >
+                        <Trash2 />
+                      </ActionButton>
                       {demande.status === "completed" && (
                         <ActionButton
                           onClick={() => handleDownload(demande._id)}
@@ -647,7 +746,62 @@ const handleDelete = async (id) => {
                           PDF
                         </ActionButton>
                       )}
+                    </td>*/}
+                    <td>
+                      <ActionContainer>
+                        {/* Bouton Voir */}
+                        <TooltipStyles>
+                          <ActionIcon
+                            data-tooltip-id="action-tooltip"
+                            data-tooltip-content="Voir les détails"
+                            $bg={colors.primary}
+                            onClick={() =>
+                              navigate(`/demandeid/${demande._id}`)
+                            }
+                          >
+                            <Eye size={16} />
+                            <span className="action-text"></span>
+                          </ActionIcon>
 
+                          {/* Bouton Éditer */}
+                          <ActionIcon
+                            data-tooltip-id="action-tooltip"
+                            data-tooltip-content="Modifier la demande"
+                            $bg={colors.warning}
+                            onClick={() =>
+                              navigate(`/demandemisejour/${demande._id}`)
+                            }
+                          >
+                            <Edit3 size={16} />
+                            <span className="action-text"></span>
+                          </ActionIcon>
+
+                          {/* Bouton Supprimer */}
+                          <ActionIcon
+                            data-tooltip-id="action-tooltip"
+                            data-tooltip-content="Supprimer la demande"
+                            $bg={colors.error}
+                            onClick={() => handleDelete(demande._id)}
+                          >
+                            <Trash2 size={16} />
+                            <span className="action-text"></span>
+                          </ActionIcon>
+
+                          {/* Bouton Télécharger (conditionnel) */}
+                          {demande.status === "completed" && (
+                            <ActionIcon
+                              data-tooltip-id="action-tooltip"
+                              data-tooltip-content="Aller Télécharger le casier judiciaire"
+                              $bg={colors.success}
+                              //    onClick={() => handleDownload(demande._id)}
+                            >
+                              <Link to="/casier">
+                                <Download size={16} />
+                              </Link>
+                            </ActionIcon>
+                          )}
+                        </TooltipStyles>
+                      </ActionContainer>
                     </td>
                   </tr>
                 ))

@@ -10,7 +10,7 @@ const colors = {
   goldenYellow: "#F2C94C",
   white: "#FFFFFF",
 
-  bleuProfond: "#003566", 
+  bleuProfond: "#003566",
   beigeSableux: "#F2E9DC",
 };
 
@@ -29,7 +29,7 @@ const BackButton = styled(Link)`
   text-align: center;
   transition: background-color 0.3s ease, transform 0.2s ease;
   &:hover {
-   // background-color: ${colors.greenDark};
+    // background-color: ${colors.greenDark};
     color: ${colors.white};
     transform: scale(1.05);
   }
@@ -49,10 +49,10 @@ const colorAnimation = keyframes`
     color: ${colors.jauneOcre};
   }
   33% {
-    color: ${colors.goldenYellow };
+    color: ${colors.goldenYellow};
   }
   66% {
-    color: ${colors.bleuProfond };
+    color: ${colors.bleuProfond};
   }
   100% {
     color: ${colors.beigeSableux};
@@ -90,7 +90,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 50vh;
   background: linear-gradient(
     150deg,
     ${colors.blueMarine},
@@ -109,12 +109,13 @@ const Title = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 20px;
+  margin-top: 40px;
   text-transform: uppercase;
   letter-spacing: 2px;
   //color: ${colors.goldenYellow};
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
   animation: ${fadeIn} 1.5s ease;
-  
+
   animation: ${colorAnimation} 10s infinite; /* Animation de 5 secondes en boucle */
 
   @media (max-width: 768px) {
@@ -146,48 +147,16 @@ const Description = styled.p`
   }
 `;
 
-// Bouton de connexion
-const ConnectButton = styled(Link)`
-  display: inline-block;
-  padding: 15px 30px;
-  background-color: ${colors.goldenYellow};
-  color: ${colors.blueMarine};
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 0px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.3s ease, transform 0.2s ease,
-    box-shadow 0.3s ease;
-  animation: ${fadeIn} 2.5s ease;
-
-  &:hover {
-    background-color: ${colors.greenDark};
-    color: ${colors.white};
-    transform: scale(1.1);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-`;
-
-const Etrngerguinee = () => {
+const Interfcehedmisejour = () => {
   return (
     <Container>
-        <BackButton to="/debut">
-              <FaArrowLeft /> {/* Icône de retour */}
-            </BackButton>
-      <Title>Bienvenue sur la plateforme officielle</Title>
+      <Title>L'espace personnel de mise à jour</Title>
       <Description>
-        Simplifiez vos démarches administratives en ligne. Connectez-vous pour
-        commencer votre demande de casier judiciaire en toute sécurité et
-        confidentialité.
+        Suivez en temps réel visualisez Modifiez
+        Gérez la démande
       </Description>
-      <ConnectButton to="/seconnecter">Se Connecter</ConnectButton>
     </Container>
   );
 };
 
-export default Etrngerguinee;
+export default Interfcehedmisejour;

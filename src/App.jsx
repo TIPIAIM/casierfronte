@@ -16,6 +16,10 @@ import DemandeMisejour from "./composant/Pourlecsier/GestionAdmin/gestionenregis
 import EnregistreCondntion from "./composant/Pourlecsier/GestionAdmin/gestioncond/CondntionEnregistre";
 import ListeCondamnations from "./composant/Pourlecsier/GestionAdmin/gestioncond/ListeCondamnations";
 import Casier from "./composant/Pourlecsier/GestionAdmin/CsierJudicir";
+import Gestiondesdeux from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/GestionDetC";
+import Interfcedebut from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/Interfcedebut";
+import GestionDetC from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/GestionDetC";
+import CsierJudicirpouradmin from "./composant/Pourlecsier/GestionAdmin/CsierJudicirpouradmin";
 
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
@@ -48,7 +52,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Visiteur />} />
+          <Route index element={<Interfcedebut />} />
           <Route path="/seconnecter" element={<LoginForm />} />
           <Route path="/enregistrer" element={<Senregistrer />} />
           <Route path="/demande-guinee" element={<Guineedemrce />} />
@@ -56,7 +60,22 @@ function App() {
           <Route path="/videoexplic" element={<Videoexpli />} /> {/*à video */}
           <Route path="/demande" element={<Commencerdem />} /> {/*à video */}
           <Route path="/demandesList" element={<DemandesList />} />{" "}
+          <Route path="/gestiondesdeux" element={<Gestiondesdeux />} />{" "}
           {/*à video */}
+          <Route path="/debut" element={<Visiteur />} /> {/*à video */}
+          <Route path="/gestionDetC" element={<GestionDetC />} />
+          <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
+          {/*
+          <Route path="/gestiondemande" element={<CsierJudicirpouradmin />} />
+           */}
+          {/*
+          <Route path="/gestionCondanations" element={<CsierJudicirpouradmin />} />
+           */}
+          {/*
+           <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
+           */}
+          {/*à video Visiteur */}
+          {/*à video Visiteur */}
           <Route path="/demandeid/:id" element={<DemandeDetail />} />
           {/** pour les detil */}
           <Route path="/demandemisejour/:id" element={<DemandeMisejour />} />
@@ -67,7 +86,10 @@ function App() {
           />
           <Route path="/listeCondamnations" element={<ListeCondamnations />} />
           <Route path="/casier" element={<Casier />} />
-          {/*à video   */}
+          {/*à video 
+          <Route
+            path="/gestionenregistrement"
+            element={<ProtectedRoute>{/*<Adminfils />*/}
           {/* 
           
           

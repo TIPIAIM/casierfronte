@@ -57,7 +57,7 @@ const BackButton = styled(Link)`
     margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
   }
 `;
-const Casier = () => {
+const CsierJudicirpouradmin = () => {
   const [demandeData, setDemandeData] = useState(null);
   const [condamnationData, setCondamnationData] = useState(null);
 
@@ -65,7 +65,7 @@ const Casier = () => {
     <div>
       <Interfcehecsier />
       <div>
-        <BackButton to="/gestiondemandes">
+        <BackButton to="/gestionDetC">
           <FaArrowLeft /> {/* Icône de retour */}
         </BackButton>
       </div>
@@ -103,7 +103,6 @@ const Casier = () => {
           </PDFDownloadLink>
         </div>
       )}
-
       {/* Passez les fonctions de mise à jour aux composants enfants */}
       <DemandesListPC onDataLoaded={setDemandeData} forPDF={false} />
 
@@ -112,4 +111,4 @@ const Casier = () => {
   );
 };
 
-export default Casier;
+export default CsierJudicirpouradmin;

@@ -167,7 +167,7 @@ const Videoexpli = () => {
     <>
       {/* Bouton Retour */}
       {/* Bouton Retour avec icône */}
-      <BackButton to="/">
+      <BackButton to="/debut">
         <FaArrowLeft /> {/* Icône de retour */}
       </BackButton>
       {/* Conteneur des vidéos */}
