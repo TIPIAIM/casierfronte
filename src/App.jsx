@@ -16,10 +16,11 @@ import DemandeMisejour from "./composant/Pourlecsier/GestionAdmin/gestionenregis
 import EnregistreCondntion from "./composant/Pourlecsier/GestionAdmin/gestioncond/CondntionEnregistre";
 import ListeCondamnations from "./composant/Pourlecsier/GestionAdmin/gestioncond/ListeCondamnations";
 import Casier from "./composant/Pourlecsier/GestionAdmin/CsierJudicir";
-import Gestiondesdeux from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/GestionDetC";
+import Gestiondesdeux from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/GestionDetCadmin";
 import Interfcedebut from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/Interfcedebut";
-import GestionDetC from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/GestionDetC";
+import GestionDetC from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/GestionDetCadmin";
 import CsierJudicirpouradmin from "./composant/Pourlecsier/GestionAdmin/CsierJudicirpouradmin";
+import GestiondemàndcsierAdmin from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/GestiondemàndcsierAdmin";
 
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
@@ -65,9 +66,9 @@ function App() {
           <Route path="/debut" element={<Visiteur />} /> {/*à video */}
           <Route path="/gestionDetC" element={<GestionDetC />} />
           <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
-          {/*
-          <Route path="/gestiondemande" element={<CsierJudicirpouradmin />} />
-           */}
+       
+          <Route path="/gestiondemande" element={<GestiondemàndcsierAdmin />} />
+      
           {/*
           <Route path="/gestionCondanations" element={<CsierJudicirpouradmin />} />
            */}

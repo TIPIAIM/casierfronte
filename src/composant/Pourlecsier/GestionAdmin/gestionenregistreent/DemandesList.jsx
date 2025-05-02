@@ -591,10 +591,8 @@ function DemandesList() {
         effect="solid"
         className="tooltip-style"
       />
-      <BackButton to="/gestiondemandes">
-        <FaArrowLeft /> {/* Icône de retour */}
-      </BackButton>
-      <Header>
+    
+   { /*  <Header>
         <h1>Gestion des demandes de casier judiciaire</h1>
         <p>
           Consultez et gérez l'ensemble des demandes d'extrait de casier
@@ -603,7 +601,7 @@ function DemandesList() {
           Vous pouvez filtrer par statut, rechercher une demande spécifique et
           télécharger les documents.
         </p>
-      </Header>
+      </Header>*/}
       <SearchBar>
         <SearchInput>
           <Search size={18} />

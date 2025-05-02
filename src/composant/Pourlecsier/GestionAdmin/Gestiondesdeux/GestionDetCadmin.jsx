@@ -127,9 +127,15 @@ export default function GestionDetC() {
 
         {/* Form */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
-          <button className="bg-yellow-500 hover:bg-green-500 text-black font-semibold px-6 py-3 hover:text-yellow-500 transition-all duration-300">
+          <button className="hover:bg-yellow-500 bg-yellow-700 text-black font-semibold px-6 py-3 hover:text-yellow-500 transition-all duration-300">
             <Link to="/casieradmin" className="no-underline font-bold text-black">
               Csiers judiciaires
+            </Link>
+            
+          </button>
+          <button className="hover:bg-yellow-500 bg-yellow-700 text-black font-semibold px-6 py-3 hover:text-yellow-500 transition-all duration-300">
+            <Link to="/adminmere" className="no-underline font-bold text-black">
+              Tableau de bord
             </Link>
           </button>
         </div>

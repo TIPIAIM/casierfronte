@@ -85,8 +85,6 @@ const ProgressWrapper = styled.div`
   position: relative;
   padding: 1rem;
   background: ${colors.primary}10;
-  border-radius: px;
-  // border: px solid ${colors.borderDark};
 
   &::before {
     content: "";
@@ -142,7 +140,6 @@ const ProgressStep = styled.div`
 const StepNumber = styled.div`
   width: 60px;
   height: 50px;
-  // border-radius: 0%;
   background: ${({ active }) => (active ? colors.primary : colors.background)};
   color: ${({ active }) => (active ? "white" : colors.textLight)};
   display: flex;
@@ -184,7 +181,6 @@ const StepContainer = styled.div`
   padding: 1.5rem;
   background: ${colors.cardBg};
   border-radius: 20px;
-  //border: 1px solid ${colors.borderDark};
   box-shadow: -4px -0px ${colors.blueMarine};
 `;
 
@@ -221,7 +217,7 @@ const DeliveryOption = styled.label`
   margin-bottom: 1rem;
   border: 1px solid
     ${({ selected }) => (selected ? colors.primary : colors.borderDark)};
-  border-radius: 4px;
+  
   cursor: pointer;
   transition: all 0.2s;
   background: ${({ selected }) => (selected ? `${colors.primary}0D` : "white")};
@@ -289,8 +285,7 @@ const RequiredField = styled.span`
 const FormInput = styled.input`
   width: 100%;
   padding: 0.75rem;
-  //border: 2px solid ${colors.borderDark};
-  border-radius: 4px;
+ 
   font-size: 1rem;
   transition: all 0.2s;
   background: ${colors.cardBg};
@@ -535,7 +530,7 @@ const BackButton = styled(Link)`
   }
 `;
 
-function Commencerdem() {
+function Commencerdemdmin() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -1369,9 +1364,7 @@ function Commencerdem() {
 
   return (
     <Container>
-       <BackButton to="/Adminfils">
-          <FaArrowLeft /> {/* Icône de retour */}
-        </BackButton>
+ 
       <Header>
        
         <h1>Demande d'extrait de casier judiciaire</h1>
@@ -1437,4 +1430,4 @@ function Commencerdem() {
   );
 }
 
-export default Commencerdem;
+export default Commencerdemdmin;
