@@ -1,10 +1,9 @@
-
-import DemandesList from "./DemandesList";
-import Commencerdemdmin from "./Commencerdemdmin";
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { ArrowLeft, ClipboardList, FilePlus } from 'lucide-react';
+import ListeCondamnationsdmin from './ListeCondamnationsdmin';
+import EnregistreCondntion from './CondntionEnregistredmin';
 
 // ========== ANIMATIONS ==========
 const fadeIn = keyframes`
@@ -24,6 +23,21 @@ const pulse = keyframes`
 `;
 
 // ========== STYLED COMPONENTS ==========
+const Container = styled.div`
+  min-height: 100vh;
+  background-color: #f8fafc;
+  color: #002b5b;
+  padding: 1.5rem;
+  animation: ${fadeIn} 0.5s ease-out;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    padding: 0.5rem;
+  }
+`;
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -70,6 +84,30 @@ const BackButton = styled.button`
   }
 `;
 
+const Title = styled.h1`
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: linear-gradient(90deg, #1a4d2e, #002b5b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ${fadeIn} 0.6s ease-out;
+
+  @media (min-width: 768px) {
+    font-size: 2.25rem;
+  }
+
+  @media (max-width: 640px) {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    text-align: left;
+  }
+`;
 
 const ButtonGroup = styled.div`
   display: flex;
@@ -151,60 +189,15 @@ const MainContent = styled.main`
   @media (min-width: 768px) {
     padding: 2.5rem;
   }
+
   @media (max-width: 640px) {
-    padding: 1rem;
-    border-radius: 0;
-    box-shadow: none;
-    margin-top: 0.5rem;
-  }
-
-`;
-
-
-
-
-
-const Container = styled.div`
-  min-height: 100vh;
-  background-color: #f8fafc;
-  color: #002b5b;
-  padding: 1.5rem;
-
-  @media (min-width: 768px) {
-    padding: 2rem;
-  }
-  
-  @media (max-width: 640px) {
-    padding: 0.5rem;
+    padding: 0.1rem;
+    margin-top: 1rem;
   }
 `;
 
-
-
-
-const Title = styled.h1`
-  font-size: 1.875rem;
-  font-weight: 700;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  @media (min-width: 768px) {
-    font-size: 2.25rem;
-
-  }
-
-  @media (max-width: 640px) {
-    font-size: 1.5rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-`;
-
-
-export default function GestiondemàndcsierAdmin() {
+// ========== COMPOSANT PRINCIPAL ==========
+const GestioncondAdmin = () => {
   const [activeView, setActiveView] = useState('form');
   const [isMounted, setIsMounted] = useState(false);
   const navigate = useNavigate();
@@ -230,8 +223,8 @@ export default function GestiondemàndcsierAdmin() {
             <ArrowLeft size={26} />
           </BackButton>
           <Title style={{ animationDelay: '0.2s' }}>
-         
-            Gestion des demandes
+            <ClipboardList size={28} />
+            Gestion des Condamnations
           </Title>
         </HeaderTop>
 
@@ -256,10 +249,12 @@ export default function GestiondemàndcsierAdmin() {
       <MainContent style={{ animationDelay: '0.4s' }}>
         {isMounted && (
           activeView === 'form' 
-            ? <Commencerdemdmin /> 
-            : <DemandesList />
+            ? <EnregistreCondntion /> 
+            : <ListeCondamnationsdmin />
         )}
       </MainContent>
     </Container>
   );
 };
+
+export default GestioncondAdmin;

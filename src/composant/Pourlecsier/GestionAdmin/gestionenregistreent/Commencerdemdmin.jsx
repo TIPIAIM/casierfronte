@@ -530,7 +530,7 @@ const BackButton = styled(Link)`
   }
 `;
 
-function Commencerdemdmin() {
+function CondntionEnregistredmin() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -1430,4 +1430,4 @@ function Commencerdemdmin() {
   );
 }
 
-export default Commencerdemdmin;
+export default CondntionEnregistredmin;

@@ -21,10 +21,22 @@ const colors = {
   borderDark: "#CBD5E0",
   cardBg: "#FFFFFF",
 };
+// Tableau des couleurs pour la rotation
+const colorPalette = [
+  new THREE.Color(colors.secondary),  // Jaune
+  new THREE.Color(colors.primary),    // Bleu marine
+  new THREE.Color(colors.success),     // Vert foncé
+  new THREE.Color(colors.beigeSableux),
+  new THREE.Color(colors.bleuProfond),
+  new THREE.Color(colors.blueMarine),
+  new THREE.Color(colors.cardBg),
+];
 
 export default function GestionDetC() {
   const mountRef = useRef(null);
   const [showContent, setShowContent] = useState(false);
+  const rotationCountRef = useRef(0);
+  const currentColorIndexRef = useRef(0);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowContent(true), 500);
@@ -39,30 +51,57 @@ export default function GestionDetC() {
     );
     camera.position.z = 5;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer = new THREE.WebGLRenderer({ 
+      alpha: true,
+      antialias: true 
+    });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
     mount.appendChild(renderer.domElement);
 
     const geometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
     const material = new THREE.MeshStandardMaterial({
-      color: colors.secondary,
+      color: colorPalette[0],
       metalness: 0.7,
       roughness: 0.25,
+      emissive: new THREE.Color(0x111111),
+      emissiveIntensity: 0.2
     });
     const knot = new THREE.Mesh(geometry, material);
     scene.add(knot);
 
-    const light = new THREE.PointLight(0xffffff, 1);
-    light.position.set(10, 10, 10);
-    scene.add(light);
+    // Lumières
+    const pointLight = new THREE.PointLight(0xffffff, 1.5);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
 
-    const ambientLight = new THREE.AmbientLight(colors.goldenYellow, 0.4);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(-5, 5, 5);
+    scene.add(directionalLight);
+
+    let lastRotationY = 0;
+    const fullRotation = Math.PI * 2; // Un tour complet en radians
 
     const animate = () => {
       requestAnimationFrame(animate);
-      knot.rotation.x += 0.01;
+      
+      knot.rotation.x += 0.005;
       knot.rotation.y += 0.01;
+      
+      // Détection d'un tour complet
+      if (Math.abs(knot.rotation.y - lastRotationY) >= fullRotation) {
+        rotationCountRef.current++;
+        lastRotationY = knot.rotation.y;
+        
+        // Changement de couleur après chaque tour complet
+        currentColorIndexRef.current = (currentColorIndexRef.current + 1) % colorPalette.length;
+        material.color = colorPalette[currentColorIndexRef.current];
+        material.needsUpdate = true;
+      }
+      
       renderer.render(scene, camera);
     };
     animate();
@@ -83,7 +122,7 @@ export default function GestionDetC() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br to-gray-950 from-black text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* 3D Background */}
+      {/* 3D Background avec animation de couleur */}
       <div ref={mountRef} className="absolute inset-0 z-0"></div>
 
       {/* Content */}
@@ -92,9 +131,9 @@ export default function GestionDetC() {
           showContent
             ? "opacity-95 scale-100 rotate-0"
             : "opacity-0 scale-90 rotate-3"
-        } from-gray-950/100 backdrop-blur-md shadow-2xl rounded-xl `}
+        } from-gray-950/100 backdrop-blur-md shadow-2xl rounded-xl p-8`}
       >
-        <header className="flex justify-between items-center mb-6">
+          <header className="flex justify-between items-center mb-6">
           <div className="text-4xl font-black text-yellow-400">⚖️</div>
           <nav className="space-x-6 text-sm">
             <Link
@@ -128,10 +167,12 @@ export default function GestionDetC() {
         {/* Form */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
           <button className="hover:bg-yellow-500 bg-yellow-700 text-black font-semibold px-6 py-3 hover:text-yellow-500 transition-all duration-300">
-            <Link to="/casieradmin" className="no-underline font-bold text-black">
+            <Link
+              to="/casieradmin"
+              className="no-underline font-bold text-black"
+            >
               Csiers judiciaires
             </Link>
-            
           </button>
           <button className="hover:bg-yellow-500 bg-yellow-700 text-black font-semibold px-6 py-3 hover:text-yellow-500 transition-all duration-300">
             <Link to="/adminmere" className="no-underline font-bold text-black">
@@ -143,6 +184,8 @@ export default function GestionDetC() {
         <p className="text-xs text-gray-400">
           Republique de guinée . Travail-Justice-Solidarité.
         </p>
+        
+
       </div>
     </div>
   );

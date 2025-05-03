@@ -21,6 +21,7 @@ import Interfcedebut from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/I
 import GestionDetC from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/GestionDetCadmin";
 import CsierJudicirpouradmin from "./composant/Pourlecsier/GestionAdmin/CsierJudicirpouradmin";
 import GestiondemàndcsierAdmin from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/GestiondemàndcsierAdmin";
+import GestioncondAdmin from "./composant/Pourlecsier/GestionAdmin/gestioncond/GestionCondanations";
 
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
@@ -66,12 +67,8 @@ function App() {
           <Route path="/debut" element={<Visiteur />} /> {/*à video */}
           <Route path="/gestionDetC" element={<GestionDetC />} />
           <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
-       
           <Route path="/gestiondemande" element={<GestiondemàndcsierAdmin />} />
-      
-          {/*
-          <Route path="/gestionCondanations" element={<CsierJudicirpouradmin />} />
-           */}
+          <Route path="/gestionCondanations" element={<GestioncondAdmin />} />
           {/*
            <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
            */}

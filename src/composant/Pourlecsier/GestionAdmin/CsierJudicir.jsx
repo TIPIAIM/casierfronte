@@ -5,9 +5,12 @@ import DemandesListPC from "./gestionenregistreent/DemandesListPC";
 import CasierPDF from "./CasierPDF";
 import Interfcehecsier from "../../interface/Interfcehecsier";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
+
 // Palette de couleurs
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
+import { ArrowLeft } from "lucide-react";
 
 const colors = {
   blueMarine: "#002B5B",
@@ -60,14 +63,18 @@ const BackButton = styled(Link)`
 const Casier = () => {
   const [demandeData, setDemandeData] = useState(null);
   const [condamnationData, setCondamnationData] = useState(null);
-
+  const navigate = useNavigate();
   return (
     <div>
       <Interfcehecsier />
       <div>
-        <BackButton to="/gestiondemandes">
-          <FaArrowLeft /> {/* Icône de retour */}
-        </BackButton>
+      <BackButton 
+            onClick={() => navigate(-1)} 
+            aria-label="Retour"
+            style={{ animationDelay: '0.1s' }}
+          >
+            <ArrowLeft size={26} />
+          </BackButton>
       </div>
       {/* Bouton de téléchargement (visible seulement quand les deux ensembles de données sont disponibles) */}
       {demandeData && condamnationData && (
