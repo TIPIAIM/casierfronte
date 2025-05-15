@@ -1,3 +1,5 @@
+//reserve àctuelement jutilise  le deconne.jsx
+
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Importe Axios
@@ -17,7 +19,8 @@ const LogoutButton = () => {
 
       // Appelle la route de déconnexion du backend avec Axios
       const response = await axios.post(
-        "http://localhost:2027/api/auth/logout",
+        `${import.meta.env.VITE_b}/api/auth/logout`,
+       // "http://localhost:2027/api/auth/logout",
         {}, // Corps de la requête (vide dans ce cas)
         {
           headers: {
@@ -31,7 +34,7 @@ const LogoutButton = () => {
         // Supprime le token du localStorage
         localStorage.removeItem("token");
         // Redirige l'utilisateur vers la page de connexion
-        navigate("/connecter");
+        navigate("/");
       } else {
         console.error("Erreur lors de la déconnexion");
       }

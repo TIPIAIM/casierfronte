@@ -175,7 +175,9 @@ export default function RegisterForm() {
     try {
       const result = await axios.post(
         // Envoi de la requête POST à l'API
-        "http://localhost:2027/api/auth/register", // Endpoint d'inscription
+        `${import.meta.env.VITE_b}/api/auth/register`,
+
+      //  "http://localhost:2027/api/auth/register", // Endpoint d'inscription
         sanitizedValues, // Valeurs nettoyées à envoyer au serveur
         { timeout: 5000 } // Définir un délai d'attente de 5 secondes
       );

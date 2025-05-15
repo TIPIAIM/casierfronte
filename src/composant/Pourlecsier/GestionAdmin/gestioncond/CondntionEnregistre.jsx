@@ -419,7 +419,9 @@ function EnregistreCondntion() {
 
     try {
       const response = await axios.post(
-        "http://localhost:2027/criminal", // URL corrigée
+        `${import.meta.env.VITE_b}/criminal`,
+
+      //  "http://localhost:2027/criminal", // URL corrigée
         {
           ...formData,
           dateCondamnations: new Date(formData.dateCondamnations),

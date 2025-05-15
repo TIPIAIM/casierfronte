@@ -270,7 +270,9 @@ function DemandeDetail() {
     const fetchDemande = async () => {
       try {
         const response = await fetch(
-          `http://localhost:2027/api/demande/by-id/${id}`
+
+         // `http://localhost:2027/api/demande/by-id/${id}`
+         `${import.meta.env.VITE_b}/api/demande/by-id/${id}`,
         );
 
         if (!response.ok) {
@@ -409,10 +411,10 @@ function DemandeDetail() {
             <p style={{ marginBottom: '1rem' }}>
               {getDeliveryDetails(demande.deliveryMethod)}
             </p>
-            <FileViewerButton>
+    { /*      <FileViewerButton>
               <Download size={16} />
               Télécharger l'accusé de réception
-            </FileViewerButton>
+            </FileViewerButton>*/}
 
             {demande.deliveryMethod === "court" && (
               <>

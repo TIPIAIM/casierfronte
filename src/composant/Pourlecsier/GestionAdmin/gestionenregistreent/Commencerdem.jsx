@@ -677,7 +677,11 @@ function Commencerdem() {
     }
 
     try {
-      const response = await fetch("http://localhost:2027/api/demande", {
+      const response = await fetch(
+        `${import.meta.env.VITE_b}/api/demande`,
+
+        //"http://localhost:2027/api/demande",
+        {
         method: "POST",
         // NE PAS METTRE 'Content-Type' : il sera défini automatiquement avec le boundary
         body: formDataToSend,
@@ -688,7 +692,9 @@ function Commencerdem() {
       const result = await response.json();
       // Envoi de l'email avec la référence
       const emailResponse = await fetch(
-        "http://localhost:2027/apii/send-reference-email",
+        `${import.meta.env.VITE_b}/apii/send-reference-email`,
+
+       // "http://localhost:2027/apii/send-reference-email",
         {
           method: "POST",
           headers: {
@@ -818,16 +824,16 @@ function Commencerdem() {
             </DeliveryOption>
 
             <DeliveryOption
-              selected={formData.deliveryMethod === "mail"}
+              selected={formData.deliveryMethod ==="postal"}
               onClick={() =>
-                setFormData({ ...formData, deliveryMethod: "mail" })
+                setFormData({ ...formData, deliveryMethod:"postal" })
               }
             >
               <input
                 type="radio"
                 name="deliveryMethod"
-                value="mail"
-                checked={formData.deliveryMethod === "mail"}
+                value="postal"
+                checked={formData.deliveryMethod ==="postal"}
                 onChange={() => {}}
               />
               <div>

@@ -454,7 +454,11 @@ function DemandesListPC({ forPDF = false, onDataLoaded }) {
     const fetchAllDemandes = async () => {
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:2027/api/demande/");
+        const response = await fetch(
+          `${import.meta.env.VITE_b}/api/demande/`,
+
+        //  "http://localhost:2027/api/demande/"
+          );
         if (!response.ok) throw new Error("Erreur de chargement des demandes");
         const data = await response.json();
         setDemandes(data.data);

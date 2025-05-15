@@ -18,6 +18,7 @@ const colors = {
   accent: "#F2C94C",
   white: "#FFFFFF",
   darkBlue: "#003566",
+  
   lightBg: "#F2E9DC",
   error: "#C53030",
   success: "#2E7D32",
@@ -25,23 +26,20 @@ const colors = {
 
 // Styles améliorés
 const PageContainer = styled.div`
-  padding: 2rem 1rem;
-  background: ${colors.lightBg};
   min-height: 100vh;
 `;
 
 const ListContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  background: ${colors.white};
- 
-  box-shadow: -10px 0px 0px ${colors.darkBlue};
+ border-radius: 8px;
+  box-shadow: 8px 0px 0px ${colors.secondary};
   overflow: hidden;
 `;
 
 const ListHeader = styled.div`
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid ${colors.lightBg};
+  padding: 1rem 0rem;
+  border-bottom: 4px solid ${colors.secondary};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -50,8 +48,9 @@ const ListHeader = styled.div`
 `;
 
 const ListTitle = styled.h1`
-  color: ${colors.primary};
+  color: ${colors.secondary};
   font-size: 1.8rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -59,7 +58,7 @@ const ListTitle = styled.h1`
 `;
 
 const TotalRecords = styled.div`
-  color: ${colors.darkBlue};
+  color: ${colors.primary};
   font-size: 0.9rem;
   margin-top: 0.5rem;
   font-weight: 500;
@@ -77,17 +76,18 @@ const SearchInput = styled.div`
   position: relative;
 
   input {
-    width: 100%;
+    width: 90%;
     padding: 0.75rem 1rem 0.75rem 2.5rem;
-    border: 1px solid ${colors.lightBg};
-    border-radius: 8px;
+    border: 1px solid ${colors.lightBg}20;
+    border-radius: 5px;
+    
     font-size: 1rem;
     transition: all 0.3s;
 
     &:focus {
       outline: none;
-      border-color: ${colors.primary};
-      box-shadow: 0 0 0 3px ${colors.primary}20;
+      
+      box-shadow: 2px 2px ${colors.secondary};
     }
   }
 
@@ -96,29 +96,14 @@ const SearchInput = styled.div`
     left: 0.75rem;
     top: 50%;
     transform: translateY(-50%);
-    color: ${colors.darkBlue};
+    color: ${colors.primary};
   }
 `;
 
-const FilterButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: ${colors.white};
-  border: 1px solid ${colors.lightBg};
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-
-  &:hover {
-    background: ${colors.lightBg};
-  }
-`;
-
+ 
 const TableContainer = styled.div`
   overflow-x: auto;
-  padding: 0 2rem;
+ // padding: 0 2rem;
 `;
 
 const RecordsTable = styled.table`
@@ -130,11 +115,11 @@ const RecordsTable = styled.table`
   th, td {
     padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid ${colors.lightBg};
+    border-bottom: 1px solid ${colors.secondary}50;
   }
 
   th {
-    background: ${colors.primary};
+    background: ${colors.secondary};
     color: ${colors.white};
     font-weight: 600;
     position: sticky;
@@ -173,7 +158,7 @@ const ActionButton = styled.button`
   }
 
   &.delete {
-    background: ${colors.error};
+    background: ${colors.error}90;
     color: ${colors.white};
   }
 
@@ -197,7 +182,7 @@ const LoadingContainer = styled.div`
 const EmptyState = styled.div`
   text-align: center;
   padding: 3rem;
-  color: ${colors.darkBlue};
+  color: ${colors.secondary};
   font-size: 1.1rem;
 `;
 
@@ -223,7 +208,9 @@ function ListeCondamnationsdmin() {
   const fetchRecords = async () => {
     setLoading(true);
     setError("");
-    const response = await axios.get("http://localhost:2027/criminal");
+    const response = await axios.get(
+       `${import.meta.env.VITE_b}/criminal`,
+       );
     if (response.data.success) {
       // Trier les enregistrements du plus récent au plus ancien
       const sortedRecords = response.data.data.sort((a, b) => {
@@ -276,7 +263,7 @@ function ListeCondamnationsdmin() {
           <div>
             <ListTitle>
               <Gavel size={28} />
-              Registre des Condamnations
+              Les Condamnations
             </ListTitle>
             <TotalRecords>
               Total: {filteredRecords.length} enregistrement{filteredRecords.length !== 1 ? 's' : ''}

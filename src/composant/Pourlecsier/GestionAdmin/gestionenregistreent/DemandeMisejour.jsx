@@ -16,6 +16,7 @@ import {
   Mail,
   Phone,
   Save,
+  Loader2
 } from "lucide-react";
 import path from "path-browserify";
 import { ImPencil2 } from "react-icons/im";
@@ -55,7 +56,6 @@ const BackButton = styled.button`
   background: ${colors.blueMarine};
   color: ${colors.white};
   border: none;
-
   padding: 0.5rem 1rem;
   cursor: pointer;
   display: flex;
@@ -137,6 +137,10 @@ const StatusBadge = styled.div`
   &.pending {
     background: ${colors.goldenYellow}15;
     color: ${colors.goldenYellow};
+  }
+  &.processing {
+    background: ${colors.blueMarine}15;
+    color: ${colors.blueMarine};
   }
   &.completed {
     background: ${colors.greenDark}15;
@@ -237,7 +241,7 @@ function DemandeMisejour() {
     const fetchDemande = async () => {
       try {
         const response = await fetch(
-          `http://localhost:2027/api/demande/by-id/${id}`
+          `${import.meta.env.VITE_b}/api/demande/by-id/${id}`
         );
 
         if (!response.ok) {
@@ -279,17 +283,20 @@ function DemandeMisejour() {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://localhost:2027/api/demande/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          personalInfo: formData,
-          deliveryMethod: formData.deliveryMethod,
-          status: formData.status,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_b}/api/demande/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            personalInfo: formData,
+            deliveryMethod: formData.deliveryMethod,
+            status: formData.status,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -323,6 +330,8 @@ function DemandeMisejour() {
         return <CheckCircle size={16} />;
       case "pending":
         return <Clock size={16} />;
+      case "processing":
+        return <Loader2 size={16} className="animate-spin" />;
       case "rejected":
         return <AlertCircle size={16} />;
       default:
@@ -346,13 +355,11 @@ function DemandeMisejour() {
         <Header>
           <BackButton onClick={() => navigate(-1)}>
             <ArrowLeft size={18} />
-            
           </BackButton>
           <Title>Ref : {demande.reference}</Title>
           {!isEditing ? (
             <EditButton onClick={() => setIsEditing(true)}>
               <ImPencil2 />
-           
             </EditButton>
           ) : (
             <>
@@ -382,7 +389,8 @@ function DemandeMisejour() {
               value={formData.status}
               onChange={handleInputChange}
             >
-              <option value="pending">En traitement</option>
+              <option value="pending">En attente</option>
+              <option value="processing">En cours</option>
               <option value="completed">Terminé</option>
               <option value="rejected">Rejeté</option>
             </SelectField>
@@ -390,7 +398,9 @@ function DemandeMisejour() {
             <StatusBadge className={demande.status || "pending"}>
               {getStatusIcon(demande.status || "pending")}
               {demande.status === "pending"
-                ? "En traitement"
+                ? "En attente"
+                : demande.status === "processing"
+                ? "En cours"
                 : demande.status === "completed"
                 ? "Terminé"
                 : "Rejeté"}
@@ -442,14 +452,12 @@ function DemandeMisejour() {
               <InfoContent>
                 <Label>Père</Label>
                 {isEditing ? (
-                  <>
-                    <InputField
-                      name="firstName1"
-                      value={formData.firstName1 || ""}
-                      onChange={handleInputChange}
-                      placeholder="Nom du père"
-                    />
-                  </>
+                  <InputField
+                    name="firstName1"
+                    value={formData.firstName1 || ""}
+                    onChange={handleInputChange}
+                    placeholder="Nom du père"
+                  />
                 ) : (
                   <Value>{demande.personalInfo.firstName1}</Value>
                 )}
@@ -463,14 +471,12 @@ function DemandeMisejour() {
               <InfoContent>
                 <Label>Mère</Label>
                 {isEditing ? (
-                  <>
-                    <InputField
-                      name="firstName2"
-                      value={formData.firstName2 || ""}
-                      onChange={handleInputChange}
-                      placeholder="Nom et prenom de là mere"
-                    />
-                  </>
+                  <InputField
+                    name="firstName2"
+                    value={formData.firstName2 || ""}
+                    onChange={handleInputChange}
+                    placeholder="Nom et prenom de là mere"
+                  />
                 ) : (
                   <Value>{demande.personalInfo.firstName2}</Value>
                 )}
@@ -738,7 +744,7 @@ function DemandeMisejour() {
         <Section>
           <SectionTitle>
             <Download size={20} />
-            Pièces jointes
+            Non modifiable
           </SectionTitle>
           <InfoGrid>
             <InfoItem>
@@ -749,7 +755,7 @@ function DemandeMisejour() {
                 <Label>Pièce justificative 1</Label>
                 {demande.contactInfo?.piece1 ? (
                   <DownloadButton
-                    href={`http://localhost:2027/${path.basename(
+                    href={`${import.meta.env.VITE_b}/${path.basename(
                       demande.contactInfo.piece1
                     )}`}
                     target="_blank"
@@ -771,7 +777,7 @@ function DemandeMisejour() {
                 <Label>Pièce justificative 2</Label>
                 {demande.contactInfo?.piece2 ? (
                   <DownloadButton
-                    href={`http://localhost:2027/${path.basename(
+                    href={`${import.meta.env.VITE_b}/${path.basename(
                       demande.contactInfo.piece2
                     )}`}
                     target="_blank"
@@ -822,7 +828,7 @@ function DemandeMisejour() {
           </InfoGrid>
         </Section>
 
-        {/* Section Commentaires (optionnelle) */}
+        {/* Section Commentaires */}
         <Section>
           <SectionTitle>
             <Briefcase size={20} />

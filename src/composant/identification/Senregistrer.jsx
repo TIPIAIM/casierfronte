@@ -288,7 +288,9 @@ const Senregistrer = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:2027/api/auth/register",
+        `${import.meta.env.VITE_b}/api/auth/register`,
+
+       // "http://localhost:2027/api/auth/register",
         {
           name,
           email,

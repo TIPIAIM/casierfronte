@@ -3,71 +3,18 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import ListeCondamnationPC from "./gestioncond/ListeCondamnationsPC";
 import DemandesListPC from "./gestionenregistreent/DemandesListPC";
 import CasierPDF from "./CasierPDF";
-import Interfcehecsier from "../../interface/Interfcehecsier";
-import styled from "styled-components";
 // Palette de couleurs
-import { Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
 
-const colors = {
-  blueMarine: "#002B5B",
-  greenDark: "#1A4D2E",
-  goldenYellow: "#F2C94C",
-  white: "#FFFFFF",
-  bleuProfond: "#003566",
-  beigeSableux: "#F2E9DC",
-  // Ajouts pour cohérence avec le composant existant
-  primary: "#002B5B",
-  secondary: "#F2C94C",
-  success: "#1A4D2E",
-  warning: "#F2C94C",
-  error: "#C53030",
-  background: "#F2E9DC",
-  text: "#002B5B",
-  textLight: "#4A5568",
-  border: "#E2E8F0",
-  borderDark: "#CBD5E0",
-  cardBg: "#FFFFFF",
-};
-const BackButton = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 4px 8px;
-  padding: 8px 4px;
-  //background-color: ${colors.goldenYellow};
-  color: ${colors.blueMarine};
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 5%;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  &:hover {
-    background-color: ${colors.greenDark};
-    color: ${colors.white};
-    transform: scale(1.05);
-  }
 
-  &:active {
-    transform: scale(0.95);
-  }
 
-  svg {
-    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
-  }
-`;
 const CsierJudicirpouradmin = () => {
   const [demandeData, setDemandeData] = useState(null);
   const [condamnationData, setCondamnationData] = useState(null);
 
   return (
     <div>
-      <Interfcehecsier />
       <div>
-        <BackButton to="/gestionDetC">
-          <FaArrowLeft /> {/* Icône de retour */}
-        </BackButton>
+  
       </div>
       {/* Bouton de téléchargement (visible seulement quand les deux ensembles de données sont disponibles) */}
       {demandeData && condamnationData && (

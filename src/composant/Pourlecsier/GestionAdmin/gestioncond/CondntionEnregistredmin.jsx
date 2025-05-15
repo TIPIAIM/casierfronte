@@ -11,7 +11,7 @@ import {
   Key,
 } from "lucide-react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 
 // Palette de couleurs améliorée
@@ -29,32 +29,20 @@ const colors = {
 // Styles modernisés
 const PageContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(
-    135deg,
-    // ${colors.lightBg} 50%,
-    ${colors.white} 100%
-  );
-  padding: 2rem 1rem;
+ 
 `;
 
 const FormContainer = styled.div`
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2.5rem;
-  background: ${colors.white}; 
-  box-shadow: 0 10px 30px rgba(0, 43, 91, 0.1);
+  padding: 0.5rem;
+  box-shadow: 6px 1px  ${colors.secondary};
+  border-radius: 8px;
+
   position: relative;
   overflow: hidden;
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 8px;
-    height: 100%;
-    background: ${colors.primary};
-  }
+ 
 
   @media (max-width: 768px) {
     padding: 1.5rem;
@@ -67,7 +55,7 @@ const FormHeader = styled.div`
 `;
 
 const FormTitle = styled.h1`
-  color: ${colors.primary};
+  color: ${colors.secondary};
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
   display: flex;
@@ -83,6 +71,7 @@ const FormTitle = styled.h1`
 
 const FormDescription = styled.p`
   color: ${colors.darkBlue};
+  font-weight: 500;
   font-size: 1.1rem;
   max-width: 700px;
   margin: 0 auto;
@@ -110,7 +99,8 @@ const FormGroup = styled.div`
 const Label = styled.label`
   display: block;
   margin-bottom: 0.5rem;
-  color: ${colors.primary};
+  color: ${colors.secondary};
+
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -121,16 +111,14 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   padding: 0.85rem 1rem;
-  border: 1px solid ${colors.lightBg};
-  border-radius: 8px;
+  border: 1px solid ${colors.secondary}20;
+  border-radius: 4px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background-color: #f9f9f9;
 
   &:focus {
     outline: none;
-    border-color: ${colors.primary};
-    box-shadow: 0 0 0 3px ${colors.primary}20;
+     box-shadow: 3px 3px ${colors.secondary};
     background-color: ${colors.white};
   }
 
@@ -152,14 +140,12 @@ const TextArea = styled.textarea`
 
   &:focus {
     outline: none;
-    border-color: ${colors.primary};
-    box-shadow: 0 0 0 3px ${colors.primary}20;
-    background-color: ${colors.white};
-  }
+     box-shadow: 3px 3px ${colors.secondary};
+   }
 `;
 
 const SubmitButton = styled.button`
-  background: ${colors.primary};
+  background: ${colors.secondary};
   color: ${colors.white};
   border: none;
   padding: 1rem 2rem;
@@ -173,13 +159,14 @@ const SubmitButton = styled.button`
   margin-top: 1.5rem;
   transition: all 0.3s ease;
   width: 100%;
-  box-shadow: 0 4px 6px rgba(0, 43, 91, 0.1);
-
+ 
   &:hover {
-    background: ${colors.darkBlue};
+    background: ${colors.accent};
+    color: ${colors.secondary};
+    font-weight: 800;
+    
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 43, 91, 0.15);
-  }
+   }
 
   &:disabled {
     opacity: 0.7;
@@ -217,11 +204,10 @@ const RequiredIndicator = styled.span`
 const Select = styled.select`
   width: 100%;
   padding: 0.85rem 1rem;
-  border: 1px solid ${colors.lightBg};
-  border-radius: 8px;
+   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background-color: #f9f9f9;
+   
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -230,9 +216,8 @@ const Select = styled.select`
 
   &:focus {
     outline: none;
-    border-color: ${colors.primary};
-    box-shadow: 0 0 0 3px ${colors.primary}20;
-    background-color: ${colors.white};
+     box-shadow: 3px 3px ${colors.secondary};
+     
   }
 `;
 
@@ -388,7 +373,8 @@ function EnregistreCondntion() {
 
     try {
       const response = await axios.post(
-        "http://localhost:2027/criminal", // URL corrigée
+        `${import.meta.env.VITE_b}/criminal`,
+       // "http://localhost:2027/criminal", // URL corrigée
         {
           ...formData,
           dateCondamnations: new Date(formData.dateCondamnations),

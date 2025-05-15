@@ -11,14 +11,13 @@ import {
 } from "lucide-react";
 import styled, { keyframes } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
-
+ 
 // Palette de couleurs gouvernementale améliorée
 const colors = {
   primary: "#1A365D", // Bleu marine plus profond
   primaryLight: "#2A4365", // Variante plus claire du primaire
   secondary: "#D69E2E", // Or plus chaud
-  success: "#38A169", // Vert pour succès
+  success: "#1A4D2E", // Vert pour succès
   warning: "#DD6B20", // Orange pour avertissements
   error: "#C53030", // Rouge plus foncé pour erreurs
   background: "#F7FAFC", // Fond très clair
@@ -43,15 +42,14 @@ const fadeIn = keyframes`
 // Styles avec la palette de couleurs améliorée
 const Container = styled.div`
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 2rem;
+  
+  
   background: ${colors.cardBg};
   border-radius: 20px;
   box-shadow: 6px 0px ${colors.greenDark};
   font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   animation: ${fadeIn} 0.6s ease-out;
-  // border: 1px solid ${colors.goldenYellow};
-
+ 
   @media (max-width: 768px) {
     padding: 1rem;
     margin: 1rem;
@@ -65,7 +63,7 @@ const Header = styled.div`
   padding-bottom: 1rem;
 
   h1 {
-    color: ${colors.primary};
+    color: ${colors.success};
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -84,7 +82,7 @@ const ProgressWrapper = styled.div`
   margin-bottom: 2rem;
   position: relative;
   padding: 1rem;
-  background: ${colors.primary}10;
+  background: ${colors.primary}20;
 
   &::before {
     content: "";
@@ -140,7 +138,7 @@ const ProgressStep = styled.div`
 const StepNumber = styled.div`
   width: 60px;
   height: 50px;
-  background: ${({ active }) => (active ? colors.primary : colors.background)};
+  background: ${({ active }) => (active ? colors.success : colors.background)};
   color: ${({ active }) => (active ? "white" : colors.textLight)};
   display: flex;
   align-items: center;
@@ -150,7 +148,7 @@ const StepNumber = styled.div`
   margin-bottom: 0.5rem;
   transition: all 8.3s ease;
   box-shadow: ${({ active }) =>
-    active ? `0 4px 6px ${colors.primary}33` : "none"};
+    active ? `0 4px 6px ${colors.success}33` : "none"};
   border: 2px solid ${({ active }) => (active ? colors.primary : colors.border)};
 
   @media (max-width: 768px) {
@@ -343,8 +341,8 @@ const ErrorMessage = styled.p`
 `;
 
 const Button = styled.button`
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  border-radius: 3px;
   font-weight: 500;
   font-size: 1rem;
   cursor: pointer;
@@ -352,21 +350,21 @@ const Button = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid transparent;
-
+ 
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
   }
 
   &.primary {
-    background: ${colors.greenDark};
-    color: white;
+   
+    box-shadow: -2px -2px ${colors.greenDark};
+    color:  ${colors.greenDark};
 
     &:hover:not(:disabled) {
-      background: ${colors.primaryLight};
+      background: ${colors.goldenYellow};
       transform: translateY(-1px);
-      box-shadow: 0 2px 4px ${colors.primary}33;
+      box-shadow: -2px 2px ${colors.greenDark};
     }
 
     &:active:not(:disabled) {
@@ -375,11 +373,11 @@ const Button = styled.button`
   }
 
   &.secondary {
-    background: ${colors.primary};
-    color: white;
+     box-shadow: -2px -2px ${colors.greenDark};
+    color:  ${colors.greenDark};
 
     &:hover:not(:disabled) {
-      background: ${colors.greenDark};
+      background: ${colors.goldenYellow};
     }
   }
 
@@ -408,31 +406,7 @@ const SectionTitle = styled.h3`
   border-bottom: 1px solid ${colors.border};
   grid-column: 1 / -1;
 `;
-
-const InfoBox = styled.div`
-  background: ${colors.highlight};
-  padding: 1rem;
-  border-radius: 6px;
-  margin-bottom: 1.5rem;
-  grid-column: 1 / -1;
-  border: 1px solid ${colors.warning};
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-
-  svg {
-    color: ${colors.warning};
-    flex-shrink: 0;
-    margin-top: 0.2rem;
-  }
-
-  p {
-    color: ${colors.text};
-    margin: 0;
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-`;
+ 
 
 const SuccessContainer = styled.div`
   text-align: center;
@@ -501,34 +475,7 @@ const ImportantNote = styled.div`
     font-weight: 500;
   }
 `;
-const BackButton = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 2px 1px;
-  padding: 4px 4px;
-  //background-color: ${colors.goldenYellow};
-  color: ${colors.blueMarine};
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 5%;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  &:hover {
-    background-color: ${colors.greenDark}20;
-    color: ${colors.white};
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-
-  svg {
-    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
-  }
-`;
+ 
 
 function CondntionEnregistredmin() {
   const navigate = useNavigate();
@@ -672,7 +619,10 @@ function CondntionEnregistredmin() {
     }
 
     try {
-      const response = await fetch("http://localhost:2027/api/demande", {
+      const response = await fetch(
+       // "http://localhost:2027/api/demande",
+        `${import.meta.env.VITE_b}/api/demande`,
+         {
         method: "POST",
         // NE PAS METTRE 'Content-Type' : il sera défini automatiquement avec le boundary
         body: formDataToSend,
@@ -683,7 +633,9 @@ function CondntionEnregistredmin() {
       const result = await response.json();
       // Envoi de l'email avec la référence
       const emailResponse = await fetch(
-        "http://localhost:2027/apii/send-reference-email",
+        `${import.meta.env.VITE_b}/apii/send-reference-email`,
+
+        //"http://localhost:2027/apii/send-reference-email",
         {
           method: "POST",
           headers: {

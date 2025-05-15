@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
-import { ArrowLeft, ClipboardList, FilePlus } from 'lucide-react';
+ import styled, { keyframes } from 'styled-components';
+import {   ClipboardList, FilePlus } from 'lucide-react';
 import ListeCondamnationsdmin from './ListeCondamnationsdmin';
 import EnregistreCondntion from './CondntionEnregistredmin';
 
@@ -27,7 +26,7 @@ const Container = styled.div`
   min-height: 100vh;
   background-color: #f8fafc;
   color: #002b5b;
-  padding: 1.5rem;
+  padding: 1rem;
   animation: ${fadeIn} 0.5s ease-out;
 
   @media (min-width: 768px) {
@@ -43,7 +42,7 @@ const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
- // margin-bottom: 2rem;
+
   animation: ${slideIn} 0.4s ease-out;
 
   @media (min-width: 768px) {
@@ -59,59 +58,10 @@ const HeaderTop = styled.div`
   gap: 1rem;
 `;
 
-const BackButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #1a4d2e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0;
-  animation: ${slideIn} 0.5s ease-out;
-
-  &:hover {
-    background-color: #e8f3ee;
-    transform: translateX(-4px) scale(1.1);
-  }
-
-  &:focus-visible {
-    outline: 2px solid #1a4d2e;
-    outline-offset: 2px;
-  }
-`;
-
-const Title = styled.h1`
-  font-size: 1.875rem;
-  font-weight: 700;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  background: linear-gradient(90deg, #1a4d2e, #002b5b);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: ${fadeIn} 0.6s ease-out;
-
-  @media (min-width: 768px) {
-    font-size: 2.25rem;
-  }
-
-  @media (max-width: 640px) {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-    text-align: left;
-  }
-`;
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 1.2rem;
+  gap: 0.1rem;
   animation: ${fadeIn} 0.7s ease-out;
 
   @media (max-width: 640px) {
@@ -130,8 +80,8 @@ const TabButton = styled.button`
   font-size: 0.95rem;
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  background-color: #e2e8f0;
+  gap: 0.1rem;
+  background-color: #F2C94C;
   color: #4a5568;
   position: relative;
   overflow: hidden;
@@ -200,8 +150,7 @@ const MainContent = styled.main`
 const GestioncondAdmin = () => {
   const [activeView, setActiveView] = useState('form');
   const [isMounted, setIsMounted] = useState(false);
-  const navigate = useNavigate();
-
+ 
   useEffect(() => {
     setIsMounted(true);
     return () => setIsMounted(false);
@@ -215,17 +164,8 @@ const GestioncondAdmin = () => {
     <Container>
       <HeaderContainer>
         <HeaderTop>
-          <BackButton 
-            onClick={() => navigate(-1)} 
-            aria-label="Retour"
-            style={{ animationDelay: '0.1s' }}
-          >
-            <ArrowLeft size={26} />
-          </BackButton>
-          <Title style={{ animationDelay: '0.2s' }}>
-            <ClipboardList size={28} />
-            Gestion des Condamnations
-          </Title>
+          
+           
         </HeaderTop>
 
         <ButtonGroup style={{ animationDelay: '0.3s' }}>

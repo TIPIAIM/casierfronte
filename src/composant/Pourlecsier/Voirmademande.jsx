@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 // Animations et styles existants...
@@ -51,6 +51,8 @@ const Content = styled.div`
   color: white;
   padding: 20px;
   animation: ${fadeInUp} 1.2s ease-out;
+  width: 90%;
+  max-width: 600px;
 `;
 
 const Title = styled.h1`
@@ -87,7 +89,6 @@ const InputField = styled.input`
   width: 100%;
   color: #333;
   max-width: 250px;
-
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
@@ -131,6 +132,26 @@ const ErrorMessage = styled.div`
   animation: ${fadeInUp} 0.5s ease-out;
 `;
 
+const BackButton = styled.button`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: none;
+  color: #f2c94c;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateX(-5px);
+  }
+`;
+
 const Voirmademande = () => {
   const [reference, setReference] = useState("");
   const [error, setError] = useState("");
@@ -150,7 +171,7 @@ const Voirmademande = () => {
     try {
       setError("");
       const response = await fetch(
-        `http://localhost:2027/api/demande/by-reference/${reference}`,
+        `${import.meta.env.VITE_b}/api/demande/by-reference/${reference}`,
         {
           headers: {
             'Accept': 'application/json',
@@ -173,8 +194,18 @@ const Voirmademande = () => {
       console.error("Erreur:", err);
     }
   };
+
+  const handleGoBack = () => {
+    navigate('/adminfils'); // Retour à la page précédente
+  };
+
   return (
     <Wrapper>
+      <BackButton onClick={handleGoBack}>
+        <FaArrowLeft />
+        
+      </BackButton>
+      
       <Overlay />
       <Content>
         <Title>Vérifiez votre casier judiciaire</Title>

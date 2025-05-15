@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
-import { FaArrowRight, FaHandPaper, FaHandPeace, FaLayerGroup } from "react-icons/fa"; // Import d'une icône pour le bouton principal
+import { 
+ 
+  FaLayerGroup,
 
+} from "react-icons/fa";
+import LogoutButton from "../identification/Deconne";
+ 
 // Palette de couleurs
 const colors = {
   blueMarine: "#002B5B",
@@ -11,7 +16,7 @@ const colors = {
   white: "#FFFFFF",
 };
 
-// Animation de gloire pour le bouton principal
+// Animations
 const glowAnimation = keyframes`
   0% {
     box-shadow: 0 0 1px ${colors.goldenYellow}, 0 0 6px ${colors.white};
@@ -23,43 +28,7 @@ const glowAnimation = keyframes`
     box-shadow: 0 0 1px ${colors.goldenYellow}, 0 0 2px ${colors.greenDark};
   }
 `;
-// Conteneur principal avec une image en arrière-plan et un overlay noir
-const Container = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  min-height: 100vh;
-  padding: 20px;
-  background-image: url("/img/jurid1.avif"); /* Chemin de l'image */
-  background-size: cover; /* L'image couvre tout l'écran */
-  background-position: center; /* Centrer l'image */
-  background-repeat: no-repeat; /* Pas de répétition de l'image */
-  color: ${colors.white};
-  text-align: center;
 
-  /* Overlay noir transparent */
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Fond noir avec transparence */
-    z-index: 1; /* Place l'overlay derrière le contenu */
-  }
-
-  /* Assure que le contenu est au-dessus de l'overlay */
-  > * {
-    position: relative;
-    z-index: 2;
-  }
-`;
-
-// Animation d'apparition pour le texte accrocheur
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -71,7 +40,6 @@ const fadeIn = keyframes`
   }
 `;
 
-// Animation d'apparition pour le conteneur dépliable
 const dropdownFadeIn = keyframes`
   from {
     opacity: 0;
@@ -83,9 +51,40 @@ const dropdownFadeIn = keyframes`
   }
 `;
 
+// Styles
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 100vh;
+  padding: 20px;
+  background-image: url("/img/jurid1.avif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: ${colors.white};
+  text-align: center;
 
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+  }
 
-// Texte accrocheur
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+`;
+
 const Heading = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
@@ -108,7 +107,6 @@ const Heading = styled.h1`
   }
 `;
 
-// Bouton principal
 const MainButton = styled.button`
   display: flex;
   align-items: center;
@@ -120,10 +118,9 @@ const MainButton = styled.button`
   color: ${colors.greenDark};
   background-color: ${colors.goldenYellow};
   border: none;
- 
   cursor: pointer;
   transition: all 0.3s ease;
-  animation: ${glowAnimation} 2s infinite; /* Animation de gloire */
+  animation: ${glowAnimation} 2s infinite;
   box-shadow: 2px 2px rgba(0, 0, 0, 0.9);
 
   &:hover {
@@ -137,7 +134,7 @@ const MainButton = styled.button`
   }
 `;
 
-// Conteneur dépliable
+
 const DropdownContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -149,7 +146,6 @@ const DropdownContainer = styled.div`
   animation: ${(props) => (props.isOpen ? dropdownFadeIn : "none")} 0.3s ease-out;
 `;
 
-// Boutons internes
 const DropdownButton = styled(Link)`
   padding: 10px 10px;
   font-size: 1.2rem;
@@ -174,23 +170,26 @@ const DropdownButton = styled(Link)`
 
 const Adminfils = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+ 
+
   return (
     <Container>
-      {/* Texte accrocheur */}
+      
+
+      <LogoutButton /> {/* Utilisation de votre composant LogoutButton */}
+
       <Heading>Sécurité et légalité depuis chez vous sans file d'attente.</Heading>
 
-      {/* Bouton principal */}
       <MainButton onClick={toggleDropdown}>
         <span>Commencer </span>
-        <FaLayerGroup /> {/* Icône ajoutée */}
+        <FaLayerGroup />
       </MainButton>
 
-      {/* Contenu dépliable */}
       <DropdownContainer isOpen={isOpen}>
         <DropdownButton to="/demande">
           Commencer ma démarche

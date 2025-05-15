@@ -18,10 +18,8 @@ import styled from "styled-components";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
-
 import { Link, useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
-
+ 
 // Palette de couleurs
 const colors = {
   blueMarine: "#002B5B",
@@ -30,7 +28,6 @@ const colors = {
   white: "#FFFFFF",
   bleuProfond: "#003566",
   beigeSableux: "#F2E9DC",
-  // Ajouts pour cohérence avec le composant existant
   primary: "#002B5B",
   secondary: "#F2C94C",
   success: "#1A4D2E",
@@ -49,7 +46,7 @@ const StatsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 const ActionContainer = styled.div`
   display: flex;
@@ -98,34 +95,7 @@ const ActionIcon = styled.button`
     }
   }
 `;
-const BackButton = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 2px 1px;
-  padding: 4px 4px;
-  //background-color: ${colors.goldenYellow};
-  color: ${colors.blueMarine};
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 5%;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  &:hover {
-    background-color: ${colors.greenDark}20;
-    color: ${colors.white};
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-
-  svg {
-    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
-  }
-`;
+ 
 // Styles pour les tooltips
 const TooltipStyles = styled.div`
   .tooltip-style {
@@ -161,10 +131,9 @@ const StatCard = styled.div`
 // Styles
 const Container = styled.div`
   max-width: 1400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: ${colors.cardBg};
-  border-radius: 12px;
+ 
+  padding: 5px;
+   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
 
@@ -174,32 +143,6 @@ const Container = styled.div`
   }
 `;
 
-const Header = styled.div`
-  margin-bottom: 2rem;
-  border-bottom: 2px solid ${colors.primary};
-  padding-bottom: 1rem;
-  text-align: center;
-  h1 {
-    color: ${colors.primary};
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    @media (max-width: 480px) {
-      text-align: left;
-      margin-bottom: 1.8rem;
-      font-size: 1.9rem;
-    }
-  }
-
-  p {
-    color: ${colors.textLight};
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-  @media (max-width: 480px) {
-    text-align: left;
-  }
-`;
 
 const SearchBar = styled.div`
   display: flex;
@@ -331,7 +274,7 @@ const Table = styled.table`
   min-width: 800px;
 
   thead {
-    background: ${colors.primary};
+    background: ${colors.greenDark};
     color: white;
 
     th {
@@ -399,82 +342,14 @@ const StatusBadge = styled.span`
   }
 `;
 
-const ActionButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: ${colors.primary};
-  color: white;
-  border: none;
-
-  &:hover {
-    background: ${colors.primaryLight};
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
+ 
 
 const LoadingContainer = styled.div`
   display: flex;
   justify-content: center;
   padding: 2rem;
 `;
-
-const Pagination = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid ${colors.border};
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 1rem;
-  }
-`;
-
-const PageInfo = styled.span`
-  font-size: 0.9rem;
-  color: ${colors.textLight};
-`;
-
-const PageControls = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
-
-const PageButton = styled.button`
-  padding: 0.5rem 0.75rem;
-  border-radius: 4px;
-  border: 1px solid ${colors.borderDark};
-  background: white;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover:not(:disabled) {
-    background: ${colors.background};
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &.active {
-    background: ${colors.primary};
-    color: white;
-    border-color: ${colors.primary};
-  }
-`;
+ 
 
 // ... (les styles restent les mêmes, gardez toutes vos déclarations styled-components)
 
@@ -514,6 +389,7 @@ function DemandesList() {
   const stats = {
     total: demandes.length,
     pending: demandes.filter((d) => d.status === "pending").length,
+    processing: demandes.filter((d) => d.status === "processing").length,
     completed: demandes.filter((d) => d.status === "completed").length,
     rejected: demandes.filter((d) => d.status === "rejected").length,
   };
@@ -551,23 +427,26 @@ function DemandesList() {
   const getStatusIcon = (status) => {
     switch (status) {
       case "completed":
-        return <CheckCircle size={16} />;
+        return <CheckCircle size={16}  />;
       case "pending":
-        return <Clock size={16} />;
+        return <Clock size={16} className="animate-spin" />;
+      case "processing":
+        return <Loader2 size={16} className="animate-spin" />;
       case "rejected":
-        return <AlertCircle size={16} />;
+        return <AlertCircle size={16}  />;
       default:
-        return <Clock size={16} />;
+        return <Clock size={16} className="animate-spin" />;
     }
   };
 
-  
   // Dans le composant DemandesList, ajoutez cette fonction
   const handleDelete = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cette demande ?")) {
       try {
         const response = await fetch(
-          `http://localhost:2027/api/demande/${id}`,
+          //`http://localhost:2027/api/demande/${id}`,
+          `${import.meta.env.VITE_b}/api/demande/${id}`,
+
           {
             method: "DELETE",
           }
@@ -591,17 +470,7 @@ function DemandesList() {
         effect="solid"
         className="tooltip-style"
       />
-    
-   { /*  <Header>
-        <h1>Gestion des demandes de casier judiciaire</h1>
-        <p>
-          Consultez et gérez l'ensemble des demandes d'extrait de casier
-          judiciaire.
-          <br />
-          Vous pouvez filtrer par statut, rechercher une demande spécifique et
-          télécharger les documents.
-        </p>
-      </Header>*/}
+
       <SearchBar>
         <SearchInput>
           <Search size={18} />
@@ -621,7 +490,7 @@ function DemandesList() {
       </SearchBar>
       <StatsContainer>
         <StatCard color={colors.blueMarine}>
-          <h3>Total des demandes</h3>
+          <h3>Total </h3>
           <p>{stats.total}</p>
         </StatCard>
 
@@ -629,7 +498,10 @@ function DemandesList() {
           <h3>En attente</h3>
           <p>{stats.pending}</p>
         </StatCard>
-
+        <StatCard color={colors.secondary}>
+          <h3>En cours</h3>
+          <p>{stats.processing}</p>
+        </StatCard>
         <StatCard color={colors.greenDark}>
           <h3>Traitées</h3>
           <p>{stats.completed}</p>
@@ -653,6 +525,14 @@ function DemandesList() {
           onClick={() => handleStatusFilter("pending")}
         >
           En attente
+        </button>
+        <button
+          className={`in-progress ${
+            statusFilter === "processing" ? "active" : ""
+          }`}
+          onClick={() => handleStatusFilter("processing")}
+        >
+          En cours
         </button>
         <button
           className={`completed ${
@@ -710,41 +590,15 @@ function DemandesList() {
                       <StatusBadge className={demande.status || "pending"}>
                         {getStatusIcon(demande.status || "pending")}
                         {demande.status === "pending"
-                          ? "En traitement"
+                          ? "Attente"
+                          : demande.status === "processing"
+                          ? "En cours"
                           : demande.status === "completed"
                           ? "Terminé"
                           : "Rejeté"}
                       </StatusBadge>
                     </td>
-                    {/* <td>
-                      <Link
-                        to={`/demandeid/${demande._id}`}
-                        className="text-yellow-400 edit hover:text-yellow-800"
-                      >
-                        <Eye />
-                      </Link>
-                      <Link to={`/demandemisejour/${demande._id}`}>
-                        <Edit3  />
-                      </Link>
-                      <ActionButton
-                        onClick={() => handleDelete(demande._id)}
-                        style={{
-                          marginLeft: "0.5rem",
-                          background: colors.error,
-                        }}
-                      >
-                        <Trash2 />
-                      </ActionButton>
-                      {demande.status === "completed" && (
-                        <ActionButton
-                          onClick={() => handleDownload(demande._id)}
-                          style={{ marginLeft: "0.5rem" }}
-                        >
-                          <Download size={14} />
-                          PDF
-                        </ActionButton>
-                      )}
-                    </td>*/}
+
                     <td>
                       <ActionContainer>
                         {/* Bouton Voir */}

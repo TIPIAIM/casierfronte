@@ -48,15 +48,15 @@ const DownloadButton = styled.button`
 // Styles
 const PageContainer = styled.div`
   padding: 2rem 1rem;
-  background: ${colors.lightBg};
-  min-height: 100vh;
+  //background: red;
+ // min-height: 50vh;
 `;
 
 const ListContainer = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   background: ${colors.white};
-  border-radius: 12px;
+ border-radius: 12px;
   box-shadow: 0 4px 24px rgba(0, 43, 91, 0.08);
   overflow: hidden;
 `;
@@ -71,6 +71,7 @@ const ListHeader = styled.div`
 
 const TitleContainer = styled.div`
   display: flex;
+ 
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
@@ -248,7 +249,10 @@ function ListeCondamnationPC({ onDataLoaded }) {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.get("http://localhost:2027/criminal");
+      const response = await axios.get(
+        `${import.meta.env.VITE_b}/criminal`,
+
+         );
       if (response.data.success) {
         setRecords(response.data.data);
       } else {

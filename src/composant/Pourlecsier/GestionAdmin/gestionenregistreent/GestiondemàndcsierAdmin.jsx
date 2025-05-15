@@ -1,10 +1,8 @@
-
 import DemandesList from "./DemandesList";
 import Commencerdemdmin from "./Commencerdemdmin";
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
-import { ArrowLeft, ClipboardList, FilePlus } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
+import { ClipboardList, FilePlus } from "lucide-react";
 
 // ========== ANIMATIONS ==========
 const fadeIn = keyframes`
@@ -29,7 +27,7 @@ const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
- // margin-bottom: 2rem;
+  // margin-bottom: 2rem;
   animation: ${slideIn} 0.4s ease-out;
 
   @media (min-width: 768px) {
@@ -45,35 +43,9 @@ const HeaderTop = styled.div`
   gap: 1rem;
 `;
 
-const BackButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #1a4d2e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0;
-  animation: ${slideIn} 0.5s ease-out;
-
-  &:hover {
-    background-color: #e8f3ee;
-    transform: translateX(-4px) scale(1.1);
-  }
-
-  &:focus-visible {
-    outline: 2px solid #1a4d2e;
-    outline-offset: 2px;
-  }
-`;
-
-
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 1.2rem;
+  gap: 0.1rem;
   animation: ${fadeIn} 0.7s ease-out;
 
   @media (max-width: 640px) {
@@ -93,13 +65,13 @@ const TabButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  background-color: #e2e8f0;
+  background-color: #F2C94C;
   color: #4a5568;
   position: relative;
   overflow: hidden;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -143,7 +115,7 @@ const TabButton = styled.button`
 const MainContent = styled.main`
   background-color: white/10;
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow:  2px 2px rgba(0, 0, 0, 0.09);
   padding: 2rem;
   min-height: 60vh;
   animation: ${fadeIn} 0.8s ease-out;
@@ -152,17 +124,12 @@ const MainContent = styled.main`
     padding: 2.5rem;
   }
   @media (max-width: 640px) {
-    padding: 1rem;
+    padding: 0rem;
     border-radius: 0;
     box-shadow: none;
     margin-top: 0.5rem;
   }
-
 `;
-
-
-
-
 
 const Container = styled.div`
   min-height: 100vh;
@@ -173,41 +140,15 @@ const Container = styled.div`
   @media (min-width: 768px) {
     padding: 2rem;
   }
-  
-  @media (max-width: 640px) {
-    padding: 0.5rem;
-  }
-`;
-
-
-
-
-const Title = styled.h1`
-  font-size: 1.875rem;
-  font-weight: 700;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  @media (min-width: 768px) {
-    font-size: 2.25rem;
-
-  }
 
   @media (max-width: 640px) {
-    font-size: 1.5rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
+  padding: 0rem ;
   }
 `;
-
 
 export default function GestiondemàndcsierAdmin() {
-  const [activeView, setActiveView] = useState('form');
+  const [activeView, setActiveView] = useState("form");
   const [isMounted, setIsMounted] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIsMounted(true);
@@ -222,7 +163,7 @@ export default function GestiondemàndcsierAdmin() {
     <Container>
       <HeaderContainer>
         <HeaderTop>
-          <BackButton 
+          {/*  <BackButton 
             onClick={() => navigate(-1)} 
             aria-label="Retour"
             style={{ animationDelay: '0.1s' }}
@@ -230,22 +171,21 @@ export default function GestiondemàndcsierAdmin() {
             <ArrowLeft size={26} />
           </BackButton>
           <Title style={{ animationDelay: '0.2s' }}>
-         
-            Gestion des demandes
-          </Title>
+               Gestion des demandes
+          </Title>*/}
         </HeaderTop>
 
-        <ButtonGroup style={{ animationDelay: '0.3s' }}>
+        <ButtonGroup style={{ animationDelay: "0.3s" }}>
           <TabButton
-            className={activeView === 'form' ? 'active' : ''}
-            onClick={() => handleViewChange('form')}
+            className={activeView === "form" ? "active" : ""}
+            onClick={() => handleViewChange("form")}
           >
             <FilePlus size={18} />
             Enregistrer
           </TabButton>
           <TabButton
-            className={activeView === 'list' ? 'active' : ''}
-            onClick={() => handleViewChange('list')}
+            className={activeView === "list" ? "active" : ""}
+            onClick={() => handleViewChange("list")}
           >
             <ClipboardList size={18} />
             Liste
@@ -253,13 +193,10 @@ export default function GestiondemàndcsierAdmin() {
         </ButtonGroup>
       </HeaderContainer>
 
-      <MainContent style={{ animationDelay: '0.4s' }}>
-        {isMounted && (
-          activeView === 'form' 
-            ? <Commencerdemdmin /> 
-            : <DemandesList />
-        )}
+      <MainContent style={{ animationDelay: "0.4s" }}>
+        {isMounted &&
+          (activeView === "form" ? <Commencerdemdmin /> : <DemandesList />)}
       </MainContent>
     </Container>
   );
-};
+}

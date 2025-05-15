@@ -22,7 +22,9 @@ import GestionDetC from "./composant/Pourlecsier/GestionAdmin/Gestiondesdeux/Ges
 import CsierJudicirpouradmin from "./composant/Pourlecsier/GestionAdmin/CsierJudicirpouradmin";
 import GestiondemàndcsierAdmin from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/GestiondemàndcsierAdmin";
 import GestioncondAdmin from "./composant/Pourlecsier/GestionAdmin/gestioncond/GestionCondanations";
-
+import Adminmere from "./composant/interface/Adminmere";
+ import TbleoListe from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/Sttistk/TbleoListe";
+ 
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
   {
@@ -48,6 +50,7 @@ function App() {
           path="/miseajourAclientRecup/:id"
           element={<MiseajourAjoutclientRecup />}
         />
+        LoginForm RegisterForm
       */
   }
   return (
@@ -63,15 +66,20 @@ function App() {
           <Route path="/demande" element={<Commencerdem />} /> {/*à video */}
           <Route path="/demandesList" element={<DemandesList />} />{" "}
           <Route path="/gestiondesdeux" element={<Gestiondesdeux />} />{" "}
-          {/*à video */}
+          <Route path="/demandesListstati" element={<TbleoListe />} />{" "}
+
+          {/*à video demandesList
+           */}
           <Route path="/debut" element={<Visiteur />} /> {/*à video */}
           <Route path="/gestionDetC" element={<GestionDetC />} />
           <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
-          <Route path="/gestiondemande" element={<GestiondemàndcsierAdmin />} />
+          <Route path="/gestiondemande" element={<GestiondemàndcsierAdmin />} />{/*Listedem*/}
           <Route path="/gestionCondanations" element={<GestioncondAdmin />} />
-          {/*
-           <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
-           */}
+          
+          <Route path="/adminmere" element={<Adminmere />} />
+
+         
+          {/*   */}
           {/*à video Visiteur */}
           {/*à video Visiteur */}
           <Route path="/demandeid/:id" element={<DemandeDetail />} />

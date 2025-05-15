@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { FaEnvelope, FaLock } from "react-icons/fa";
-import axios from "axios";
+import { FaUser, FaEnvelope, FaLock, FaCalendarAlt } from "react-icons/fa";
 import jurid1 from "../../assets/jurid1.avif";
 
 import guine from "../../assets/guine.avif";
@@ -12,8 +12,6 @@ import guine2 from "../../assets/guin2.avif";
 import guine3 from "../../assets/guin3.avif";
 import guine4 from "../../assets/guin4.avif";
 import guine5 from "../../assets/guin5.avif";
-import { FaArrowLeft } from "react-icons/fa"; // Import de l'icône de retour
-
 // Palette de couleurs
 const colors = {
   blueMarine: "#002B5B",
@@ -21,68 +19,25 @@ const colors = {
   goldenYellow: "#F2C94C",
   white: "#FFFFFF",
 };
-const BackButton = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 10px;
-  padding: 10px 10px;
-  //background-color: ${colors.goldenYellow};
-  color: ${colors.goldenYellow};
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 50%;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  &:hover {
-    // background-color: ${colors.greenDark};
-    color: ${colors.white};
-    transform: scale(1.05);
-  }
 
-  &:active {
-    transform: scale(0.95);
-  }
-
-  svg {
-    margin-right: 8px; /* Ajoute un espace entre l'icône et le texte */
-  }
-`;
-
-const Logo = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 10px;
-`;
-
-// Message d'erreur stylisé
-const ErrorMessage = styled.div`
-  color: #e53e3e;
-  font-size: 0.875rem;
-  margin-top: 0rem;
-  margin-bottom: 0.5rem;
-`;
-
+// Conteneur principal
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: stretch;
   justify-content: center;
-  min-height: 100vh;
-  background: ${colors.blueMarine};
+ // background: ${colors.greenDark};
 
   @media (max-width: 768px) {
     flex-direction: column;
   }
 `;
 
+// Section pour l'image
 const ImageSection = styled.div`
   flex: 1;
   position: relative;
-  background: ${colors.blueMarine};
+ // background: ${colors.greenDark};
   overflow: hidden;
 
   .carousel-image {
@@ -96,7 +51,6 @@ const ImageSection = styled.div`
     transition: opacity 1s ease-in-out;
     opacity: 0;
   }
-
   .carousel-image.active {
     opacity: 1;
   }
@@ -120,13 +74,17 @@ const ImageSection = styled.div`
       padding: 10px;
     }
 
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+      padding: 10px;
+    }
+
     @media (max-width: 480px) {
       font-size: 1rem;
       padding: 8px;
     }
   }
-
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     flex: none;
     height: 50vh;
   }
@@ -137,6 +95,7 @@ const ImageSection = styled.div`
   }
 `;
 
+// Section pour le formulaire
 const FormSection = styled.div`
   flex: 1;
   display: flex;
@@ -144,45 +103,45 @@ const FormSection = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  background: ${colors.greenDark};
+  // background: ${colors.greenDark}50;
 
   @media (max-width: 768px) {
     padding: 1.5rem;
   }
 `;
 
+// Formulaire
 const Form = styled(motion.form)`
   background: ${colors.white};
   padding: 2.5rem;
-  box-shadow: 3px 2px 0px ${colors.goldenYellow};
+
+  box-shadow: 3px 2px 0px ${colors.greenDark};
   display: flex;
+  border-radius: 10px;
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
   max-width: 450px;
-
-  &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    border: 1px solid ${colors.goldenYellow};
-  }
 
   @media (max-width: 480px) {
     padding: 1.5rem;
   }
 `;
 
-const Title = styled.h2`
-  color: ${colors.blueMarine};
+// Titre
+const Title = styled(motion.h2)`
+  margin-bottom: 0.5rem;
+  color: ${colors.greenDark};
   font-size: 1.8rem;
-  text-align: center;
-  font-weight: 600;
+
+  font-weight: 700;
 
   @media (max-width: 480px) {
     font-size: 1.5rem;
   }
 `;
 
+// Champ de saisie avec icône
 const InputGroup = styled.div`
   position: relative;
 
@@ -191,7 +150,7 @@ const InputGroup = styled.div`
     top: 50%;
     left: 15px;
     transform: translateY(-50%);
-    color: ${colors.goldenYellow};
+    color: ${colors.greenDark};
     font-size: 1rem;
   }
 
@@ -199,14 +158,13 @@ const InputGroup = styled.div`
     width: 100%;
     padding: 0.8rem 0.8rem 0.8rem 2.8rem;
     border: 1px solid #ddd;
+
     font-size: 1rem;
     transition: all 0.3s ease;
-    border-color: ${({ error }) => (error ? "#e53e3e" : "#ddd")};
 
     &:focus {
-      border-color: ${colors.goldenYellow};
       outline: none;
-      box-shadow: 0 0 0 2px rgba(242, 201, 76, 0.2);
+      box-shadow:  3px 3px ${colors.greenDark};
     }
 
     &::placeholder {
@@ -214,6 +172,8 @@ const InputGroup = styled.div`
     }
   }
 `;
+
+// Bouton blueMarine: "#002B5B", : "#1A4D2E",
 
 const Button = styled(motion.button)`
   padding: 0.8rem;
@@ -224,6 +184,7 @@ const Button = styled(motion.button)`
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease;
+  margin-top: 0.5rem;
 
   &:hover {
     background-color: ${colors.goldenYellow};
@@ -235,29 +196,30 @@ const Button = styled(motion.button)`
     cursor: not-allowed;
   }
 `;
+ 
 
-const ForgotPasswordLink = styled(Link)`
-  color: ${colors.greenDark};
-  text-decoration: none;
+const ErrorMessage = styled.p`
+  color: #e74c3c;
   font-size: 0.9rem;
   text-align: center;
-  transition: color 0.3s;
-
-  &:hover {
-    color: ${colors.greenDark};
-    text-decoration: underline;
-  }
+  margin-bottom: 0.2rem;
 `;
-
-const LoginForm = ({ onLogin }) => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState({});
+const Logo = styled.img`
+  width: 50px; /* Taille du logo */
+  height: 50px; /* Taille du logo */
+  border-radius: 50%; /* Rend l'image circulaire */
+  object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le cercle */
+`;
+const Senregistrerpourad = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [age, setAge] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
-
-  // Carrousel d'images
   const [currentImage, setCurrentImage] = useState(0);
-  const images = [guine1, jurid1, guine4, guine2, guine, guine5, guine3];
+  const images = [guine3, guine4, guine5, jurid1, guine2, guine, guine1];
+
   const texts = [
     "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
     "Accédez à vos informations en toute sécurité.\nUn service rapide et fiable.",
@@ -267,74 +229,43 @@ const LoginForm = ({ onLogin }) => {
     "Service disponible 24h/24, 7j/7.\nConsultez quand vous voulez, où vous voulez.",
     "Validation instantanée pour vos démarches.\nGagnez du temps sur vos formalités.",
   ];
-
+  const navigate = useNavigate();
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % images.length);
-    }, 5000);
+    }, 2000); // Change d'image toutes les 2 secondes
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Nettoie l'intervalle à la fin
   }, [images.length]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (errors[e.target.name]) {
-      setErrors({ ...errors, [e.target.name]: "" });
-    }
-  };
-
-  const validateFields = () => {
-    const newErrors = {};
-
-    if (!formData.email.trim()) {
-      newErrors.email = "L'email est requis.";
-    } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formData.email)) {
-      newErrors.email = "Veuillez entrer un email valide.";
-    }
-
-    if (!formData.password.trim()) {
-      newErrors.password = "Le mot de passe est requis.";
-    } else if (formData.password.length < 6) {
-      newErrors.password =
-        "Le mot de passe doit contenir au moins 6 caractères.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-
-    if (!validateFields()) return;
-
     setIsSubmitting(true);
+    setErrorMessage("");
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_b}/api/auth/login`,
-        formData,
+        `${import.meta.env.VITE_b}/api/auth/register`,
+
+        // "http://localhost:2027/api/auth/register",
         {
-          headers: { "Content-Type": "application/json" },
-          timeout: 2000,
+          name,
+          email,
+          password,
+          age,
         }
       );
-
-      const data = response.data;
-
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-        if (typeof onLogin === "function") {
-          onLogin();
-        }
-        alert("Connexion réussie !");
-        navigate("/Adminfils");
+      if (response.data) {
+        alert("Enregistrement réussi !");
+        navigate("/adminmere");
       } else {
-        alert(data.message || "Erreur de connexion");
+        setErrorMessage(response.data.message || "Erreur d'enregistrement");
       }
-    } catch (err) {
-      console.error("Erreur lors de la connexion :", err);
-      alert("Une erreur est survenue lors de la connexion.");
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message ||
+          "Erreur lors de l'enregistrement. Veuillez réessayer."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -354,13 +285,10 @@ const LoginForm = ({ onLogin }) => {
         ))}
         <div className="carousel-text">{texts[currentImage]}</div>
       </ImageSection>
-
+      {/* Section Formulaire */}
       <FormSection>
-        <BackButton to="/debut">
-          <FaArrowLeft /> {/* Icône de retour */}
-        </BackButton>
         <Form
-          onSubmit={handleSubmit}
+          onSubmit={handleRegister}
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -368,62 +296,77 @@ const LoginForm = ({ onLogin }) => {
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: "10px",
-              gap: "10px",
+              flexDirection: "row", // Aligne le logo et le titre sur la même ligne
+              alignItems: "center", // Centre verticalement
+              justifyContent: "center", // Centre horizontalement
+              marginBottom: "0px", // Ajoute un espace sous le conteneur
+              gap: "10px", // Ajoute un espace entre le logo et le titre
             }}
           >
             <Logo src={jurid1} alt="Logo" />
-            <Title>Connexion</Title>
+            <Title>S'enregistrer</Title>
           </div>
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
 
-          <InputGroup error={!!errors.email}>
+          <InputGroup>
+            <FaUser />
+            <input
+              type="text"
+              placeholder="Nom et prénom"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </InputGroup>
+
+          <InputGroup>
             <FaEnvelope />
             <input
               type="email"
-              name="email"
               placeholder="Votre Email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-            {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
           </InputGroup>
 
-          <InputGroup error={!!errors.password}>
+          <InputGroup>
             <FaLock />
             <input
               type="password"
-              name="password"
               placeholder="Mot de passe"
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength="6"
             />
-            {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
+          </InputGroup>
+
+          <InputGroup>
+            <FaCalendarAlt />
+            <input
+              type="number"
+              placeholder="Votre âge"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              required
+              min="18"
+              max="120"
+            />
           </InputGroup>
 
           <Button
             type="submit"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Connexion en cours..." : "Connexion"}
+            {isSubmitting ? "En cours..." : "Enregistrer"}
           </Button>
-
-          <div className="text-center">
-            <ForgotPasswordLink className="mx-3" to="/motdepasseoublie">
-              Mot de passe oublié ?
-            </ForgotPasswordLink>
-            <ForgotPasswordLink to="/enregistrer">
-              Pas de compte ?
-            </ForgotPasswordLink>
-          </div>
         </Form>
       </FormSection>
     </Container>
   );
 };
 
-export default LoginForm;
+export default Senregistrerpourad;

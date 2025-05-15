@@ -10,9 +10,11 @@ import {
   FaMobileAlt,
   FaDownload,
   FaQuestionCircle,
+  FaArrowLeft,
 } from "react-icons/fa";
 import "./Style.css";
 import Header from "./Headervisiteur";
+import { useNavigate } from "react-router-dom";
 // Palette de couleurs
 const colors = {
   blueMarine: "#002B5B",
@@ -312,7 +314,25 @@ const GuideLink = styled.a`
     color: ${colors.white};
   }
 `;
+const BackButton = styled.button`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: none;
+  color: #f2c94c;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease;
 
+  &:hover {
+    transform: translateX(-5px);
+  }
+`;
 const TermsCheckbox = ({ accepted, onChange, error }) => {
   return (
     <CheckboxContainer error={error}>
@@ -358,6 +378,7 @@ const Visiteur = () => {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [birthPlace, setBirthPlace] = useState(null);
   const [submitAttempted, setSubmitAttempted] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -374,12 +395,18 @@ const Visiteur = () => {
       window.location.href = "/demande-etranger";
     }
   };
-
+const handleGoBack = () => {
+  navigate('/'); // Retour à la page précédente
+};
   const isFormValid = acceptedTerms && birthPlace;
 
   return (
     <div>
   <Header/>
+   <BackButton onClick={handleGoBack}>
+          <FaArrowLeft />
+          
+        </BackButton>
   <Container>
       <ProcedureSection>
         <h2 style={{ color: colors.blueMarine, marginBottom: "1.5rem" }}>
@@ -517,8 +544,7 @@ const Visiteur = () => {
         </GuideLink>
       </GuideSection>
     </Container>
-    </div>
-  
+    </div>  
   );
 };
 
