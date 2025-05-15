@@ -100,9 +100,7 @@ export default function Interfcedebut() {
             <Link to="/videoexplic" className=" hover:text-yellow-500 no-underline font-bold  text-gray-300">
               Tutoriel
             </Link>
-           {/* <Link to="/seconnecter" className="hover:text-yellow-500 no-underline font-bold  text-gray-300">
-            Commencer
-            </Link>*/}
+           
           </nav>
         </header>
 
