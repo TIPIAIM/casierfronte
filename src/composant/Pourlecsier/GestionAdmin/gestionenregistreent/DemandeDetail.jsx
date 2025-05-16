@@ -309,13 +309,13 @@ const PrimaryButton = styled.button`
 `;
 
 const SecondaryButton = styled(PrimaryButton)`
-  background: ${colors.white};
-  color: ${colors.primary};
-  border: 1px solid ${colors.primary};
+   color: ${colors.info};
+  border: 1px solid ${colors.primary}20;
   
   &:hover {
-    background: ${colors.gray100};
-    color: ${colors.primary};
+  
+    color: ${colors.gray100};
+    background: ${colors.primary}20;
   }
 `;
 
@@ -408,8 +408,8 @@ const FileViewerModal = ({ fileUrl, onClose }) => {
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
           <h3>
-            <FileText size={20} />
-            {fileName}
+            <FileText size={30} />
+           {/* {fileName}*/}Fichier joint
           </h3>
           <SecondaryButton onClick={onClose}>
             <X size={20} />
