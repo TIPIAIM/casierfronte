@@ -682,7 +682,7 @@ function DemandeDetail() {
                       }
                     >
                       <Eye size={16} />
-                      Ouvrir
+                      Afficher
                     </FileViewerButton>
                     <FileViewerContainer>
                       <FileViewer
@@ -713,7 +713,7 @@ function DemandeDetail() {
                       }
                     >
                       <Eye size={16} />
-                      Ouvrir
+                      Afficher
                     </FileViewerButton>
                     <FileViewerContainer>
                       <FileViewer
