@@ -21,7 +21,7 @@ import {
   Printer,
   FileText,
   View,
-  Eye
+  Eye,
 } from "lucide-react";
 import path from "path-browserify";
 import Interfcehed from "../../../interface/Interfceheddetil";
@@ -34,7 +34,7 @@ const colors = {
   white: "#FFFFFF",
   bleuProfond: "#003566",
   beigeSableux: "#F2E9DC",
-  lightBg: "#F8F6F2"
+  lightBg: "#F8F6F2",
 };
 
 // Styles
@@ -42,9 +42,9 @@ const Container = styled.div`
   max-width: 1000px;
   margin: 2rem auto;
   padding: 2rem;
- //background: ${colors.bleuProfond};
+  //background: ${colors.bleuProfond};
   border-radius: 8px;
- // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const Header = styled.div`
@@ -59,7 +59,7 @@ const BackButton = styled.button`
   background: ${colors.blueMarine};
   color: ${colors.white};
   border: none;
-  
+
   padding: 0.5rem 1rem;
   cursor: pointer;
   display: flex;
@@ -156,7 +156,7 @@ const FileViewerContainer = styled.div`
   margin-top: 1rem;
   border: 1px solid ${colors.beigeSableux};
 
- // padding: 1rem;
+  // padding: 1rem;
   max-height: 500px;
   overflow: auto;
 `;
@@ -189,7 +189,7 @@ const StatusContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  
+
   margin-bottom: 1.5rem;
   @media (max-width: 600px) {
     flex-direction: column;
@@ -203,7 +203,7 @@ const StatusMessage = styled.div`
   border-radius: 8px;
   background: ${colors.lightBg};
   border-left: 4px solid;
-  
+
   &.pending {
     border-color: ${colors.goldenYellow};
     background: ${colors.goldenYellow}10;
@@ -224,7 +224,7 @@ const ActionCard = styled.div`
   padding: 1.5rem;
   margin-top: 1.5rem;
   border: 1px solid ${colors.beigeSableux};
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 `;
 
 const TribunalInfo = styled.div`
@@ -245,12 +245,13 @@ const ProgressBar = styled.div`
 
 const Progress = styled.div`
   height: 100%;
-  background: ${props => props.status === "completed" 
-    ? colors.greenDark 
-    : props.status === "rejected" 
-      ? "#c53030" 
+  background: ${(props) =>
+    props.status === "completed"
+      ? colors.greenDark
+      : props.status === "rejected"
+      ? "#c53030"
       : colors.goldenYellow};
-  width: ${props => props.status === "pending" ? "60%" : "100%"};
+  width: ${(props) => (props.status === "pending" ? "60%" : "100%")};
   transition: width 0.3s ease;
 `;
 
@@ -270,9 +271,8 @@ function DemandeDetail() {
     const fetchDemande = async () => {
       try {
         const response = await fetch(
-
-         // `http://localhost:2027/api/demande/by-id/${id}`
-         `${import.meta.env.VITE_b}/api/demande/by-id/${id}`,
+          // `http://localhost:2027/api/demande/by-id/${id}`
+          `${import.meta.env.VITE_b}/api/demande/by-id/${id}`
         );
 
         if (!response.ok) {
@@ -318,18 +318,18 @@ function DemandeDetail() {
 
   const formatDateTime = (dateString) => {
     if (!dateString) return "Non spécifié";
-    const options = { 
-      day: '2-digit', 
-      month: 'long', 
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    const options = {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     };
     return new Date(dateString).toLocaleDateString("fr-FR", options);
   };
 
   const getDeliveryInstructions = (method) => {
-    switch(method) {
+    switch (method) {
       case "court":
         return "Vous pouvez le retirer au tribunal aux horaires d'ouverture.";
       case "mail":
@@ -342,7 +342,7 @@ function DemandeDetail() {
   };
 
   const getDeliveryDetails = (method) => {
-    switch(method) {
+    switch (method) {
       case "court":
         return "Présentez-vous au tribunal avec votre pièce d'identité et ce numéro de référence.";
       case "mail":
@@ -360,401 +360,414 @@ function DemandeDetail() {
 
   return (
     <div className=" bg-green-0">
-<Interfcehed/>
-        <Container>
-      <Header>
-        <BackButton onClick={() => navigate(-1)}>
-          <ArrowLeft size={18} />
-          
-        </BackButton>
-        <Title>{demande.reference}</Title>
-      </Header>
+      <Interfcehed />
+      <Container>
+        <Header>
+          <BackButton onClick={() => navigate(-1)}>
+            <ArrowLeft size={18} />
+          </BackButton>
+          <Title>{demande.reference}</Title>
+        </Header>
 
-      {/* Section Statut améliorée */}
-      <Section>
-        <SectionTitle>
-          <CheckCircle size={20} />
-          Statut du dossier
-        </SectionTitle>
-        
-        <ProgressBar>
-          <Progress status={demande.status} />
-        </ProgressBar>
-        
-        <StatusContainer>
-          <StatusBadge className={demande.status || "pending"}>
-            {getStatusIcon(demande.status || "pending")}
-            {demande.status === "pending"
-              ? "En traitement"
-              : demande.status === "completed"
-              ? "Prêt à être retiré"
-              : "Rejeté"}
-          </StatusBadge>
-          
-          <StatusMessage className={demande.status || "pending"}>
-            {demande.status === "pending" ? (
-              <>Votre dossier est en cours de traitement. Veuillez patienter.</>
-            ) : demande.status === "completed" ? (
-              <>Votre casier judiciaire est prêt. {getDeliveryInstructions(demande.deliveryMethod)}</>
-            ) : (
-              <>Votre demande a été rejetée. Veuillez contacter le tribunal pour plus d'informations.</>
-            )}
-          </StatusMessage>
-        </StatusContainer>
+        {/* Section Statut améliorée */}
+        <Section>
+          <SectionTitle>
+            <CheckCircle size={20} />
+            Statut du dossier
+          </SectionTitle>
 
-        {demande.status === "completed" && (
-          <ActionCard>
-            <h3 style={{ color: colors.greenDark, marginBottom: '1rem' }}>
-              <CheckCircle size={20} style={{ marginRight: '0.5rem' }} />
-              Prochaines étapes
-            </h3>
-            <p style={{ marginBottom: '1rem' }}>
-              {getDeliveryDetails(demande.deliveryMethod)}
-            </p>
-    { /*      <FileViewerButton>
+          <ProgressBar>
+            <Progress status={demande.status} />
+          </ProgressBar>
+
+          <StatusContainer>
+            <StatusBadge className={demande.status || "pending"}>
+              {getStatusIcon(demande.status || "pending")}
+              {demande.status === "pending"
+                ? "En traitement"
+                : demande.status === "completed"
+                ? "Prêt à être retiré"
+                : "Rejeté"}
+            </StatusBadge>
+
+            <StatusMessage className={demande.status || "pending"}>
+              {demande.status === "pending" ? (
+                <>
+                  Votre dossier est en cours de traitement. Veuillez patienter.
+                </>
+              ) : demande.status === "completed" ? (
+                <>
+                  Votre casier judiciaire est prêt.{" "}
+                  {getDeliveryInstructions(demande.deliveryMethod)}
+                </>
+              ) : (
+                <>
+                  Votre demande a été rejetée. Veuillez contacter le tribunal
+                  pour plus d'informations.
+                </>
+              )}
+            </StatusMessage>
+          </StatusContainer>
+
+          {demande.status === "completed" && (
+            <ActionCard>
+              <h3 style={{ color: colors.greenDark, marginBottom: "1rem" }}>
+                <CheckCircle size={20} style={{ marginRight: "0.5rem" }} />
+                Prochaines étapes
+              </h3>
+              <p style={{ marginBottom: "1rem" }}>
+                {getDeliveryDetails(demande.deliveryMethod)}
+              </p>
+              {/*      <FileViewerButton>
               <Download size={16} />
               Télécharger l'accusé de réception
             </FileViewerButton>*/}
 
-            {demande.deliveryMethod === "court" && (
-              <>
-                <h4 style={{ margin: '1.5rem 0 0.5rem', color: colors.blueMarine }}>
-                  <FileText size={18} style={{ marginRight: '0.5rem' }} />
-                  Documents à présenter
-                </h4>
-                <ul style={{ paddingLeft: '1.5rem' }}>
-                  <li>Pièce d'identité originale ou Passeport</li>
-                  <li>Ce récapitulatif (à imprimer)</li>
-                  <li>Numéro de référence: <strong>{demande.reference}</strong></li>
-                </ul>
-              </>
-            )}
-          </ActionCard>
-        )}
+              {demande.deliveryMethod === "court" && (
+                <>
+                  <h4
+                    style={{
+                      margin: "1.5rem 0 0.5rem",
+                      color: colors.blueMarine,
+                    }}
+                  >
+                    <FileText size={18} style={{ marginRight: "0.5rem" }} />
+                    Documents à présenter
+                  </h4>
+                  <ul style={{ paddingLeft: "1.5rem" }}>
+                    <li>Pièce d'identité originale ou Passeport</li>
+                    <li>Ce récapitulatif (à imprimer)</li>
+                    <li>
+                      Numéro de référence: <strong>{demande.reference}</strong>
+                    </li>
+                  </ul>
+                </>
+              )}
+            </ActionCard>
+          )}
 
-        {demande.status === "rejected" && (
-          <ActionCard>
-            <h3 style={{ color: '#c53030', marginBottom: '1rem' }}>
-              <AlertCircle size={20} style={{ marginRight: '0.5rem' }} />
-              Motif du rejet
+          {demande.status === "rejected" && (
+            <ActionCard>
+              <h3 style={{ color: "#c53030", marginBottom: "1rem" }}>
+                <AlertCircle size={20} style={{ marginRight: "0.5rem" }} />
+                Motif du rejet
+              </h3>
+              <p>
+                Veuillez contacter le tribunal pour connaître les raisons
+                précises du rejet de votre demande.
+              </p>
+            </ActionCard>
+          )}
+
+          <TribunalInfo>
+            <h3 style={{ color: colors.blueMarine, marginBottom: "1rem" }}>
+              <MapPin size={20} style={{ marginRight: "0.5rem" }} />
+              Tribunal compétent
             </h3>
-            <p>Veuillez contacter le tribunal pour connaître les raisons précises du rejet de votre demande.</p>
-          </ActionCard>
-        )}
+            <p>
+              <strong>Adresse :</strong> Tribunal de Guinée, Place du Palais,
+              Conakry
+            </p>
+            <p>
+              <strong>Horaires :</strong> Lundi-Vendredi, 8h-15h
+            </p>
+            <p>
+              <strong>Téléphone :</strong> +224 612 254 254
+            </p>
+          </TribunalInfo>
+        </Section>
 
-        <TribunalInfo>
-          <h3 style={{ color: colors.blueMarine, marginBottom: '1rem' }}>
-            <MapPin size={20} style={{ marginRight: '0.5rem' }} />
-            Tribunal compétent
-          </h3>
-          <p>
-            <strong>Adresse :</strong> Tribunal de Guinée, Place du Palais, Conakry
-          </p>
-          <p>
-            <strong>Horaires :</strong> Lundi-Vendredi, 8h-15h
-          </p>
-          <p>
-            <strong>Téléphone :</strong> +224 612 254 254
-          </p>
-        </TribunalInfo>
-      </Section>
-
-      {/* Section Informations personnelles */}
-      <Section>
-        <SectionTitle>
-          <User size={20} />
-          Informations personnelles
-        </SectionTitle>
-        <InfoGrid>
-          <InfoItem>
-            <IconWrapper>
-              <Hand size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Nom complet</Label>
-              <Value>
-                {demande.personalInfo.lastName} {demande.personalInfo.firstName}
-              </Value>
-            </InfoContent>
-          </InfoItem>
-          <InfoItem>
-            <IconWrapper>
-              <Snowflake size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Nom du père</Label>
-              <Value>
-                {demande.personalInfo.firstName1 &&
-                  ` ${demande.personalInfo.firstName1}`}
-              </Value>
-            </InfoContent>
-          </InfoItem>
-          <InfoItem>
-            <IconWrapper>
-              <HandHeart size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Mère</Label>
-              <Value>
-                {demande.personalInfo.firstName2 &&
-                  ` ${demande.personalInfo.firstName2}`}
-              </Value>
-            </InfoContent>
-          </InfoItem>
-          <InfoItem>
-            <IconWrapper>
-              <Calendar size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Date de naissance</Label>
-              <Value>{formatDate(demande.personalInfo.birthDate)}</Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <MapPin size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Lieu de naissance</Label>
-              <Value>{demande.personalInfo.birthPlace}</Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <Briefcase size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Situation familiale</Label>
-              <Value>
-                {demande.personalInfo.situationFamiliale
-                  .charAt(0)
-                  .toUpperCase() +
-                  demande.personalInfo.situationFamiliale.slice(1)}
-              </Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <Briefcase size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Profession</Label>
-              <Value>{demande.personalInfo.profession}</Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <Globe size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Pays de naissance</Label>
-              <Value>{demande.personalInfo.pays}</Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <Globe size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Nationalité</Label>
-              <Value>{demande.personalInfo.nationalite}</Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <Globe size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Pays de résidence</Label>
-              <Value>{demande.personalInfo.payss}</Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <MapPin size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Domicile</Label>
-              <Value>{demande.personalInfo.villecommune}</Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <Home size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Adresse</Label>
-              <Value>{demande.personalInfo.address}</Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <Mail size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Email</Label>
-              <Value>{demande.personalInfo.email}</Value>
-            </InfoContent>
-          </InfoItem>
-
-          <InfoItem>
-            <IconWrapper>
-              <Phone size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Téléphone</Label>
-              <Value>{demande.personalInfo.phone}</Value>
-            </InfoContent>
-          </InfoItem>
-        </InfoGrid>
-      </Section>
-
-      {/* Section Mode de livraison */}
-      <Section>
-        <SectionTitle>
-          <Briefcase size={20} />
-          Mode de livraison
-        </SectionTitle>
-        <InfoItem>
-          <IconWrapper>
-            <Briefcase size={16} />
-          </IconWrapper>
-          <InfoContent>
-            <Label>Méthode choisie</Label>
-            <Value>
-              {demande.deliveryMethod === "court"
-                ? "Retrait au tribunal"
-                : demande.deliveryMethod === "mail"
-                ? "Courrier postal"
-                : "Email sécurisé"}
-            </Value>
-          </InfoContent>
-        </InfoItem>
-      </Section>
-
-      {/* Section Pièces jointes */}
-      <Section>
-        <SectionTitle>
-          <Download size={20} />
-          Pièces jointes
-        </SectionTitle>
-        <InfoGrid>
-          <InfoItem>
-
-            <InfoContent>
-             
-              {demande.contactInfo?.piece1 ? (
-                <>
-                  <FileViewerButton
-                    onClick={() => window.open(
-                      `http://localhost:2027/${path.basename(
-                        demande.contactInfo.piece1
-                      )}`,
-                      '_blank'
-                    )}
-                  >
-                    <Eye size={16} />
-                    Ouvrir
-                  </FileViewerButton>
-                  <FileViewerContainer>
-                    <FileViewer
-                      src={`http://localhost:2027/${path.basename(
-                        demande.contactInfo.piece1
-                      )}`}
-                      title="Pièce justificative 1"
-                    />
-                  </FileViewerContainer>
-                </>
-              ) : (
-                <Value>Non fournie</Value>
-              )}
-            </InfoContent>
-          </InfoItem>
-          <InfoItem>
-          
-            <InfoContent>
-            
-              {demande.contactInfo?.piece1 ? (
-                <>
-                  <FileViewerButton
-                    onClick={() => window.open(
-                      `${import.meta.env.VITE_b}/${path.basename(
-                        demande.contactInfo.piece1
-                      )}`,
-                      '_blank'
-                    )}
-                  >
-                    <Eye size={16} />
-                    Ouvrir
-                  </FileViewerButton>
-                  <FileViewerContainer>
-
-                    <FileViewer
-                      src={`${import.meta.env.VITE_b}/${path.basename(
-                        demande.contactInfo.piece2
-                      )}`}
-                      title="Pièce justificative 2"
-                    />
-                  </FileViewerContainer>
-                </>
-              ) : (
-                <Value>Non fournie</Value>
-              )}
-            </InfoContent>
-          </InfoItem>
-        </InfoGrid>
-      </Section>
-
-      {/* Section Dates */}
-      <Section>
-        <SectionTitle>
-          <Calendar size={20} />
-          Dates importantes
-        </SectionTitle>
-        <InfoGrid>
-          <InfoItem>
-            <IconWrapper>
-              <Calendar size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Date de création</Label>
-              <Value>
-                {formatDateTime(demande.createdAt)}
-              </Value>
-            </InfoContent>
-          </InfoItem>
-          {demande.updatedAt && (
+        {/* Section Informations personnelles */}
+        <Section>
+          <SectionTitle>
+            <User size={20} />
+            Informations personnelles
+          </SectionTitle>
+          <InfoGrid>
+            <InfoItem>
+              <IconWrapper>
+                <Hand size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Nom complet</Label>
+                <Value>
+                  {demande.personalInfo.lastName}{" "}
+                  {demande.personalInfo.firstName}
+                </Value>
+              </InfoContent>
+            </InfoItem>
+            <InfoItem>
+              <IconWrapper>
+                <Snowflake size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Nom du père</Label>
+                <Value>
+                  {demande.personalInfo.firstName1 &&
+                    ` ${demande.personalInfo.firstName1}`}
+                </Value>
+              </InfoContent>
+            </InfoItem>
+            <InfoItem>
+              <IconWrapper>
+                <HandHeart size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Mère</Label>
+                <Value>
+                  {demande.personalInfo.firstName2 &&
+                    ` ${demande.personalInfo.firstName2}`}
+                </Value>
+              </InfoContent>
+            </InfoItem>
             <InfoItem>
               <IconWrapper>
                 <Calendar size={16} />
               </IconWrapper>
               <InfoContent>
-                <Label>Dernière mise à jour</Label>
+                <Label>Date de naissance</Label>
+                <Value>{formatDate(demande.personalInfo.birthDate)}</Value>
+              </InfoContent>
+            </InfoItem>
+
+            <InfoItem>
+              <IconWrapper>
+                <MapPin size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Lieu de naissance</Label>
+                <Value>{demande.personalInfo.birthPlace}</Value>
+              </InfoContent>
+            </InfoItem>
+
+            <InfoItem>
+              <IconWrapper>
+                <Briefcase size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Situation familiale</Label>
                 <Value>
-                  {formatDateTime(demande.updatedAt)}
+                  {demande.personalInfo.situationFamiliale
+                    .charAt(0)
+                    .toUpperCase() +
+                    demande.personalInfo.situationFamiliale.slice(1)}
                 </Value>
               </InfoContent>
             </InfoItem>
-          )}
-        </InfoGrid>
-      </Section>
 
-      <PrintButton onClick={() => window.print()}>
-        <Printer size={16} />
-        Imprimer ce récapitulatif
-      </PrintButton>
-    </Container>
+            <InfoItem>
+              <IconWrapper>
+                <Briefcase size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Profession</Label>
+                <Value>{demande.personalInfo.profession}</Value>
+              </InfoContent>
+            </InfoItem>
+
+            <InfoItem>
+              <IconWrapper>
+                <Globe size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Pays de naissance</Label>
+                <Value>{demande.personalInfo.pays}</Value>
+              </InfoContent>
+            </InfoItem>
+
+            <InfoItem>
+              <IconWrapper>
+                <Globe size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Nationalité</Label>
+                <Value>{demande.personalInfo.nationalite}</Value>
+              </InfoContent>
+            </InfoItem>
+
+            <InfoItem>
+              <IconWrapper>
+                <Globe size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Pays de résidence</Label>
+                <Value>{demande.personalInfo.payss}</Value>
+              </InfoContent>
+            </InfoItem>
+
+            <InfoItem>
+              <IconWrapper>
+                <MapPin size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Domicile</Label>
+                <Value>{demande.personalInfo.villecommune}</Value>
+              </InfoContent>
+            </InfoItem>
+
+            <InfoItem>
+              <IconWrapper>
+                <Home size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Adresse</Label>
+                <Value>{demande.personalInfo.address}</Value>
+              </InfoContent>
+            </InfoItem>
+
+            <InfoItem>
+              <IconWrapper>
+                <Mail size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Email</Label>
+                <Value>{demande.personalInfo.email}</Value>
+              </InfoContent>
+            </InfoItem>
+
+            <InfoItem>
+              <IconWrapper>
+                <Phone size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Téléphone</Label>
+                <Value>{demande.personalInfo.phone}</Value>
+              </InfoContent>
+            </InfoItem>
+          </InfoGrid>
+        </Section>
+
+        {/* Section Mode de livraison */}
+        <Section>
+          <SectionTitle>
+            <Briefcase size={20} />
+            Mode de livraison
+          </SectionTitle>
+          <InfoItem>
+            <IconWrapper>
+              <Briefcase size={16} />
+            </IconWrapper>
+            <InfoContent>
+              <Label>Méthode choisie</Label>
+              <Value>
+                {demande.deliveryMethod === "court"
+                  ? "Retrait au tribunal"
+                  : demande.deliveryMethod === "mail"
+                  ? "Courrier postal"
+                  : "Email sécurisé"}
+              </Value>
+            </InfoContent>
+          </InfoItem>
+        </Section>
+
+        {/* Section Pièces jointes */}
+        <Section>
+          <SectionTitle>
+            <Download size={20} />
+            Pièces jointes
+          </SectionTitle>
+          <InfoGrid>
+            <InfoItem>
+              <InfoContent>
+                {demande.contactInfo?.piece1 ? (
+                  <>
+                    <FileViewerButton
+                      onClick={() =>
+                        window.open(
+                          `${import.meta.env.VITE_b}/${path.basename(
+                            demande.contactInfo.piece1
+                          )}`,
+                          "_blank"
+                        )
+                      }
+                    >
+                      <Eye size={16} />
+                      Ouvrir
+                    </FileViewerButton>
+                    <FileViewerContainer>
+                      <FileViewer
+                        src={`${import.meta.env.VITE_b}/${path.basename(
+                          demande.contactInfo.piece1
+                        )}`}
+                        title="Pièce justificative 1"
+                      />
+                    </FileViewerContainer>
+                  </>
+                ) : (
+                  <Value>Non fournie</Value>
+                )}
+              </InfoContent>
+            </InfoItem>
+            <InfoItem>
+              <InfoContent>
+                {demande.contactInfo?.piece1 ? (
+                  <>
+                    <FileViewerButton
+                      onClick={() =>
+                        window.open(
+                          `${import.meta.env.VITE_b}/${path.basename(
+                            demande.contactInfo.piece1
+                          )}`,
+                          "_blank"
+                        )
+                      }
+                    >
+                      <Eye size={16} />
+                      Ouvrir
+                    </FileViewerButton>
+                    <FileViewerContainer>
+                      <FileViewer
+                        src={`${import.meta.env.VITE_b}/${path.basename(
+                          demande.contactInfo.piece2
+                        )}`}
+                        title="Pièce justificative 2"
+                      />
+                    </FileViewerContainer>
+                  </>
+                ) : (
+                  <Value>Non fournie</Value>
+                )}
+              </InfoContent>
+            </InfoItem>
+          </InfoGrid>
+        </Section>
+
+        {/* Section Dates */}
+        <Section>
+          <SectionTitle>
+            <Calendar size={20} />
+            Dates importantes
+          </SectionTitle>
+          <InfoGrid>
+            <InfoItem>
+              <IconWrapper>
+                <Calendar size={16} />
+              </IconWrapper>
+              <InfoContent>
+                <Label>Date de création</Label>
+                <Value>{formatDateTime(demande.createdAt)}</Value>
+              </InfoContent>
+            </InfoItem>
+            {demande.updatedAt && (
+              <InfoItem>
+                <IconWrapper>
+                  <Calendar size={16} />
+                </IconWrapper>
+                <InfoContent>
+                  <Label>Dernière mise à jour</Label>
+                  <Value>{formatDateTime(demande.updatedAt)}</Value>
+                </InfoContent>
+              </InfoItem>
+            )}
+          </InfoGrid>
+        </Section>
+
+        <PrintButton onClick={() => window.print()}>
+          <Printer size={16} />
+          Imprimer ce récapitulatif
+        </PrintButton>
+      </Container>
     </div>
-  
   );
 }
 
