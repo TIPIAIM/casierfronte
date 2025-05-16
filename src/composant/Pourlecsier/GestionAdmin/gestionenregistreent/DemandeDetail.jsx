@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import {
   CheckCircle,
   Clock,
@@ -20,276 +20,458 @@ import {
   HandHeart,
   Printer,
   FileText,
-  View,
   Eye,
+  X,
+  ChevronDown,
+  ChevronUp,
+  Shield,
+  FileSignature,
+  ClipboardCheck
 } from "lucide-react";
 import path from "path-browserify";
-import Interfcehed from "../../../interface/Interfceheddetil";
-
-// Palette de couleurs
+ 
+// Palette de couleurs professionnelle
 const colors = {
-  blueMarine: "#002B5B",
-  greenDark: "#1A4D2E",
-  goldenYellow: "#F2C94C",
+  primary: "#1A4D2E", // Vert foncé professionnel
+  secondary: "#FF9F29", // Orange vif pour les accents
+  accent: "#003566", // Bleu marine
+  light: "#FAF3E3", // Beige clair
+  dark: "#1E1E1E", // Noir pour textes
+  success: "#28A745", // Vert succès
+  warning: "#FFC107", // Jaune avertissement
+  danger: "#DC3545", // Rouge danger
+  info: "#17A2B8", // Bleu info
   white: "#FFFFFF",
-  bleuProfond: "#003566",
-  beigeSableux: "#F2E9DC",
-  lightBg: "#F8F6F2",
+  gray100: "#F8F9FA",
+  gray200: "#E9ECEF",
+  gray500: "#6C757D"
 };
 
-// Styles
-const Container = styled.div`
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 2rem;
-  //background: ${colors.bleuProfond};
-  border-radius: 8px;
-  // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ 
+// Animation
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 `;
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-  border-bottom: 2px solid ${colors.blueMarine};
-  padding-bottom: 1rem;
+ 
+
+
+// Styles globaux
+const GlobalStyles = styled.div`
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+  color: ${colors.dark};
 `;
 
-const BackButton = styled.button`
-  background: ${colors.blueMarine};
+// Header professionnel
+const ProfessionalHeader = styled.div`
+  background: linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%);
   color: ${colors.white};
-  border: none;
-
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-right: 1rem;
-  &:hover {
-    background: ${colors.bleuProfond};
+  padding: 2rem;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
   }
 `;
 
-const Title = styled.h1`
-  color: ${colors.blueMarine};
-  font-size: 1.8rem;
+const HeaderContent = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
-const Section = styled.div`
+const HeaderTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const HeaderTitle = styled.h1`
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  svg {
+    color: ${colors.secondary};
+  }
+`;
+
+const HeaderSubtitle = styled.p`
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0.5rem 0 0;
+`;
+
+const StatusIndicator = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+`;
+
+const StatusBadge = styled.div`
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: ${props => 
+    props.status === "completed" ? colors.success : 
+    props.status === "pending" ? colors.warning : 
+    colors.danger};
+  color: ${props => 
+    props.status === "pending" ? colors.dark : 
+    colors.white};
+  animation: ${fadeIn} 0.3s ease-out;
+`;
+
+const ProgressContainer = styled.div`
+  flex-grow: 1;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  height: 8px;
+  overflow: hidden;
+`;
+
+const ProgressBar = styled.div`
+  height: 100%;
+  background: ${colors.secondary};
+  width: ${props => 
+    props.status === "completed" ? "100%" : 
+    props.status === "pending" ? "60%" : 
+    "100%"};
+  transition: width 0.5s ease-in-out;
+`;
+
+// Styles principaux
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+  animation: ${fadeIn} 0.5s ease-out;
+`;
+
+const Section = styled.section`
+  background: ${colors.white};
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
   margin-bottom: 2rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const SectionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
 `;
 
 const SectionTitle = styled.h2`
-  color: ${colors.blueMarine};
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: ${colors.primary};
+  margin: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  border-bottom: 1px solid ${colors.beigeSableux};
-  padding-bottom: 0.5rem;
+  gap: 0.75rem;
+  
+  svg {
+    color: ${colors.secondary};
+  }
+`;
+
+const SectionContent = styled.div`
+  display: ${props => props.isOpen ? 'block' : 'none'};
+  animation: ${fadeIn} 0.3s ease-out;
 `;
 
 const InfoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
-  @media (max-width: 600px) {
+  
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
 `;
 
-const InfoItem = styled.div`
+const InfoCard = styled.div`
+  background: ${colors.gray100};
+  border-radius: 10px;
+  padding: 1.25rem;
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: ${colors.gray200};
+    transform: translateY(-2px);
+  }
 `;
 
-const IconWrapper = styled.div`
-  color: ${colors.blueMarine};
+const InfoIcon = styled.div`
+  background: ${colors.primary};
+  color: ${colors.white};
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: flex;
-  align-items: flex-start;
-  padding-top: 0.2rem;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const InfoContent = styled.div`
   flex: 1;
 `;
 
-const Label = styled.div`
+const InfoLabel = styled.div`
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: ${colors.gray500};
+  margin-bottom: 0.25rem;
+`;
+
+const InfoValue = styled.div`
+  font-weight: 500;
+  color: ${colors.dark};
+`;
+
+// Boutons
+const PrimaryButton = styled.button`
+  background: ${colors.primary};
+  color: ${colors.white};
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
   font-weight: 600;
-  color: ${colors.bleuProfond};
-  margin-bottom: 0.3rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
-const Value = styled.div`
-  color: #333;
-  padding-left: 1.5rem;
-`;
-
-const StatusBadge = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  &.pending {
-    background: ${colors.goldenYellow}15;
-    color: ${colors.goldenYellow};
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(26, 77, 46, 0.2);
+  
+  &:hover {
+    background: ${colors.accent};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(26, 77, 46, 0.3);
   }
-  &.completed {
-    background: ${colors.greenDark}15;
-    color: ${colors.greenDark};
-  }
-  &.rejected {
-    background: #c5303015;
-    color: #c53030;
+  
+  &:active {
+    transform: translateY(0);
   }
 `;
 
-const FileViewerContainer = styled.div`
-  margin-top: 1rem;
-  border: 1px solid ${colors.beigeSableux};
+const SecondaryButton = styled(PrimaryButton)`
+  background: ${colors.white};
+  color: ${colors.primary};
+  border: 1px solid ${colors.primary};
+  
+  &:hover {
+    background: ${colors.gray100};
+    color: ${colors.primary};
+  }
+`;
 
-  // padding: 1rem;
-  max-height: 500px;
-  overflow: auto;
+// Modal pour les fichiers
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+`;
+
+const ModalContent = styled.div`
+  background: ${colors.white};
+  border-radius: 2px;
+  width: 70%;
+  max-width: 1000px;
+  max-height: 95vh;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: ${fadeIn} 0.3s ease-out;
+`;
+
+const ModalHeader = styled.div`
+  padding: 0.5rem;
+  background: ${colors.primary};
+  color: ${colors.white};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+`;
+
+const ModalBody = styled.div`
+  padding: 0.5rem;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
 `;
 
 const FileViewer = styled.iframe`
-  width: 100%;
-  height: 100%;
-  min-height: 400px;
+  flex: 1;
   border: none;
+  border-radius: 1px;
+  background: ${colors.gray100};
 `;
 
-const FileViewerButton = styled.button`
+const DownloadButton = styled.a`
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.5rem 1rem;
-  background: ${colors.blueMarine};
+  gap: 0.5rem;
+  padding: 0.75rem 0.5rem;
+  background: ${colors.primary};
   color: ${colors.white};
-  border-radius: 4px;
+  border-radius: 50px;
   text-decoration: none;
-  margin-top: 0.5rem;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    background: ${colors.bleuProfond};
-  }
-`;
-
-const StatusContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  margin-bottom: 1.5rem;
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-const StatusMessage = styled.div`
-  flex: 1;
-  padding: 1rem;
-  border-radius: 8px;
-  background: ${colors.lightBg};
-  border-left: 4px solid;
-
-  &.pending {
-    border-color: ${colors.goldenYellow};
-    background: ${colors.goldenYellow}10;
-  }
-  &.completed {
-    border-color: ${colors.greenDark};
-    background: ${colors.greenDark}10;
-  }
-  &.rejected {
-    border-color: #c53030;
-    background: #c5303010;
-  }
-`;
-
-const ActionCard = styled.div`
-  background: ${colors.white};
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-top: 1.5rem;
-  border: 1px solid ${colors.beigeSableux};
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-`;
-
-const TribunalInfo = styled.div`
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: ${colors.blueMarine}05;
-  border-radius: 8px;
-  border: 1px dashed ${colors.blueMarine}30;
-`;
-
-const ProgressBar = styled.div`
-  height: 6px;
-  background: ${colors.beigeSableux};
-  border-radius: 3px;
-  margin: 1rem 0;
-  overflow: hidden;
-`;
-
-const Progress = styled.div`
-  height: 100%;
-  background: ${(props) =>
-    props.status === "completed"
-      ? colors.greenDark
-      : props.status === "rejected"
-      ? "#c53030"
-      : colors.goldenYellow};
-  width: ${(props) => (props.status === "pending" ? "60%" : "100%")};
-  transition: width 0.3s ease;
-`;
-
-const PrintButton = styled(FileViewerButton)`
-  background: ${colors.greenDark};
+  font-weight: 600;
   margin-top: 1rem;
+  align-self: center;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: ${colors.accent};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
 `;
 
+// Composant FileViewerModal
+const FileViewerModal = ({ fileUrl, onClose }) => {
+  const url = fileUrl?.url || fileUrl;
+  const fileName = fileUrl?.name || path.basename(url);
+  const fileExtension = fileName?.split('.').pop().toLowerCase();
+  
+  return (
+    <ModalOverlay onClick={onClose}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        <ModalHeader>
+          <h3>
+            <FileText size={20} />
+            {fileName}
+          </h3>
+          <SecondaryButton onClick={onClose}>
+            <X size={20} />
+          </SecondaryButton>
+        </ModalHeader>
+        
+        <ModalBody>
+          {fileExtension && ['pdf', 'png', 'jpg', 'jpeg'].includes(fileExtension) ? (
+            <FileViewer 
+              src={url} 
+              title={fileName}
+            />
+          ) : (
+            <div style={{ textAlign: 'center', margin: 'auto' }}>
+              <FileText size={64} color={colors.gray500} style={{ marginBottom: '1rem' }} />
+              <h4 style={{ color: colors.dark }}>Format non supporté pour la prévisualisation</h4>
+              <p style={{ color: colors.gray500 }}>Ce fichier ({fileExtension}) ne peut pas être affiché directement.</p>
+              
+              <DownloadButton 
+                href={url} 
+                download={fileName}
+              >
+                <Download size={18} />
+                Télécharger le fichier
+              </DownloadButton>
+            </div>
+          )}
+        </ModalBody>
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
+
+// Composant principal
 function DemandeDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [demande, setDemande] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [openSections, setOpenSections] = useState({
+    personalInfo: true,
+    delivery: true,
+    documents: true,
+    dates: true
+  });
 
   useEffect(() => {
     const fetchDemande = async () => {
       try {
-        const response = await fetch(
-          // `http://localhost:2027/api/demande/by-id/${id}`
-          `${import.meta.env.VITE_b}/api/demande/by-id/${id}`
-        );
+        setLoading(true);
+        const response = await fetch(`${import.meta.env.VITE_b}/api/demande/by-id/${id}`);
 
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Échec du chargement");
+          throw new Error("Échec du chargement des données");
         }
 
         const data = await response.json();
-
-        if (data.success) {
-          setDemande(data.data);
-        } else {
-          throw new Error(data.message || "Demande non trouvée");
-        }
+        setDemande(data.data);
       } catch (err) {
         setError(err.message);
-        console.error("Erreur:", err);
       } finally {
         setLoading(false);
       }
@@ -298,476 +480,460 @@ function DemandeDetail() {
     fetchDemande();
   }, [id]);
 
+  const toggleSection = (section) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   const getStatusIcon = (status) => {
     switch (status) {
-      case "completed":
-        return <CheckCircle size={16} />;
-      case "pending":
-        return <Clock size={16} />;
-      case "rejected":
-        return <AlertCircle size={16} />;
-      default:
-        return <Clock size={16} />;
+      case "completed": return <CheckCircle size={18}  />;
+      case "pending": return <Clock size={18}  className=" animate-spin "/>;
+      case "rejected": return <AlertCircle size={18} />;
+      default: return <Clock size={18} />;
     }
   };
 
   const formatDate = (dateString) => {
     if (!dateString) return "Non spécifié";
-    return new Date(dateString).toLocaleDateString("fr-FR");
+    return new Date(dateString).toLocaleDateString("fr-FR", {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
   };
 
   const formatDateTime = (dateString) => {
     if (!dateString) return "Non spécifié";
-    const options = {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-    return new Date(dateString).toLocaleDateString("fr-FR", options);
+    return new Date(dateString).toLocaleDateString("fr-FR", {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
-  const getDeliveryInstructions = (method) => {
-    switch (method) {
-      case "court":
-        return "Vous pouvez le retirer au tribunal aux horaires d'ouverture.";
-      case "mail":
-        return "Il vous sera envoyé par courrier postal à l'adresse indiquée.";
-      case "email":
-        return "Il vous sera envoyé par email sécurisé dans les 24h.";
+  const getStatusMessage = (status) => {
+    switch (status) {
+      case "pending":
+        return "Votre demande est en cours de traitement. Nous vous informerons dès qu'elle sera complétée.";
+      case "completed":
+        return "Votre demande a été traitée avec succès. Vous pouvez maintenant récupérer votre document.";
+      case "rejected":
+        return "Votre demande n'a pas pu être traitée. Contactez-nous pour plus d'informations.";
       default:
-        return "";
+        return "Statut inconnu";
     }
   };
 
-  const getDeliveryDetails = (method) => {
-    switch (method) {
-      case "court":
-        return "Présentez-vous au tribunal avec votre pièce d'identité et ce numéro de référence.";
-      case "mail":
-        return "Votre document sera envoyé à l'adresse postale renseignée dans votre demande.";
-      case "email":
-        return "Vous recevrez un email sécurisé avec les instructions pour télécharger votre document.";
-      default:
-        return "";
-    }
-  };
+  if (loading) return (
+    <GlobalStyles>
+      <Container style={{ textAlign: 'center', padding: '4rem' }}>
+        <div style={{ 
+          width: '60px', 
+          height: '60px', 
+          border: `5px solid ${colors.gray200}`,
+          borderTopColor: colors.primary,
+          borderRadius: '50%',
+          margin: '0 auto 1.5rem',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <h3 style={{ color: colors.primary }}>Chargement en cours</h3>
+        <p style={{ color: colors.gray500 }}>Nous récupérons les détails de votre demande...</p>
+      </Container>
+    </GlobalStyles>
+  );
 
-  if (loading) return <Container>Chargement en cours...</Container>;
-  if (error) return <Container>Erreur: {error}</Container>;
-  if (!demande) return <Container>Demande non trouvée</Container>;
+  if (error) return (
+    <GlobalStyles>
+      <Container style={{ textAlign: 'center', padding: '4rem' }}>
+        <AlertCircle size={48} color={colors.danger} style={{ marginBottom: '1rem' }} />
+        <h3 style={{ color: colors.danger }}>Erreur de chargement</h3>
+        <p style={{ color: colors.gray500 }}>{error}</p>
+        <PrimaryButton onClick={() => window.location.reload()}>
+          Réessayer
+        </PrimaryButton>
+      </Container>
+    </GlobalStyles>
+  );
+
+  if (!demande) return (
+    <GlobalStyles>
+      <Container style={{ textAlign: 'center', padding: '4rem' }}>
+        <FileText size={48} color={colors.gray500} style={{ marginBottom: '1rem' }} />
+        <h3 style={{ color: colors.primary }}>Demande introuvable</h3>
+        <p style={{ color: colors.gray500 }}>La demande que vous recherchez n'existe pas ou a été supprimée.</p>
+        <PrimaryButton onClick={() => navigate(-1)}>
+          <ArrowLeft size={18} />
+          Retour
+        </PrimaryButton>
+      </Container>
+    </GlobalStyles>
+  );
 
   return (
-    <div className=" bg-green-0">
-      <Interfcehed />
-      <Container>
-        <Header>
-          <BackButton onClick={() => navigate(-1)}>
-            <ArrowLeft size={18} />
-          </BackButton>
-          <Title>{demande.reference}</Title>
-        </Header>
-
-        {/* Section Statut améliorée */}
-        <Section>
-          <SectionTitle>
-            <CheckCircle size={20} />
-            Statut du dossier
-          </SectionTitle>
-
-          <ProgressBar>
-            <Progress status={demande.status} />
-          </ProgressBar>
-
-          <StatusContainer>
-            <StatusBadge className={demande.status || "pending"}>
-              {getStatusIcon(demande.status || "pending")}
-              {demande.status === "pending"
-                ? "En traitement"
-                : demande.status === "completed"
-                ? "Prêt à être retiré"
-                : "Rejeté"}
+    <GlobalStyles>
+     
+      
+      {/* Header professionnel */}
+      <ProfessionalHeader>
+        <HeaderContent>
+          <HeaderTop>
+            <PrimaryButton onClick={() => navigate(-1)}>
+              <ArrowLeft size={18} />
+            
+            </PrimaryButton>
+            
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>Référence</div>
+              <div style={{ fontWeight: '600', fontSize: '1.1rem' }}>{demande.reference}</div>
+            </div>
+          </HeaderTop>
+          
+          <HeaderTitle>
+            <Shield size={28} />
+            Détails de la demande de casier judiciaire
+          </HeaderTitle>
+          
+          <HeaderSubtitle>
+            Visualisez l'état et les informations de votre demande en temps réel
+          </HeaderSubtitle>
+          
+          <StatusIndicator>
+            <StatusBadge status={demande.status}>
+              {getStatusIcon(demande.status)}
+              {demande.status === "pending" ? "En traitement" : 
+               demande.status === "completed" ? "Complétée" : "Rejetée"}
             </StatusBadge>
+            
+            <ProgressContainer>
+              <ProgressBar status={demande.status} />
+            </ProgressContainer>
+          </StatusIndicator>
+        </HeaderContent>
+      </ProfessionalHeader>
 
-            <StatusMessage className={demande.status || "pending"}>
-              {demande.status === "pending" ? (
-                <>
-                  Votre dossier est en cours de traitement. Veuillez patienter.
-                </>
-              ) : demande.status === "completed" ? (
-                <>
-                  Votre casier judiciaire est prêt.{" "}
-                  {getDeliveryInstructions(demande.deliveryMethod)}
-                </>
-              ) : (
-                <>
-                  Votre demande a été rejetée. Veuillez contacter le tribunal
-                  pour plus d'informations.
-                </>
-              )}
-            </StatusMessage>
-          </StatusContainer>
-
-          {demande.status === "completed" && (
-            <ActionCard>
-              <h3 style={{ color: colors.greenDark, marginBottom: "1rem" }}>
-                <CheckCircle size={20} style={{ marginRight: "0.5rem" }} />
-                Prochaines étapes
-              </h3>
-              <p style={{ marginBottom: "1rem" }}>
-                {getDeliveryDetails(demande.deliveryMethod)}
-              </p>
-              {/*      <FileViewerButton>
-              <Download size={16} />
-              Télécharger l'accusé de réception
-            </FileViewerButton>*/}
-
-              {demande.deliveryMethod === "court" && (
-                <>
-                  <h4
-                    style={{
-                      margin: "1.5rem 0 0.5rem",
-                      color: colors.blueMarine,
-                    }}
-                  >
-                    <FileText size={18} style={{ marginRight: "0.5rem" }} />
-                    Documents à présenter
-                  </h4>
-                  <ul style={{ paddingLeft: "1.5rem" }}>
-                    <li>Pièce d'identité originale ou Passeport</li>
-                    <li>Ce récapitulatif (à imprimer)</li>
-                    <li>
-                      Numéro de référence: <strong>{demande.reference}</strong>
-                    </li>
-                  </ul>
-                </>
-              )}
-            </ActionCard>
-          )}
-
-          {demande.status === "rejected" && (
-            <ActionCard>
-              <h3 style={{ color: "#c53030", marginBottom: "1rem" }}>
-                <AlertCircle size={20} style={{ marginRight: "0.5rem" }} />
-                Motif du rejet
-              </h3>
-              <p>
-                Veuillez contacter le tribunal pour connaître les raisons
-                précises du rejet de votre demande.
-              </p>
-            </ActionCard>
-          )}
-
-          <TribunalInfo>
-            <h3 style={{ color: colors.blueMarine, marginBottom: "1rem" }}>
-              <MapPin size={20} style={{ marginRight: "0.5rem" }} />
-              Tribunal compétent
-            </h3>
-            <p>
-              <strong>Adresse :</strong> Tribunal de Guinée, Place du Palais,
-              Conakry
-            </p>
-            <p>
-              <strong>Horaires :</strong> Lundi-Vendredi, 8h-15h
-            </p>
-            <p>
-              <strong>Téléphone :</strong> +224 612 254 254
-            </p>
-          </TribunalInfo>
-        </Section>
-
+      <Container>
         {/* Section Informations personnelles */}
         <Section>
-          <SectionTitle>
-            <User size={20} />
-            Informations personnelles
-          </SectionTitle>
-          <InfoGrid>
-            <InfoItem>
-              <IconWrapper>
-                <Hand size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Nom complet</Label>
-                <Value>
-                  {demande.personalInfo.lastName}{" "}
-                  {demande.personalInfo.firstName}
-                </Value>
-              </InfoContent>
-            </InfoItem>
-            <InfoItem>
-              <IconWrapper>
-                <Snowflake size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Nom du père</Label>
-                <Value>
-                  {demande.personalInfo.firstName1 &&
-                    ` ${demande.personalInfo.firstName1}`}
-                </Value>
-              </InfoContent>
-            </InfoItem>
-            <InfoItem>
-              <IconWrapper>
-                <HandHeart size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Mère</Label>
-                <Value>
-                  {demande.personalInfo.firstName2 &&
-                    ` ${demande.personalInfo.firstName2}`}
-                </Value>
-              </InfoContent>
-            </InfoItem>
-            <InfoItem>
-              <IconWrapper>
-                <Calendar size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Date de naissance</Label>
-                <Value>{formatDate(demande.personalInfo.birthDate)}</Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <MapPin size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Lieu de naissance</Label>
-                <Value>{demande.personalInfo.birthPlace}</Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <Briefcase size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Situation familiale</Label>
-                <Value>
-                  {demande.personalInfo.situationFamiliale
-                    .charAt(0)
-                    .toUpperCase() +
-                    demande.personalInfo.situationFamiliale.slice(1)}
-                </Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <Briefcase size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Profession</Label>
-                <Value>{demande.personalInfo.profession}</Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <Globe size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Pays de naissance</Label>
-                <Value>{demande.personalInfo.pays}</Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <Globe size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Nationalité</Label>
-                <Value>{demande.personalInfo.nationalite}</Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <Globe size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Pays de résidence</Label>
-                <Value>{demande.personalInfo.payss}</Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <MapPin size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Domicile</Label>
-                <Value>{demande.personalInfo.villecommune}</Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <Home size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Adresse</Label>
-                <Value>{demande.personalInfo.address}</Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <Mail size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Email</Label>
-                <Value>{demande.personalInfo.email}</Value>
-              </InfoContent>
-            </InfoItem>
-
-            <InfoItem>
-              <IconWrapper>
-                <Phone size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Téléphone</Label>
-                <Value>{demande.personalInfo.phone}</Value>
-              </InfoContent>
-            </InfoItem>
-          </InfoGrid>
+          <SectionHeader onClick={() => toggleSection('personalInfo')}>
+            <SectionTitle>
+              <User size={20} />
+              Informations personnelles
+            </SectionTitle>
+            {openSections.personalInfo ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </SectionHeader>
+          
+          <SectionContent isOpen={openSections.personalInfo}>
+            <InfoGrid>
+              <InfoCard>
+                <InfoIcon>
+                  <User size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Nom complet</InfoLabel>
+                  <InfoValue>{demande.personalInfo.lastName} {demande.personalInfo.firstName}</InfoValue>
+                </InfoContent>
+              </InfoCard>
+              
+              <InfoCard>
+                <InfoIcon>
+                  <Snowflake size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Nom du père</InfoLabel>
+                  <InfoValue>{demande.personalInfo.firstName1 || "Non spécifié"}</InfoValue>
+                </InfoContent>
+              </InfoCard>
+              
+              <InfoCard>
+                <InfoIcon>
+                  <HandHeart size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Nom de la mère</InfoLabel>
+                  <InfoValue>{demande.personalInfo.firstName2 || "Non spécifié"}</InfoValue>
+                </InfoContent>
+              </InfoCard>
+              
+              <InfoCard>
+                <InfoIcon>
+                  <Calendar size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Date de naissance</InfoLabel>
+                  <InfoValue>{formatDate(demande.personalInfo.birthDate)}</InfoValue>
+                </InfoContent>
+              </InfoCard>
+              
+              <InfoCard>
+                <InfoIcon>
+                  <MapPin size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Lieu de naissance</InfoLabel>
+                  <InfoValue>{demande.personalInfo.birthPlace || "Non spécifié"}</InfoValue>
+                </InfoContent>
+              </InfoCard>
+              
+              <InfoCard>
+                <InfoIcon>
+                  <Briefcase size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Profession</InfoLabel>
+                  <InfoValue>{demande.personalInfo.profession || "Non spécifié"}</InfoValue>
+                </InfoContent>
+              </InfoCard>
+              
+              <InfoCard>
+                <InfoIcon>
+                  <Globe size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Nationalité</InfoLabel>
+                  <InfoValue>{demande.personalInfo.nationalite || "Non spécifié"}</InfoValue>
+                </InfoContent>
+              </InfoCard>
+              
+              <InfoCard>
+                <InfoIcon>
+                  <Home size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Adresse</InfoLabel>
+                  <InfoValue>{demande.personalInfo.address || "Non spécifié"}</InfoValue>
+                </InfoContent>
+              </InfoCard>
+            </InfoGrid>
+          </SectionContent>
         </Section>
 
         {/* Section Mode de livraison */}
         <Section>
-          <SectionTitle>
-            <Briefcase size={20} />
-            Mode de livraison
-          </SectionTitle>
-          <InfoItem>
-            <IconWrapper>
-              <Briefcase size={16} />
-            </IconWrapper>
-            <InfoContent>
-              <Label>Méthode choisie</Label>
-              <Value>
-                {demande.deliveryMethod === "court"
-                  ? "Retrait au tribunal"
-                  : demande.deliveryMethod === "mail"
-                  ? "Courrier postal"
-                  : "Email sécurisé"}
-              </Value>
-            </InfoContent>
-          </InfoItem>
+          <SectionHeader onClick={() => toggleSection('delivery')}>
+            <SectionTitle>
+              <ClipboardCheck size={20} />
+              Mode de livraison
+            </SectionTitle>
+            {openSections.delivery ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </SectionHeader>
+          
+          <SectionContent isOpen={openSections.delivery}>
+            <InfoGrid>
+              <InfoCard>
+                <InfoIcon>
+                  <Briefcase size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Méthode choisie</InfoLabel>
+                  <InfoValue>
+                    {demande.deliveryMethod === "court" ? "Retrait au tribunal" : 
+                     demande.deliveryMethod === "mail" ? "Courrier postal" : 
+                     "Email sécurisé"}
+                  </InfoValue>
+                </InfoContent>
+              </InfoCard>
+              
+              <InfoCard>
+                <InfoIcon>
+                  <FileSignature size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Statut</InfoLabel>
+                  <InfoValue>
+                    <span style={{ 
+                      color: demande.status === "completed" ? colors.success : 
+                            demande.status === "pending" ? colors.warning : 
+                            colors.danger,
+                      fontWeight: '600'
+                    }}>
+                      {demande.status === "pending" ? "En préparation" : 
+                       demande.status === "completed" ? "Prêt pour livraison" : 
+                       "Livraison annulée"}
+                    </span>
+                  </InfoValue>
+                </InfoContent>
+              </InfoCard>
+              
+              {demande.status === "completed" && (
+                <InfoCard style={{ gridColumn: '1 / -1', background: colors.light }}>
+                  <InfoIcon style={{ background: colors.success }}>
+                    <CheckCircle size={16} />
+                  </InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Instructions</InfoLabel>
+                    <InfoValue>
+                      {getStatusMessage(demande.status)}
+                      {demande.deliveryMethod === "court" && (
+                        <div style={{ marginTop: '0.5rem' }}>
+                          <strong>Documents requis :</strong> Pièce d'identité originale et cette confirmation
+                        </div>
+                      )}
+                    </InfoValue>
+                  </InfoContent>
+                </InfoCard>
+              )}
+            </InfoGrid>
+          </SectionContent>
         </Section>
 
-        {/* Section Pièces jointes */}
+        {/* Section Documents */}
         <Section>
-          <SectionTitle>
-            <Download size={20} />
-            Pièces jointes
-          </SectionTitle>
-          <InfoGrid>
-            <InfoItem>
-              <InfoContent>
-                {demande.contactInfo?.piece1 ? (
-                  <>
-                    <FileViewerButton
-                      onClick={() =>
-                        window.open(
-                          `${import.meta.env.VITE_b}/${path.basename(
-                            demande.contactInfo.piece1
-                          )}`,
-                          "_blank"
-                        )
-                      }
-                    >
-                      <Eye size={16} />
-                      Afficher
-                    </FileViewerButton>
-                    <FileViewerContainer>
-                      <FileViewer
-                        src={`${import.meta.env.VITE_b}/${path.basename(
-                          demande.contactInfo.piece1
-                        )}`}
-                        title="Pièce justificative 1"
-                      />
-                    </FileViewerContainer>
-                  </>
-                ) : (
-                  <Value>Non fournie</Value>
-                )}
-              </InfoContent>
-            </InfoItem>
-            <InfoItem>
-              <InfoContent>
-                {demande.contactInfo?.piece1 ? (
-                  <>
-                    <FileViewerButton
-                      onClick={() =>
-                        window.open(
-                          `${import.meta.env.VITE_b}/${path.basename(
-                            demande.contactInfo.piece1
-                          )}`,
-                          "_blank"
-                        )
-                      }
-                    >
-                      <Eye size={16} />
-                      Afficher
-                    </FileViewerButton>
-                    <FileViewerContainer>
-                      <FileViewer
-                        src={`${import.meta.env.VITE_b}/${path.basename(
-                          demande.contactInfo.piece2
-                        )}`}
-                        title="Pièce justificative 2"
-                      />
-                    </FileViewerContainer>
-                  </>
-                ) : (
-                  <Value>Non fournie</Value>
-                )}
-              </InfoContent>
-            </InfoItem>
-          </InfoGrid>
+          <SectionHeader onClick={() => toggleSection('documents')}>
+            <SectionTitle>
+              <FileText size={20} />
+              Documents joints
+            </SectionTitle>
+            {openSections.documents ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </SectionHeader>
+          
+          <SectionContent isOpen={openSections.documents}>
+            <InfoGrid>
+              {demande.contactInfo?.piece1 ? (
+                <InfoCard 
+                  onClick={() => setSelectedFile({
+                    url: `${import.meta.env.VITE_b}/${path.basename(demande.contactInfo.piece1)}`,
+                    name: path.basename(demande.contactInfo.piece1)
+                  })}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <InfoIcon>
+                    <FileText size={16} />
+                  </InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Pièce jointe 1</InfoLabel>
+                    <InfoValue>{path.basename(demande.contactInfo.piece1)}</InfoValue>
+                    <div style={{ 
+                      marginTop: '0.5rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      color: colors.primary,
+                      fontSize: '0.85rem',
+                      fontWeight: '500'
+                    }}>
+                      <Eye size={14} />
+                      Afficher le document
+                    </div>
+                  </InfoContent>
+                </InfoCard>
+              ) : (
+                <InfoCard>
+                  <InfoIcon>
+                    <FileText size={16} />
+                  </InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Pièce jointe 1</InfoLabel>
+                    <InfoValue style={{ color: colors.gray500 }}>Aucun document fourni</InfoValue>
+                  </InfoContent>
+                </InfoCard>
+              )}
+              
+              {demande.contactInfo?.piece2 ? (
+                <InfoCard 
+                  onClick={() => setSelectedFile({
+                    url: `${import.meta.env.VITE_b}/${path.basename(demande.contactInfo.piece2)}`,
+                    name: path.basename(demande.contactInfo.piece2)
+                  })}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <InfoIcon>
+                    <FileText size={16} />
+                  </InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Pièce jointe 2</InfoLabel>
+                    <InfoValue>{path.basename(demande.contactInfo.piece2)}</InfoValue>
+                    <div style={{ 
+                      marginTop: '0.5rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      color: colors.primary,
+                      fontSize: '0.85rem',
+                      fontWeight: '500'
+                    }}>
+                      <Eye size={14} />
+                      Afficher le document
+                    </div>
+                  </InfoContent>
+                </InfoCard>
+              ) : (
+                <InfoCard>
+                  <InfoIcon>
+                    <FileText size={16} />
+                  </InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Pièce jointe 2</InfoLabel>
+                    <InfoValue style={{ color: colors.gray500 }}>Aucun document fourni</InfoValue>
+                  </InfoContent>
+                </InfoCard>
+              )}
+            </InfoGrid>
+          </SectionContent>
         </Section>
 
         {/* Section Dates */}
         <Section>
-          <SectionTitle>
-            <Calendar size={20} />
-            Dates importantes
-          </SectionTitle>
-          <InfoGrid>
-            <InfoItem>
-              <IconWrapper>
-                <Calendar size={16} />
-              </IconWrapper>
-              <InfoContent>
-                <Label>Date de création</Label>
-                <Value>{formatDateTime(demande.createdAt)}</Value>
-              </InfoContent>
-            </InfoItem>
-            {demande.updatedAt && (
-              <InfoItem>
-                <IconWrapper>
+          <SectionHeader onClick={() => toggleSection('dates')}>
+            <SectionTitle>
+              <Calendar size={20} />
+              Historique et dates
+            </SectionTitle>
+            {openSections.dates ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </SectionHeader>
+          
+          <SectionContent isOpen={openSections.dates}>
+            <InfoGrid>
+              <InfoCard>
+                <InfoIcon>
                   <Calendar size={16} />
-                </IconWrapper>
+                </InfoIcon>
                 <InfoContent>
-                  <Label>Dernière mise à jour</Label>
-                  <Value>{formatDateTime(demande.updatedAt)}</Value>
+                  <InfoLabel>Date de création</InfoLabel>
+                  <InfoValue>{formatDateTime(demande.createdAt)}</InfoValue>
                 </InfoContent>
-              </InfoItem>
-            )}
-          </InfoGrid>
+              </InfoCard>
+              
+              <InfoCard>
+                <InfoIcon>
+                  <Clock size={16} />
+                </InfoIcon>
+                <InfoContent>
+                  <InfoLabel>Dernière mise à jour</InfoLabel>
+                  <InfoValue>{formatDateTime(demande.updatedAt || demande.createdAt)}</InfoValue>
+                </InfoContent>
+              </InfoCard>
+            </InfoGrid>
+          </SectionContent>
         </Section>
 
-        <PrintButton onClick={() => window.print()}>
-          <Printer size={16} />
-          Imprimer ce récapitulatif
-        </PrintButton>
+        <div style={{ 
+          display: 'flex', 
+          gap: '1rem', 
+          justifyContent: 'center',
+          marginTop: '2rem',
+          flexWrap: 'wrap'
+        }}>
+           
+          
+          <SecondaryButton onClick={() => navigate(-1)}>
+            <ArrowLeft size={18} />
+            
+          </SecondaryButton>
+        </div>
       </Container>
-    </div>
+
+      {selectedFile && (
+        <FileViewerModal 
+          fileUrl={selectedFile}
+          onClose={() => setSelectedFile(null)}
+        />
+      )}
+    </GlobalStyles>
   );
 }
 
