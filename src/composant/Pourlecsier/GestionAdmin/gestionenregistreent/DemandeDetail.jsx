@@ -335,12 +335,21 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background: ${colors.white};
-  border-radius: 2px;
-  width: 70%;
+ border-radius: 2px;
+  width: 90vw;
+ 
+ // max-width: 900px;
+
+  display: flex;
+  flex-direction: column;  
+
+background: ${colors.white};
+ // border-radius: 2px;
+//  width: 70%;
   max-width: 1000px;
   max-height: 95vh;
   overflow: hidden;
+  object-fit: contain
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: ${fadeIn} 0.3s ease-out;
    @media (max-width: 768px) {
@@ -349,6 +358,7 @@ const ModalContent = styled.div`
     max-width: 100%;
     max-height: 100vh;
     border-radius: 0;
+    object-fit: contain
   }
 `;
 
