@@ -343,6 +343,13 @@ const ModalContent = styled.div`
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: ${fadeIn} 0.3s ease-out;
+   @media (max-width: 768px) {
+    width: 100%;
+    height: 100vh;
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
 `;
 
 const ModalHeader = styled.div`
@@ -367,6 +374,8 @@ const ModalBody = styled.div`
   height: 80vh;
   display: flex;
   flex-direction: column;
+
+  
 `;
 
 const FileViewer = styled.iframe`
