@@ -150,7 +150,7 @@ export default function Erreurr() {
         <ErrorCode data-aos="zoom-in">404</ErrorCode>
 
         <ErrorMessage data-aos="fade-up" data-aos-delay="200">
-          Oups ! La page que vous cherchez semble introuvable ou en maintenance.
+          Oups ! La page que vous cherchez semble introuvable ou en maintenance
         </ErrorMessage>
 
         <AnimatedText data-aos="fade-up" data-aos-delay="300">
