@@ -366,7 +366,7 @@ function DemandesList() {
     const fetchAllDemandes = async () => {
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:2027/api/demande/");
+        const response = await fetch( `${import.meta.env.VITE_b}/api/demande/ `);
 
         if (!response.ok) throw new Error("Erreur de chargement des demandes");
 
@@ -444,7 +444,7 @@ function DemandesList() {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cette demande ?")) {
       try {
         const response = await fetch(
-          //`http://localhost:2027/api/demande/${id}`,
+         
           `${import.meta.env.VITE_b}/api/demande/${id}`,
 
           {

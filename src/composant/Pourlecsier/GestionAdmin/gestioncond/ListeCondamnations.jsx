@@ -12,7 +12,7 @@ import {
 
 } from "lucide-react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+ 
 import Interfcehederlistecondn from "../../../interface/Interfcehederlistecondn";
 
 // Palette de couleurs
@@ -221,13 +221,13 @@ function ListeCondamnations() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  
 
   // Récupérer les enregistrements
   const fetchRecords = async () => {
     setLoading(true);
     setError("");
-    const response = await axios.get("http://localhost:2027/criminal");
+    const response = await axios.get(  `${import.meta.env.VITE_b}/criminal` );
     if (response.data.success) {
       // Trier les enregistrements du plus récent au plus ancien
       const sortedRecords = response.data.data.sort((a, b) => {

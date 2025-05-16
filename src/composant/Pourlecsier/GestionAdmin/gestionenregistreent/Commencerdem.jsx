@@ -680,7 +680,7 @@ function Commencerdem() {
       const response = await fetch(
         `${import.meta.env.VITE_b}/api/demande`,
 
-        //"http://localhost:2027/api/demande",
+    
         {
         method: "POST",
         // NE PAS METTRE 'Content-Type' : il sera défini automatiquement avec le boundary

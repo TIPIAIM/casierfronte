@@ -249,7 +249,7 @@ function ListeCondamnationsdmin() {
   // Supprimer un enregistrement
   const handleDelete = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet enregistrement ?")) {
-      await axios.delete(`http://localhost:2027/criminal/${id}`);
+      await axios.delete( `${import.meta.env.VITE_b}/criminal/${id}`);
       fetchRecords(); // Recharger les données
     }
   };

@@ -620,7 +620,7 @@ function CondntionEnregistredmin() {
 
     try {
       const response = await fetch(
-       // "http://localhost:2027/api/demande",
+     
         `${import.meta.env.VITE_b}/api/demande`,
          {
         method: "POST",

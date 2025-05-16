@@ -457,7 +457,7 @@ function DemandesListPC({ forPDF = false, onDataLoaded }) {
         const response = await fetch(
           `${import.meta.env.VITE_b}/api/demande/`,
 
-        //  "http://localhost:2027/api/demande/"
+      
           );
         if (!response.ok) throw new Error("Erreur de chargement des demandes");
         const data = await response.json();

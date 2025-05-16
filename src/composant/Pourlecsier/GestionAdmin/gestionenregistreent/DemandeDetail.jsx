@@ -683,12 +683,12 @@ function DemandeDetail() {
           
             <InfoContent>
             
-              {demande.contactInfo?.piece2 ? (
+              {demande.contactInfo?.piece1 ? (
                 <>
                   <FileViewerButton
                     onClick={() => window.open(
-                      `http://localhost:2027/${path.basename(
-                        demande.contactInfo.piece2
+                      `${import.meta.env.VITE_b}/${path.basename(
+                        demande.contactInfo.piece1
                       )}`,
                       '_blank'
                     )}
@@ -699,7 +699,7 @@ function DemandeDetail() {
                   <FileViewerContainer>
 
                     <FileViewer
-                      src={`http://localhost:2027/${path.basename(
+                      src={`${import.meta.env.VITE_b}/${path.basename(
                         demande.contactInfo.piece2
                       )}`}
                       title="Pièce justificative 2"
