@@ -271,8 +271,7 @@ function DemandeDetail() {
     const fetchDemande = async () => {
       try {
         const response = await fetch(
-          // `http://localhost:2027/api/demande/by-id/${id}`
-          `${import.meta.env.VITE_b}/api/demande/by-id/${id}`
+           `${import.meta.env.VITE_b}/api/demande/by-id/${id}`
         );
 
         if (!response.ok) {
@@ -684,6 +683,7 @@ function DemandeDetail() {
                       <Eye size={16} />
                       Afficher
                     </FileViewerButton>
+
                     <FileViewerContainer>
                       <FileViewer
                         src={`${import.meta.env.VITE_b}/${path.basename(

@@ -26,10 +26,10 @@ import {
   ChevronUp,
   Shield,
   FileSignature,
-  ClipboardCheck,
+  ClipboardCheck
 } from "lucide-react";
 import path from "path-browserify";
-
+ 
 // Palette de couleurs professionnelle
 const colors = {
   primary: "#1A4D2E", // Vert foncé professionnel
@@ -44,29 +44,29 @@ const colors = {
   white: "#FFFFFF",
   gray100: "#F8F9FA",
   gray200: "#E9ECEF",
-  gray500: "#6C757D",
+  gray500: "#6C757D"
 };
 
+ 
 // Animation
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 `;
 
+ 
+
+
 // Styles globaux
 const GlobalStyles = styled.div`
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   line-height: 1.6;
   color: ${colors.dark};
 `;
 
 // Header professionnel
 const ProfessionalHeader = styled.div`
-  background: linear-gradient(
-    135deg,
-    ${colors.primary} 0%,
-    ${colors.accent} 100%
-  );
+  background: linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%);
   color: ${colors.white};
   padding: 2rem;
   border-radius: 0 0 20px 20px;
@@ -74,9 +74,9 @@ const ProfessionalHeader = styled.div`
   margin-bottom: 2rem;
   position: relative;
   overflow: hidden;
-
+  
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: -50px;
     right: -50px;
@@ -85,9 +85,9 @@ const ProfessionalHeader = styled.div`
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
   }
-
+  
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: -30px;
     left: -30px;
@@ -121,7 +121,7 @@ const HeaderTitle = styled.h1`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
+  
   svg {
     color: ${colors.secondary};
   }
@@ -148,14 +148,13 @@ const StatusBadge = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: ${(props) =>
-    props.status === "completed"
-      ? colors.success
-      : props.status === "pending"
-      ? colors.warning
-      : colors.danger};
-  color: ${(props) =>
-    props.status === "pending" ? colors.dark : colors.white};
+  background: ${props => 
+    props.status === "completed" ? colors.success : 
+    props.status === "pending" ? colors.warning : 
+    colors.danger};
+  color: ${props => 
+    props.status === "pending" ? colors.dark : 
+    colors.white};
   animation: ${fadeIn} 0.3s ease-out;
 `;
 
@@ -170,12 +169,10 @@ const ProgressContainer = styled.div`
 const ProgressBar = styled.div`
   height: 100%;
   background: ${colors.secondary};
-  width: ${(props) =>
-    props.status === "completed"
-      ? "100%"
-      : props.status === "pending"
-      ? "60%"
-      : "100%"};
+  width: ${props => 
+    props.status === "completed" ? "100%" : 
+    props.status === "pending" ? "60%" : 
+    "100%"};
   transition: width 0.5s ease-in-out;
 `;
 
@@ -194,7 +191,7 @@ const Section = styled.section`
   padding: 1.5rem;
   margin-bottom: 2rem;
   transition: transform 0.2s, box-shadow 0.2s;
-
+  
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -217,14 +214,14 @@ const SectionTitle = styled.h2`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
+  
   svg {
     color: ${colors.secondary};
   }
 `;
 
 const SectionContent = styled.div`
-  display: ${(props) => (props.isOpen ? "block" : "none")};
+  display: ${props => props.isOpen ? 'block' : 'none'};
   animation: ${fadeIn} 0.3s ease-out;
 `;
 
@@ -232,7 +229,7 @@ const InfoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
-
+  
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
@@ -245,7 +242,7 @@ const InfoCard = styled.div`
   display: flex;
   gap: 1rem;
   transition: all 0.3s ease;
-
+  
   &:hover {
     background: ${colors.gray200};
     transform: translateY(-2px);
@@ -262,7 +259,7 @@ const InfoIcon = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-
+  
   svg {
     width: 20px;
     height: 20px;
@@ -299,23 +296,24 @@ const PrimaryButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 2px 10px rgba(26, 77, 46, 0.2);
-
+  
   &:hover {
     background: ${colors.accent};
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(26, 77, 46, 0.3);
   }
-
+  
   &:active {
     transform: translateY(0);
   }
 `;
 
 const SecondaryButton = styled(PrimaryButton)`
-  color: ${colors.info};
+   color: ${colors.info};
   border: 1px solid ${colors.primary}20;
-
+  
   &:hover {
+  
     color: ${colors.gray100};
     background: ${colors.primary}20;
   }
@@ -371,7 +369,7 @@ const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  
   h3 {
     margin: 0;
     font-size: 0.9rem;
@@ -386,6 +384,8 @@ const ModalBody = styled.div`
   height: 80vh;
   display: flex;
   flex-direction: column;
+
+  
 `;
 
 const FileViewer = styled.iframe`
@@ -408,7 +408,7 @@ const DownloadButton = styled.a`
   margin-top: 1rem;
   align-self: center;
   transition: all 0.3s ease;
-
+  
   &:hover {
     background: ${colors.accent};
     transform: translateY(-2px);
@@ -416,70 +416,41 @@ const DownloadButton = styled.a`
   }
 `;
 
+// Composant FileViewerModal
 const FileViewerModal = ({ fileUrl, onClose }) => {
-  const fileName = path.basename(fileUrl);
-  const fileExtension = fileName.split(".").pop().toLowerCase();
-  const fullFileUrl = `${import.meta.env.VITE_b}/${fileUrl}`;
-
+  const url = fileUrl?.url || fileUrl;
+  const fileName = fileUrl?.name || path.basename(url);
+  const fileExtension = fileName?.split('.').pop().toLowerCase();
+  
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
           <h3>
-            <FileText size={20} />
-            {fileName}
+            <FileText size={30} />
+           {/* {fileName}*/}Fichier joint
           </h3>
           <SecondaryButton onClick={onClose}>
             <X size={20} />
           </SecondaryButton>
         </ModalHeader>
-
+        
         <ModalBody>
-          {["pdf"].includes(fileExtension) ? (
-            <object
-              data={`${fullFileUrl}#view=FitH`}
-              type="application/pdf"
-              style={{
-                width: "100%",
-                height: "100%",
-                minHeight: "80vh",
-              }}
-            >
-              <p>
-                Votre navigateur ne supporte pas les PDF.
-                <DownloadButton href={fullFileUrl} download={fileName}>
-                  Télécharger le PDF
-                </DownloadButton>
-              </p>
-            </object>
-          ) : ["png", "jpg", "jpeg"].includes(fileExtension) ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                height: "100%",
-                overflow: "hidden",
-              }}
-            >
-              <img
-                src={fullFileUrl}
-                alt={fileName}
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  objectFit: "contain",
-                }}
-              />
-            </div>
+          {fileExtension && ['pdf', 'png', 'jpg', 'jpeg'].includes(fileExtension) ? (
+            <FileViewer 
+              src={url} 
+              title={fileName}
+            />
           ) : (
-            <div style={{ textAlign: "center", margin: "auto" }}>
-              <FileText size={64} color={colors.gray500} />
-              <p style={{ color: colors.gray500, marginTop: "1rem" }}>
-                Format non supporté ({fileExtension})
-              </p>
-              <DownloadButton href={fullFileUrl} download={fileName}>
+            <div style={{ textAlign: 'center', margin: 'auto' }}>
+              <FileText size={64} color={colors.gray500} style={{ marginBottom: '1rem' }} />
+              <h4 style={{ color: colors.dark }}>Format non supporté pour la prévisualisation</h4>
+              <p style={{ color: colors.gray500 }}>Ce fichier ({fileExtension}) ne peut pas être affiché directement.</p>
+              
+              <DownloadButton 
+                href={url} 
+                download={fileName}
+              >
                 <Download size={18} />
                 Télécharger le fichier
               </DownloadButton>
@@ -503,16 +474,14 @@ function DemandeDetail() {
     personalInfo: true,
     delivery: true,
     documents: true,
-    dates: true,
+    dates: true
   });
-// 
+
   useEffect(() => {
     const fetchDemande = async () => {
       try {
         setLoading(true);
-        const response = await fetch(
-          `${import.meta.env.VITE_b}/api/demande/by-id/${id}`
-        );
+        const response = await fetch(`${import.meta.env.VITE_b}/api/demande/by-id/${id}`);
 
         if (!response.ok) {
           throw new Error("Échec du chargement des données");
@@ -531,22 +500,18 @@ function DemandeDetail() {
   }, [id]);
 
   const toggleSection = (section) => {
-    setOpenSections((prev) => ({
+    setOpenSections(prev => ({
       ...prev,
-      [section]: !prev[section],
+      [section]: !prev[section]
     }));
   };
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "completed":
-        return <CheckCircle size={18} />;
-      case "pending":
-        return <Clock size={18} className=" animate-spin " />;
-      case "rejected":
-        return <AlertCircle size={18} />;
-      default:
-        return <Clock size={18} />;
+      case "completed": return <CheckCircle size={18}  />;
+      case "pending": return <Clock size={18}  className=" animate-spin "/>;
+      case "rejected": return <AlertCircle size={18} />;
+      default: return <Clock size={18} />;
     }
   };
 
@@ -556,17 +521,19 @@ function DemandeDetail() {
       day: "2-digit",
       month: "long",
       year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const formatDateTime = (dateString) => {
     if (!dateString) return "Non spécifié";
     return new Date(dateString).toLocaleDateString("fr-FR", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -583,105 +550,86 @@ function DemandeDetail() {
     }
   };
 
-  if (loading)
-    return (
-      <GlobalStyles>
-        <Container style={{ textAlign: "center", padding: "4rem" }}>
-          <div
-            style={{
-              width: "60px",
-              height: "60px",
-              border: `5px solid ${colors.gray200}`,
-              borderTopColor: colors.primary,
-              borderRadius: "50%",
-              margin: "0 auto 1.5rem",
-              animation: "spin 1s linear infinite",
-            }}
-          />
-          <h3 style={{ color: colors.primary }}>Chargement en cours</h3>
-          <p style={{ color: colors.gray500 }}>
-            Nous récupérons les détails de votre demande...
-          </p>
-        </Container>
-      </GlobalStyles>
-    );
+  if (loading) return (
+    <GlobalStyles>
+      <Container style={{ textAlign: 'center', padding: '4rem' }}>
+        <div style={{ 
+          width: '60px', 
+          height: '60px', 
+          border: `5px solid ${colors.gray200}`,
+          borderTopColor: colors.primary,
+          borderRadius: '50%',
+          margin: '0 auto 1.5rem',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <h3 style={{ color: colors.primary }}>Chargement en cours</h3>
+        <p style={{ color: colors.gray500 }}>Nous récupérons les détails de votre demande...</p>
+      </Container>
+    </GlobalStyles>
+  );
 
-  if (error)
-    return (
-      <GlobalStyles>
-        <Container style={{ textAlign: "center", padding: "4rem" }}>
-          <AlertCircle
-            size={48}
-            color={colors.danger}
-            style={{ marginBottom: "1rem" }}
-          />
-          <h3 style={{ color: colors.danger }}>Erreur de chargement</h3>
-          <p style={{ color: colors.gray500 }}>{error}</p>
-          <PrimaryButton onClick={() => window.location.reload()}>
-            Réessayer
-          </PrimaryButton>
-        </Container>
-      </GlobalStyles>
-    );
+  if (error) return (
+    <GlobalStyles>
+      <Container style={{ textAlign: 'center', padding: '4rem' }}>
+        <AlertCircle size={48} color={colors.danger} style={{ marginBottom: '1rem' }} />
+        <h3 style={{ color: colors.danger }}>Erreur de chargement</h3>
+        <p style={{ color: colors.gray500 }}>{error}</p>
+        <PrimaryButton onClick={() => window.location.reload()}>
+          Réessayer
+        </PrimaryButton>
+      </Container>
+    </GlobalStyles>
+  );
 
-  if (!demande)
-    return (
-      <GlobalStyles>
-        <Container style={{ textAlign: "center", padding: "4rem" }}>
-          <FileText
-            size={48}
-            color={colors.gray500}
-            style={{ marginBottom: "1rem" }}
-          />
-          <h3 style={{ color: colors.primary }}>Demande introuvable</h3>
-          <p style={{ color: colors.gray500 }}>
-            La demande que vous recherchez n'existe pas ou a été supprimée.
-          </p>
-          <PrimaryButton onClick={() => navigate(-1)}>
-            <ArrowLeft size={18} />
-            Retour
-          </PrimaryButton>
-        </Container>
-      </GlobalStyles>
-    );
-  //
+  if (!demande) return (
+    <GlobalStyles>
+      <Container style={{ textAlign: 'center', padding: '4rem' }}>
+        <FileText size={48} color={colors.gray500} style={{ marginBottom: '1rem' }} />
+        <h3 style={{ color: colors.primary }}>Demande introuvable</h3>
+        <p style={{ color: colors.gray500 }}>La demande que vous recherchez n'existe pas ou a été supprimée.</p>
+        <PrimaryButton onClick={() => navigate(-1)}>
+          <ArrowLeft size={18} />
+          Retour
+        </PrimaryButton>
+      </Container>
+    </GlobalStyles>
+  );
+
   return (
     <GlobalStyles>
+     
+      
       {/* Header professionnel */}
       <ProfessionalHeader>
         <HeaderContent>
           <HeaderTop>
             <PrimaryButton onClick={() => navigate(-1)}>
               <ArrowLeft size={18} />
+            
             </PrimaryButton>
-
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>Référence</div>
-              <div style={{ fontWeight: "600", fontSize: "1.1rem" }}>
-                {demande.reference}
-              </div>
+            
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>Référence</div>
+              <div style={{ fontWeight: '600', fontSize: '1.1rem' }}>{demande.reference}</div>
             </div>
           </HeaderTop>
-
+          
           <HeaderTitle>
             <Shield size={28} />
             Détails de la demande de casier judiciaire
           </HeaderTitle>
-
+          
           <HeaderSubtitle>
             Visualisez l'état et les informations de votre demande en temps réel
           </HeaderSubtitle>
-
+          
           <StatusIndicator>
             <StatusBadge status={demande.status}>
               {getStatusIcon(demande.status)}
-              {demande.status === "pending"
-                ? "En traitement"
-                : demande.status === "completed"
-                ? "Complétée"
-                : "Rejetée"}
+              {demande.status === "pending" ? "En traitement" : 
+               demande.status === "completed" ? "Complétée" : "Rejetée"}
             </StatusBadge>
-
+            
             <ProgressContainer>
               <ProgressBar status={demande.status} />
             </ProgressContainer>
@@ -692,18 +640,14 @@ function DemandeDetail() {
       <Container>
         {/* Section Informations personnelles */}
         <Section>
-          <SectionHeader onClick={() => toggleSection("personalInfo")}>
+          <SectionHeader onClick={() => toggleSection('personalInfo')}>
             <SectionTitle>
               <User size={20} />
               Informations personnelles
             </SectionTitle>
-            {openSections.personalInfo ? (
-              <ChevronUp size={20} />
-            ) : (
-              <ChevronDown size={20} />
-            )}
+            {openSections.personalInfo ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </SectionHeader>
-
+          
           <SectionContent isOpen={openSections.personalInfo}>
             <InfoGrid>
               <InfoCard>
@@ -712,196 +656,93 @@ function DemandeDetail() {
                 </InfoIcon>
                 <InfoContent>
                   <InfoLabel>Nom complet</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.lastName}{" "}
-                    {demande.personalInfo.firstName}
-                  </InfoValue>
+                  <InfoValue>{demande.personalInfo.lastName} {demande.personalInfo.firstName}</InfoValue>
                 </InfoContent>
               </InfoCard>
-
+              
               <InfoCard>
                 <InfoIcon>
                   <Snowflake size={16} />
                 </InfoIcon>
                 <InfoContent>
                   <InfoLabel>Nom du père</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.firstName1 || "Non spécifié"}
-                  </InfoValue>
+                  <InfoValue>{demande.personalInfo.firstName1 || "Non spécifié"}</InfoValue>
                 </InfoContent>
               </InfoCard>
-
+              
               <InfoCard>
                 <InfoIcon>
                   <HandHeart size={16} />
                 </InfoIcon>
                 <InfoContent>
                   <InfoLabel>Nom de la mère</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.firstName2 || "Non spécifié"}
-                  </InfoValue>
+                  <InfoValue>{demande.personalInfo.firstName2 || "Non spécifié"}</InfoValue>
                 </InfoContent>
               </InfoCard>
-
+              
               <InfoCard>
                 <InfoIcon>
                   <Calendar size={16} />
                 </InfoIcon>
                 <InfoContent>
                   <InfoLabel>Date de naissance</InfoLabel>
-                  <InfoValue>
-                    {formatDate(demande.personalInfo.birthDate)}
-                  </InfoValue>
+                  <InfoValue>{formatDate(demande.personalInfo.birthDate)}</InfoValue>
                 </InfoContent>
               </InfoCard>
-
-              <InfoCard>
-                <InfoIcon>
-                  <Globe size={16} />
-                </InfoIcon>
-                <InfoContent>
-                  <InfoLabel>Lieu de naissance</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.pays || "Non spécifié"}
-                  </InfoValue>
-                </InfoContent>
-              </InfoCard>
+              
               <InfoCard>
                 <InfoIcon>
                   <MapPin size={16} />
                 </InfoIcon>
                 <InfoContent>
-                  <InfoLabel>Ville</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.birthPlace || "Non spécifié"}
-                  </InfoValue>
+                  <InfoLabel>Lieu de naissance</InfoLabel>
+                  <InfoValue>{demande.personalInfo.birthPlace || "Non spécifié"}</InfoValue>
                 </InfoContent>
               </InfoCard>
-              <InfoCard>
-                <InfoIcon>
-                  <FileText size={16} />
-                </InfoIcon>
-                <InfoContent>
-                  <InfoLabel>Numéro de passeport</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.passport || "Non spécifié"}
-                  </InfoValue>
-                </InfoContent>
-              </InfoCard>
-
+              
               <InfoCard>
                 <InfoIcon>
                   <Briefcase size={16} />
                 </InfoIcon>
                 <InfoContent>
                   <InfoLabel>Profession</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.profession || "Non spécifié"}
-                  </InfoValue>
+                  <InfoValue>{demande.personalInfo.profession || "Non spécifié"}</InfoValue>
                 </InfoContent>
               </InfoCard>
-
+              
               <InfoCard>
                 <InfoIcon>
                   <Globe size={16} />
                 </InfoIcon>
                 <InfoContent>
                   <InfoLabel>Nationalité</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.nationalite || "Non spécifié"}
-                  </InfoValue>
+                  <InfoValue>{demande.personalInfo.nationalite || "Non spécifié"}</InfoValue>
                 </InfoContent>
               </InfoCard>
-
+              
               <InfoCard>
                 <InfoIcon>
                   <Home size={16} />
                 </InfoIcon>
                 <InfoContent>
                   <InfoLabel>Adresse</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.address || "Non spécifié"}
-                  </InfoValue>
+                  <InfoValue>{demande.personalInfo.address || "Non spécifié"}</InfoValue>
                 </InfoContent>
               </InfoCard>
-
-              <InfoCard>
-                <InfoIcon>
-                  <Hand size={16} />
-                </InfoIcon>
-                <InfoContent>
-                  <InfoLabel>Situation familiale</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.situationFamiliale || "Non spécifié"}
-                  </InfoValue>
-                </InfoContent>
-              </InfoCard>
-
-              {demande.personalInfo.payss && (
-                <InfoCard>
-                  <InfoIcon>
-                    <Globe size={16} />
-                  </InfoIcon>
-                  <InfoContent>
-                    <InfoLabel>Pays de résidence</InfoLabel>
-                    <InfoValue>{demande.personalInfo.payss}</InfoValue>
-                  </InfoContent>
-                </InfoCard>
-              )}
-              <InfoCard>
-                <InfoIcon>
-                  <MapPin size={16} />
-                </InfoIcon>
-                <InfoContent>
-                  <InfoLabel>Ville</InfoLabel>
-                  <InfoValue>
-                    {demande.personalInfo.city || "Non spécifié"}
-                  </InfoValue>
-                </InfoContent>
-              </InfoCard>
-              <InfoCard>
-              <InfoIcon>
-                <Mail size={16} />
-              </InfoIcon>
-              <InfoContent>
-                <InfoLabel>Email</InfoLabel>
-                <InfoValue>
-                  {demande.personalInfo.email || "Non spécifié"}
-                </InfoValue>
-              </InfoContent>
-            </InfoCard>
-            
-{demande.personalInfo.phone && (
-  <InfoCard>
-    <InfoIcon>
-      <Phone size={16} />
-    </InfoIcon>
-    <InfoContent>
-      <InfoLabel>Téléphone</InfoLabel>
-      <InfoValue>{demande.personalInfo.phone}</InfoValue>
-    </InfoContent>
-  </InfoCard>
-)}
             </InfoGrid>
-
-           
           </SectionContent>
         </Section>
 
         {/* Section Mode de livraison */}
         <Section>
-          <SectionHeader onClick={() => toggleSection("delivery")}>
+          <SectionHeader onClick={() => toggleSection('delivery')}>
             <SectionTitle>
               <ClipboardCheck size={20} />
               Mode de livraison
             </SectionTitle>
-            {openSections.delivery ? (
-              <ChevronUp size={20} />
-            ) : (
-              <ChevronDown size={20} />
-            )}
+            {openSections.delivery ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </SectionHeader>
-
+          
           <SectionContent isOpen={openSections.delivery}>
             <InfoGrid>
               <InfoCard>
@@ -911,15 +752,13 @@ function DemandeDetail() {
                 <InfoContent>
                   <InfoLabel>Méthode choisie</InfoLabel>
                   <InfoValue>
-                    {demande.deliveryMethod === "court"
-                      ? "Retrait au tribunal"
-                      : demande.deliveryMethod === "mail"
-                      ? "Courrier postal"
-                      : "Email sécurisé"}
+                    {demande.deliveryMethod === "court" ? "Retrait au tribunal" : 
+                     demande.deliveryMethod === "mail" ? "Courrier postal" : 
+                     "Email sécurisé"}
                   </InfoValue>
                 </InfoContent>
               </InfoCard>
-
+              
               <InfoCard>
                 <InfoIcon>
                   <FileSignature size={16} />
@@ -927,31 +766,22 @@ function DemandeDetail() {
                 <InfoContent>
                   <InfoLabel>Statut</InfoLabel>
                   <InfoValue>
-                    <span
-                      style={{
-                        color:
-                          demande.status === "completed"
-                            ? colors.success
-                            : demande.status === "pending"
-                            ? colors.warning
-                            : colors.danger,
-                        fontWeight: "600",
-                      }}
-                    >
-                      {demande.status === "pending"
-                        ? "En préparation"
-                        : demande.status === "completed"
-                        ? "Prêt pour livraison"
-                        : "Livraison annulée"}
+                    <span style={{ 
+                      color: demande.status === "completed" ? colors.success : 
+                            demande.status === "pending" ? colors.warning : 
+                            colors.danger,
+                      fontWeight: '600'
+                    }}>
+                      {demande.status === "pending" ? "En préparation" : 
+                       demande.status === "completed" ? "Prêt pour livraison" : 
+                       "Livraison annulée"}
                     </span>
                   </InfoValue>
                 </InfoContent>
               </InfoCard>
-
+              
               {demande.status === "completed" && (
-                <InfoCard
-                  style={{ gridColumn: "1 / -1", background: colors.light }}
-                >
+                <InfoCard style={{ gridColumn: '1 / -1', background: colors.light }}>
                   <InfoIcon style={{ background: colors.success }}>
                     <CheckCircle size={16} />
                   </InfoIcon>
@@ -960,9 +790,8 @@ function DemandeDetail() {
                     <InfoValue>
                       {getStatusMessage(demande.status)}
                       {demande.deliveryMethod === "court" && (
-                        <div style={{ marginTop: "0.5rem" }}>
-                          <strong>Documents requis :</strong> Pièce d'identité
-                          originale et cette confirmation
+                        <div style={{ marginTop: '0.5rem' }}>
+                          <strong>Documents requis :</strong> Pièce d'identité originale et cette confirmation
                         </div>
                       )}
                     </InfoValue>
@@ -974,80 +803,93 @@ function DemandeDetail() {
         </Section>
 
         {/* Section Documents */}
-        {/* Section Documents */}
         <Section>
-          <SectionHeader onClick={() => toggleSection("documents")}>
+          <SectionHeader onClick={() => toggleSection('documents')}>
             <SectionTitle>
               <FileText size={20} />
               Documents joints
             </SectionTitle>
-            {openSections.documents ? (
-              <ChevronUp size={20} />
-            ) : (
-              <ChevronDown size={20} />
-            )}
+            {openSections.documents ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </SectionHeader>
-
+          
           <SectionContent isOpen={openSections.documents}>
             <InfoGrid>
-              {demande.contactInfo?.piece1 && (
-                <InfoCard
-                  onClick={() => setSelectedFile(demande.contactInfo.piece1)}
-                  style={{ cursor: "pointer" }}
+              {demande.contactInfo?.piece1 ? (
+                <InfoCard 
+                  onClick={() => setSelectedFile({
+                    url: `${import.meta.env.VITE_b}/${path.basename(demande.contactInfo.piece1)}`,
+                    name: path.basename(demande.contactInfo.piece1)
+                  })}
+                  style={{ cursor: 'pointer' }}
                 >
                   <InfoIcon>
                     <FileText size={16} />
                   </InfoIcon>
                   <InfoContent>
                     <InfoLabel>Pièce jointe 1</InfoLabel>
-                    <InfoValue>
-                      {path.basename(demande.contactInfo.piece1)}
-                    </InfoValue>
-                    <div
-                      style={{
-                        marginTop: "0.5rem",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.25rem",
-                        color: colors.primary,
-                        fontSize: "0.85rem",
-                        fontWeight: "500",
-                      }}
-                    >
+                    <InfoValue> {path.basename(demande.contactInfo.piece1)}</InfoValue>
+                    <div style={{ 
+                      marginTop: '0.5rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      color: colors.primary,
+                      fontSize: '0.85rem',
+                      fontWeight: '500'
+                    }}>
                       <Eye size={14} />
                       Afficher le document
                     </div>
                   </InfoContent>
                 </InfoCard>
+              ) : (
+                <InfoCard>
+                  <InfoIcon>
+                    <FileText size={16} />
+                  </InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Pièce jointe 1</InfoLabel>
+                    <InfoValue style={{ color: colors.gray500 }}>Aucun document fourni</InfoValue>
+                  </InfoContent>
+                </InfoCard>
               )}
-
-              {demande.contactInfo?.piece2 && (
-                <InfoCard
-                  onClick={() => setSelectedFile(demande.contactInfo.piece2)}
-                  style={{ cursor: "pointer" }}
+              
+              {demande.contactInfo?.piece2 ? (
+                <InfoCard 
+                  onClick={() => setSelectedFile({
+                    url: `${import.meta.env.VITE_b}/${path.basename(demande.contactInfo.piece2)}`,
+                    name: path.basename(demande.contactInfo.piece2)
+                  })}
+                  style={{ cursor: 'pointer' }}
                 >
                   <InfoIcon>
                     <FileText size={16} />
                   </InfoIcon>
                   <InfoContent>
                     <InfoLabel>Pièce jointe 2</InfoLabel>
-                    <InfoValue>
-                      {path.basename(demande.contactInfo.piece2)}
-                    </InfoValue>
-                    <div
-                      style={{
-                        marginTop: "0.5rem",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.25rem",
-                        color: colors.primary,
-                        fontSize: "0.85rem",
-                        fontWeight: "500",
-                      }}
-                    >
+                    <InfoValue>{path.basename(demande.contactInfo.piece2)}</InfoValue>
+                    <div style={{ 
+                      marginTop: '0.5rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      color: colors.primary,
+                      fontSize: '0.85rem',
+                      fontWeight: '500'
+                    }}>
                       <Eye size={14} />
                       Afficher le document
                     </div>
+                  </InfoContent>
+                </InfoCard>
+              ) : (
+                <InfoCard>
+                  <InfoIcon>
+                    <FileText size={16} />
+                  </InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Pièce jointe 2</InfoLabel>
+                    <InfoValue style={{ color: colors.gray500 }}>Aucun document fourni</InfoValue>
                   </InfoContent>
                 </InfoCard>
               )}
@@ -1057,18 +899,14 @@ function DemandeDetail() {
 
         {/* Section Dates */}
         <Section>
-          <SectionHeader onClick={() => toggleSection("dates")}>
+          <SectionHeader onClick={() => toggleSection('dates')}>
             <SectionTitle>
               <Calendar size={20} />
               Historique et dates
             </SectionTitle>
-            {openSections.dates ? (
-              <ChevronUp size={20} />
-            ) : (
-              <ChevronDown size={20} />
-            )}
+            {openSections.dates ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </SectionHeader>
-
+          
           <SectionContent isOpen={openSections.dates}>
             <InfoGrid>
               <InfoCard>
@@ -1080,39 +918,38 @@ function DemandeDetail() {
                   <InfoValue>{formatDateTime(demande.createdAt)}</InfoValue>
                 </InfoContent>
               </InfoCard>
-
+              
               <InfoCard>
                 <InfoIcon>
                   <Clock size={16} />
                 </InfoIcon>
                 <InfoContent>
                   <InfoLabel>Dernière mise à jour</InfoLabel>
-                  <InfoValue>
-                    {formatDateTime(demande.updatedAt || demande.createdAt)}
-                  </InfoValue>
+                  <InfoValue>{formatDateTime(demande.updatedAt || demande.createdAt)}</InfoValue>
                 </InfoContent>
               </InfoCard>
             </InfoGrid>
           </SectionContent>
         </Section>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "1rem",
-            justifyContent: "center",
-            marginTop: "2rem",
-            flexWrap: "wrap",
-          }}
-        >
+        <div style={{ 
+          display: 'flex', 
+          gap: '1rem', 
+          justifyContent: 'center',
+          marginTop: '2rem',
+          flexWrap: 'wrap'
+        }}>
+           
+          
           <SecondaryButton onClick={() => navigate(-1)}>
             <ArrowLeft size={18} />
+            
           </SecondaryButton>
         </div>
       </Container>
 
       {selectedFile && (
-        <FileViewerModal
+        <FileViewerModal 
           fileUrl={selectedFile}
           onClose={() => setSelectedFile(null)}
         />
