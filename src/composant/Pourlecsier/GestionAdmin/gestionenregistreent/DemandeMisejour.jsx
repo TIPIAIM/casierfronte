@@ -496,7 +496,7 @@ function DemandeMisejour() {
           <HeaderTop>
             <PrimaryButton onClick={() => navigate(-1)}>
               <ArrowLeft size={18} />
-              Retour
+              
             </PrimaryButton>
             
             <div style={{ textAlign: 'right' }}>

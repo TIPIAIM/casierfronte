@@ -18,8 +18,8 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import styled, { createGlobalStyle } from "styled-components";
-import CondemnationChart from "../Pourlecsier/GestionAdmin/gestioncond/Statistique.jsx/GrphCondapardate";
-import Condamnationsprtribunl from "../Pourlecsier/GestionAdmin/gestioncond/Statistique.jsx/GrphCondprtribunl";
+import CondemnationChart from "../Pourlecsier/GestionAdmin/gestioncond/Statistique/GrphCondapardate";
+import Condamnationsprtribunl from "../Pourlecsier/GestionAdmin/gestioncond/Statistique/GrphCondprtribunl";
 import DeliveryMethodChart from "../Pourlecsier/GestionAdmin/gestionenregistreent/Sttistk/Grphmodedelivrison";
 import DeliveryMethodChart2 from "../Pourlecsier/GestionAdmin/gestionenregistreent/Sttistk/Grphmodedelivrison2";
 import TbleoListe from "../Pourlecsier/GestionAdmin/gestionenregistreent/Sttistk/TbleoListe";
