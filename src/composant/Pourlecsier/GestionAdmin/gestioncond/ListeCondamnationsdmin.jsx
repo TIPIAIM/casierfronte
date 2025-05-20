@@ -6,10 +6,8 @@ import {
   Loader2, 
   Trash2, 
   Search,
-
 } from "lucide-react";
 import axios from "axios";
-//import { useNavigate } from "react-router-dom";
 
 // Palette de couleurs
 const colors = {
@@ -18,7 +16,6 @@ const colors = {
   accent: "#F2C94C",
   white: "#FFFFFF",
   darkBlue: "#003566",
-  
   lightBg: "#F2E9DC",
   error: "#C53030",
   success: "#2E7D32",
@@ -32,7 +29,7 @@ const PageContainer = styled.div`
 const ListContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
- border-radius: 8px;
+  border-radius: 8px;
   box-shadow: 8px 0px 0px ${colors.secondary};
   overflow: hidden;
 `;
@@ -80,13 +77,11 @@ const SearchInput = styled.div`
     padding: 0.75rem 1rem 0.75rem 2.5rem;
     border: 1px solid ${colors.lightBg}20;
     border-radius: 5px;
-    
     font-size: 1rem;
     transition: all 0.3s;
 
     &:focus {
       outline: none;
-      
       box-shadow: 2px 2px ${colors.secondary};
     }
   }
@@ -100,10 +95,8 @@ const SearchInput = styled.div`
   }
 `;
 
- 
 const TableContainer = styled.div`
   overflow-x: auto;
- // padding: 0 2rem;
 `;
 
 const RecordsTable = styled.table`
@@ -111,9 +104,10 @@ const RecordsTable = styled.table`
   border-collapse: collapse;
   margin: 1.5rem 0;
   min-width: 800px;
+  font-size: 0.85rem; /* Taille de police réduite */
 
   th, td {
-    padding: 1rem;
+    padding: 0.75rem 1rem; /* Padding réduit */
     text-align: left;
     border-bottom: 1px solid ${colors.secondary}50;
   }
@@ -124,6 +118,7 @@ const RecordsTable = styled.table`
     font-weight: 600;
     position: sticky;
     top: 0;
+    font-size: 0.9rem; /* Taille de police légèrement plus grande pour les en-têtes */
   }
 
   tr:hover {
@@ -139,9 +134,9 @@ const ActionButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.8rem; /* Taille réduite */
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.8rem; /* Taille de police réduite */
   cursor: pointer;
   border: none;
   transition: all 0.2s;
@@ -195,6 +190,7 @@ const ErrorMessage = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.9rem; /* Taille de police réduite */
 `;
 
 function ListeCondamnationsdmin() {
@@ -202,23 +198,24 @@ function ListeCondamnationsdmin() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState("");
-  //const navigate = useNavigate();
 
   // Récupérer les enregistrements
   const fetchRecords = async () => {
     setLoading(true);
     setError("");
-    const response = await axios.get(
-       `${import.meta.env.VITE_b}/criminal`,
-       );
-    if (response.data.success) {
-      // Trier les enregistrements du plus récent au plus ancien
-      const sortedRecords = response.data.data.sort((a, b) => {
-        return new Date(b.dateCondamnations) - new Date(a.dateCondamnations);
-      });
-      setRecords(sortedRecords);
-    } else {
-      setError("Erreur lors du chargement des données");
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_b}/criminal`);
+      if (response.data.success) {
+        // Trier les enregistrements du plus récent au plus ancien
+        const sortedRecords = response.data.data.sort((a, b) => {
+          return new Date(b.dateCondamnations) - new Date(a.dateCondamnations);
+        });
+        setRecords(sortedRecords);
+      } else {
+        setError("Erreur lors du chargement des données");
+      }
+    } catch (err) {
+      setError("Erreur de connexion au serveur");
     }
     setLoading(false);
   };
@@ -235,7 +232,6 @@ function ListeCondamnationsdmin() {
   };
 
   // Filtrer les enregistrements
-  
   const filteredRecords = records.filter(record => {
     const searchLower = searchTerm.toLowerCase();
     return (
@@ -249,94 +245,95 @@ function ListeCondamnationsdmin() {
   // Supprimer un enregistrement
   const handleDelete = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet enregistrement ?")) {
-      await axios.delete( `${import.meta.env.VITE_b}/criminal/${id}`);
-      fetchRecords(); // Recharger les données
+      try {
+        await axios.delete(`${import.meta.env.VITE_b}/criminal/${id}`);
+        fetchRecords(); // Recharger les données
+      } catch (err) {
+        setError("Erreur lors de la suppression");
+      }
     }
   };
 
   return (
-  <div>
+    <div>
+      <PageContainer>
+        <ListContainer>
+          <ListHeader>
+            <div>
+              <ListTitle>
+                <Gavel size={28} />
+                Les Condamnations
+              </ListTitle>
+              <TotalRecords>
+                Total: {filteredRecords.length} enregistrement{filteredRecords.length !== 1 ? 's' : ''}
+              </TotalRecords>
+            </div>
 
-    <PageContainer>
-      <ListContainer>
-        <ListHeader>
-          <div>
-            <ListTitle>
-              <Gavel size={28} />
-              Les Condamnations
-            </ListTitle>
-            <TotalRecords>
-              Total: {filteredRecords.length} enregistrement{filteredRecords.length !== 1 ? 's' : ''}
-            </TotalRecords>
-          </div>
+            <SearchContainer>
+              <SearchInput>
+                <Search size={18} />
+                <input
+                  type="text"
+                  placeholder="Rechercher..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </SearchInput>
+            </SearchContainer>
+          </ListHeader>
 
-          <SearchContainer>
-            <SearchInput>
-              <Search size={18} />
-              <input
-                type="text"
-                placeholder="Rechercher..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </SearchInput>
-            
-           
-          </SearchContainer>
-        </ListHeader>
+          {error && (
+            <ErrorMessage>
+              <AlertCircle size={18} />
+              {error}
+            </ErrorMessage>
+          )}
 
-        {error && (
-          <ErrorMessage>
-            <AlertCircle size={18} />
-            {error}
-          </ErrorMessage>
-        )}
-
-        {loading ? (
-          <LoadingContainer>
-            <Loader2 size={32} className="animate-spin" color={colors.primary} />
-          </LoadingContainer>
-        ) : filteredRecords.length === 0 ? (
-          <EmptyState>
-            {searchTerm ? "Aucun résultat trouvé" : "Aucun enregistrement disponible"}
-          </EmptyState>
-        ) : (
-          <TableContainer>
-            <RecordsTable>
-              <thead>
-                <tr>
-                  <th>Identité</th>
-                  <th>Cours/Tribunaux</th>
-                  <th>Date de Condamnation</th>
-                  <th>Nature de l'Infraction</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredRecords.map((record) => (
-                  <tr key={record._id}>
-                    <td>{record.carteidentite || "-"}</td>
-                    <td>{record.courtsTribunaux || "-"}</td>
-                    <td>{formatDate(record.dateCondamnations)}</td>
-                    <td>{record.natureDesCrimes || "-"}</td>
-                    <ActionCell>                    
-                      <ActionButton
-                        className="delete"
-                        onClick={() => handleDelete(record._id)}
-                      >
-                        <Trash2 size={16} />
-                      </ActionButton>
-                    </ActionCell>
+          {loading ? (
+            <LoadingContainer>
+              <Loader2 size={32} className="animate-spin" color={colors.primary} />
+            </LoadingContainer>
+          ) : filteredRecords.length === 0 ? (
+            <EmptyState>
+              {searchTerm ? "Aucun résultat trouvé" : "Aucun enregistrement disponible"}
+            </EmptyState>
+          ) : (
+            <TableContainer>
+              <RecordsTable>
+                <thead>
+                  <tr>
+                    <th>Identité</th>
+                    <th>Cours/Tribunaux</th>
+                    <th>Date de Condamnation</th>
+                    <th>Nature de l'Infraction</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </RecordsTable>
-          </TableContainer>
-        )}
-      </ListContainer>
-    </PageContainer>
-  </div>
-    
+                </thead>
+                <tbody>
+                  {filteredRecords.map((record) => (
+                    <tr key={record._id}>
+                      <td>{record.carteidentite || "-"}</td>
+                      <td>{record.courtsTribunaux || "-"}</td>
+                      <td>{formatDate(record.dateCondamnations)}</td>
+                      <td>{record.natureDesCrimes || "-"}</td>
+                      <ActionCell>                    
+                        <ActionButton
+                          className="delete"
+                          onClick={() => handleDelete(record._id)}
+                        >
+                          <Trash2 size={16} />
+                          Supprimer
+                        </ActionButton>
+                      </ActionCell>
+                    </tr>
+                  ))}
+                </tbody>
+              </RecordsTable>
+            </TableContainer>
+          )}
+        </ListContainer>
+      </PageContainer>
+    </div>
   );
 }
 

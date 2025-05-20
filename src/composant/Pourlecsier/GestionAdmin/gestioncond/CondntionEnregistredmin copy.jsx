@@ -9,11 +9,9 @@ import {
   Save,
   BookOpenCheck,
   Key,
-  CheckCircle,
-  X,
 } from "lucide-react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 
 // Palette de couleurs améliorée
@@ -31,16 +29,20 @@ const colors = {
 // Styles modernisés
 const PageContainer = styled.div`
   min-height: 100vh;
+ 
 `;
 
 const FormContainer = styled.div`
   max-width: 1000px;
   margin: 0 auto;
   padding: 0.5rem;
-  box-shadow: 6px 1px ${colors.secondary};
+  box-shadow: 6px 1px  ${colors.secondary};
   border-radius: 8px;
+
   position: relative;
   overflow: hidden;
+
+ 
 
   @media (max-width: 768px) {
     padding: 1.5rem;
@@ -98,6 +100,7 @@ const Label = styled.label`
   display: block;
   margin-bottom: 0.5rem;
   color: ${colors.secondary};
+
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -115,7 +118,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    box-shadow: 3px 3px ${colors.secondary};
+     box-shadow: 3px 3px ${colors.secondary};
     background-color: ${colors.white};
   }
 
@@ -137,8 +140,8 @@ const TextArea = styled.textarea`
 
   &:focus {
     outline: none;
-    box-shadow: 3px 3px ${colors.secondary};
-  }
+     box-shadow: 3px 3px ${colors.secondary};
+   }
 `;
 
 const SubmitButton = styled.button`
@@ -156,13 +159,14 @@ const SubmitButton = styled.button`
   margin-top: 1.5rem;
   transition: all 0.3s ease;
   width: 100%;
-
+ 
   &:hover {
     background: ${colors.accent};
     color: ${colors.secondary};
     font-weight: 800;
+    
     transform: translateY(-2px);
-  }
+   }
 
   &:disabled {
     opacity: 0.7;
@@ -196,13 +200,14 @@ const RequiredIndicator = styled.span`
   color: ${colors.error};
   margin-left: 0.2rem;
 `;
-
+// Styles ajoutés pour le select
 const Select = styled.select`
   width: 100%;
   padding: 0.85rem 1rem;
-  border-radius: 8px;
+   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
+   
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -211,74 +216,11 @@ const Select = styled.select`
 
   &:focus {
     outline: none;
-    box-shadow: 3px 3px ${colors.secondary};
+     box-shadow: 3px 3px ${colors.secondary};
+     
   }
 `;
 
-// Styles pour le modal
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-const ModalContent = styled.div`
-  background-color: ${colors.white};
-  padding: 2rem;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-`;
-
-const ModalTitle = styled.h2`
-  color: ${colors.secondary};
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-`;
-
-const ModalMessage = styled.p`
-  color: ${colors.darkBlue};
-  margin-bottom: 2rem;
-  line-height: 1.6;
-`;
-
-const ModalButton = styled.button`
-  padding: 0.75rem 1.5rem;
-  margin: 0 0.5rem;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  &:first-of-type {
-    background-color: ${colors.secondary};
-    color: ${colors.accent};
-
-    &:hover {
-      background-color: ${colors.accent};
-       color: ${colors.secondary};
-    }
-  }
-
-  
-  }
-`;
 
 const TRIBUNALS = [
   "TPI de Conakry",
@@ -323,8 +265,7 @@ function EnregistreCondntion() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-
+  const [success, setSuccess] = useState(false);
   // Validation des entrées
   const validateField = (name, value) => {
     let error = "";
@@ -380,9 +321,9 @@ function EnregistreCondntion() {
     // Sanitization des entrées
     let sanitizedValue = value;
     if (
-      name !== "dateCondamnations" &&
-      name !== "dateCrimesOuDelits" &&
-      name !== "dateMiseEnPrison"
+      name !== "dateCondamnations" &&   
+      name !== "dateCrimesOuDelits" &&  
+      name !== "dateMiseEnPrison" 
     ) {
       sanitizedValue = DOMPurify.sanitize(value);
     }
@@ -420,24 +361,10 @@ function EnregistreCondntion() {
     return isValid;
   };
 
-  const resetForm = () => {
-    setFormData({
-      carteidentite: "",
-      courtsTribunaux: "",
-      dateCondamnations: "",
-      natureDesCrimes: "",
-      dateCrimesOuDelits: "",
-      dureeDePeine: "",
-      dateMiseEnPrison: "",
-      observations: "",
-    });
-    setErrors({});
-    setFormError("");
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError("");
+    setSuccess(false);
 
     if (!validateForm()) {
       setFormError("Veuillez corriger les erreurs dans le formulaire");
@@ -449,7 +376,7 @@ function EnregistreCondntion() {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_b}/criminal`,
-        {
+         {
           ...formData,
           dateCondamnations: new Date(formData.dateCondamnations),
           dateCrimesOuDelits: new Date(formData.dateCrimesOuDelits),
@@ -462,8 +389,14 @@ function EnregistreCondntion() {
         }
       );
 
+
+    
       if (response.data.success) {
-        setShowSuccessModal(true);
+        navigate("/listeCondamnations", {
+          state: {
+            success: "Dossier enregistré avec succès!",
+          },
+        });
       }
     } catch (err) {
       console.error("Erreur:", err);
@@ -488,17 +421,12 @@ function EnregistreCondntion() {
     }
   };
 
-  const handleGoToList = () => {
-    setShowSuccessModal(false);
-    resetForm();
-    navigate("/adminmere");
-  };
-
   return (
     <div>
       <PageContainer>
         <FormContainer>
           <FormHeader>
+
             <FormTitle>
               <BookOpenCheck size={32} />
               Enregistrement des Condanations
@@ -509,6 +437,7 @@ function EnregistreCondntion() {
               condamnations judiciaires. Tous les champs marqués d'un{" "}
               <RequiredIndicator>*</RequiredIndicator> sont obligatoires.
             </FormDescription>
+
           </FormHeader>
 
           {formError && (
@@ -518,8 +447,17 @@ function EnregistreCondntion() {
             </ErrorMessage>
           )}
 
+          {success && (
+            <SuccessMessage>
+              <Save size={18} />
+              Enregistrement réussi! Redirection en cours...
+            </SuccessMessage>
+          )}
+
           <form onSubmit={handleSubmit} noValidate>
             <FormGrid>
+
+
               <div>
                 <FormGroup>
                   <Label>
@@ -718,28 +656,6 @@ function EnregistreCondntion() {
           </form>
         </FormContainer>
       </PageContainer>
-
-      {/* Modal de succès */}
-      {showSuccessModal && (
-        <ModalOverlay>
-          <ModalContent>
-            <ModalTitle>
-              <CheckCircle size={28} color={colors.success} />
-              Succès
-            </ModalTitle>
-            <ModalMessage>
-              Votre enregistrement a été effectué avec succès. Vous pouvez aller
-              vers la liste des condamnations pour rechercher le nom.
-            </ModalMessage>
-            <div>
-              <ModalButton onClick={handleGoToList}>
-                <X size={18} />
-                Fermer
-              </ModalButton>
-            </div>
-          </ModalContent>
-        </ModalOverlay>
-      )}
     </div>
   );
 }
