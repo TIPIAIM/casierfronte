@@ -21,7 +21,7 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 1rem auto;
   background: ${colors.white};
- 
+
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 
   @media (max-width: 768px) {
@@ -50,7 +50,8 @@ const TableContainer = styled.div`
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px; // Minimum width to ensure readability
+  min-width: 600px;
+  font-size: 0.8rem; // Taille de police réduite pour tout le tableau
 `;
 
 const TableHeader = styled.thead`
@@ -58,7 +59,7 @@ const TableHeader = styled.thead`
   color: ${colors.white};
 
   @media (max-width: 768px) {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -78,40 +79,44 @@ const TableRow = styled.tr`
 `;
 
 const TableCell = styled.td`
-  padding: 1rem;
+  padding: 0.3rem;
   text-align: left;
   white-space: nowrap;
+  font-size: 0.75rem; // Taille réduite pour les cellules
 
   @media (max-width: 768px) {
-    padding: 0.75rem 0.5rem;
+    padding: 0.3rem 0.2rem;
+    font-size: 0.7rem;
   }
 `;
 
 const TableHeaderCell = styled.th`
-  padding: 1rem;
-  text-align: left;
+  padding: 0.5rem 0.3rem; // Padding réduit
+  text-align: center;
   white-space: nowrap;
+  font-size: 0.85rem; // Taille réduite pour les en-têtes
 
   @media (max-width: 768px) {
-    padding: 0.75rem 0.5rem;
+    padding: 0.4rem 0.2rem;
+    font-size: 0.8rem;
   }
 `;
 
 const StatusBadge = styled.span`
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
+  padding: 0.2rem 0.2rem; // Padding réduit
+  border-radius: 3px;
+  font-size: 0.65rem; // Taille réduite
   display: inline-block;
-  min-width: 80px;
+  min-width: 70px; // Largeur réduite
   text-align: center;
   background-color: ${(props) =>
     props.status === "completed"
-      ? colors.success + "20"
+      ? colors.success + "80"
       : props.status === "processing"
       ? colors.secondary + "20"
       : props.status === "pending"
-      ? colors.pending + "20"
-      : colors.error + "20"};
+      ? colors.pending + "70"
+      : colors.error + "70"};
   color: ${(props) =>
     props.status === "completed"
       ? colors.success
@@ -122,9 +127,9 @@ const StatusBadge = styled.span`
       : colors.error};
 
   @media (max-width: 768px) {
-    font-size: 0.8rem;
-    min-width: 70px;
-    padding: 0.2rem 0.4rem;
+    font-size: 0.6rem;
+    min-width: 60px;
+    padding: 0.15rem 0.3rem;
   }
 `;
 
@@ -151,7 +156,7 @@ const PageButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
 
   &:hover {
     background: ${colors.greenDark};
@@ -169,10 +174,9 @@ const PageButton = styled.button`
     font-size: 0.85rem;
   }
 `;
- 
 
 const PageInfo = styled.span`
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: ${colors.text};
   white-space: nowrap;
 
@@ -220,8 +224,8 @@ const DropdownContainer = styled.div`
 const DropdownContent = styled.div`
   position: absolute;
   background-color: ${colors.white};
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
+ // min-width: 160px;
+  box-shadow: 1px 1px 1px 2px ${colors.greenDark};
   z-index: 1;
   border-radius: 4px;
   right: 0;
@@ -245,7 +249,7 @@ const DropdownItem = styled.div`
 
 const DropdownHeader = styled(DropdownItem)`
   font-weight: bold;
-  background-color: ${colors.greenDark}10;
+  background-color: ${colors.greenDark}18;
   border-bottom: 1px solid ${colors.border};
 `;
 
@@ -259,7 +263,7 @@ function TbleoListe() {
 
   // État pour la pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 17;
 
   useEffect(() => {
     const fetchAllDemandes = async () => {
@@ -341,10 +345,7 @@ function TbleoListe() {
         <Table>
           <TableHeader>
             <tr>
-              <TableHeaderCell>Référence</TableHeaderCell>
-              <TableHeaderCell>Nom</TableHeaderCell>
-              <TableHeaderCell>Prénom</TableHeaderCell>
-              <TableHeaderCell>Date</TableHeaderCell>
+              <TableHeaderCell>Référence</TableHeaderCell>{" "}
               <TableHeaderCell>
                 <StatusContainer>
                   <span>Statut</span>
@@ -354,6 +355,9 @@ function TbleoListe() {
                   />
                 </StatusContainer>
               </TableHeaderCell>
+              <TableHeaderCell>Nom</TableHeaderCell>
+              <TableHeaderCell>Prénom</TableHeaderCell>
+              <TableHeaderCell>Date</TableHeaderCell>
             </tr>
           </TableHeader>
           <tbody>
@@ -363,10 +367,9 @@ function TbleoListe() {
                 even={index % 2 === 0}
                 status={demande.status}
               >
+                {" "}
+             
                 <TableCell>{demande.reference || "-"}</TableCell>
-                <TableCell>{demande.personalInfo?.lastName || "-"}</TableCell>
-                <TableCell>{demande.personalInfo?.firstName || "-"}</TableCell>
-                <TableCell>{formatDate(demande.createdAt)}</TableCell>
                 <TableCell>
                   <StatusContainer>
                     <StatusBadge status={demande.status}>
@@ -381,12 +384,12 @@ function TbleoListe() {
                         <DropdownContent>
                           <DropdownHeader>
                             <Filter size={14} />
-                            Filtrer par statut
+                            Filtrer 
                           </DropdownHeader>
                           <DropdownItem
                             onClick={() => handleStatusFilter(null)}
                           >
-                            Tous les statuts
+                            Tous
                           </DropdownItem>
                           <DropdownItem
                             onClick={() => handleStatusFilter("pending")}
@@ -419,6 +422,9 @@ function TbleoListe() {
                     </DropdownContainer>
                   </StatusContainer>
                 </TableCell>
+                <TableCell>{demande.personalInfo?.lastName || "-"}</TableCell>
+                <TableCell>{demande.personalInfo?.firstName || "-"}</TableCell>
+                <TableCell>{formatDate(demande.createdAt)}</TableCell>
               </TableRow>
             ))}
           </tbody>

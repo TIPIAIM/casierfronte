@@ -4,7 +4,6 @@ import {
   Menu,
   X,
   Loader2,
-  
   PieChart,
   BarChart2,
   CalendarSearch,
@@ -38,6 +37,44 @@ const colors = {
   white: "#FFFFFF",
 };
 
+// Animations
+const pageVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.6, -0.05, 0.01, 0.99]
+    }
+  },
+  exit: { opacity: 0, y: -20 }
+};
+
+const cardVariants = {
+  offscreen: { y: 50, opacity: 0 },
+  onscreen: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      bounce: 0.4,
+      duration: 0.8
+    }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3
+    }
+  }
+};
+
 // Reset et styles globaux
 const GlobalStyles = createGlobalStyle`
   * {
@@ -64,19 +101,24 @@ const DashboardContainer = styled.div`
   }
 `;
 
-
-const MainContent = styled.div`
+const MainContent = styled(motion.div).attrs(() => ({
+  initial: "initial",
+  animate: "animate",
+  exit: "exit",
+  variants: pageVariants
+}))`
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   min-width: 0;
-  margin-left: 300px; /* Ajout de la marge pour compenser le sidebar fixe */
+  margin-left: 300px;
 
   @media (max-width: 1023px) {
     margin-left: 0;
   }
 `;
+
 const SidebarContainer = styled(motion.div)`
   background: ${colors.greenDark};
   color: ${colors.white};
@@ -85,11 +127,11 @@ const SidebarContainer = styled(motion.div)`
   flex-direction: column;
   z-index: 100;
   width: 300px;
-  position: fixed; /* Changement ici */
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  height: 100vh; /* Prend toute la hauteur de l'écran */
+  height: 100vh;
 
   @media (max-width: 1023px) {
     position: fixed;
@@ -107,7 +149,6 @@ const SidebarContainer = styled(motion.div)`
     width: 260px;
   }
 `;
- 
 
 const SidebarHeader = styled.div`
   padding: 1.25rem 1.5rem;
@@ -155,8 +196,6 @@ const SidebarList = styled.ul`
     }
   }
 `;
-
- 
 
 const Header = styled.header`
   padding: 0.75rem 2rem;
@@ -211,7 +250,10 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const Button = styled.button`
+const Button = styled(motion.button).attrs(() => ({
+  whileHover: { scale: 1.05 },
+  whileTap: { scale: 0.95 }
+}))`
   padding: 0.55rem 1.1rem;
   border-radius: 8px;
   font-weight: 500;
@@ -228,36 +270,18 @@ const Button = styled.button`
     background: ${colors.greenDark};
     color: ${colors.white};
     box-shadow: 0 2px 4px rgba(26, 77, 46, 0.2);
-
-    &:hover {
-      background: #164829;
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
   }
 
   &.accent {
     background: ${colors.goldenYellow};
     color: ${colors.blueMarine};
     box-shadow: 0 2px 4px rgba(242, 201, 76, 0.3);
-
-    &:hover {
-      background: #e6c042;
-      transform: translateY(-1px);
-    }
   }
 
   &.outline {
     background: transparent;
     border: 1px solid ${colors.blueMarine};
     color: ${colors.blueMarine};
-
-    &:hover {
-      background: rgba(0, 43, 91, 0.05);
-    }
   }
 
   @media (max-width: 767px) {
@@ -276,7 +300,7 @@ const Button = styled.button`
   }
 `;
 
-const Content = styled.main`
+const Content = styled(motion.main)`
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
@@ -291,7 +315,11 @@ const Content = styled.main`
   }
 `;
 
-const ChartGrid = styled.div`
+const ChartGrid = styled(motion.div).attrs(() => ({
+  variants: staggerContainer,
+  initial: "hidden",
+  animate: "show"
+}))`
   display: grid;
   gap: 1.75rem;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
@@ -301,7 +329,10 @@ const ChartGrid = styled.div`
   }
 `;
 
-const ChartCard = styled.div`
+const ChartCard = styled(motion.div).attrs(() => ({
+  variants: cardVariants,
+  viewport: { once: true, amount: 0.2 }
+}))`
   background: ${colors.white};
   border-radius: 2px;
   box-shadow: 0 4px 12px rgba(0, 43, 91, 0.08);
@@ -309,6 +340,7 @@ const ChartCard = styled.div`
   transition: transform 0.9s ease, box-shadow 0.9s ease;
   border: 1px solid rgba(0, 43, 91, 0.08);
   min-width: 0;
+  will-change: transform;
 
   &:hover {
     transform: translateY(-3px);
@@ -320,7 +352,11 @@ const ChartCard = styled.div`
   }
 `;
 
-const ChartTitle = styled.h3`
+const ChartTitle = styled(motion.h3).attrs(() => ({
+  initial: { opacity: 0, x: -20 },
+  animate: { opacity: 1, x: 0 },
+  transition: { delay: 0.2, duration: 0.5 }
+}))`
   font-size: 1rem;
   font-weight: 700;
   color: ${colors.blueMarine};
@@ -389,7 +425,9 @@ const ErrorState = styled.div`
   }
 `;
 
-const MobileMenuButton = styled.button`
+const MobileMenuButton = styled(motion.button).attrs(() => ({
+  whileTap: { scale: 0.95 }
+}))`
   background: rgba(0, 43, 91, 0.05);
   border-radius: 8px;
   padding: 0.5rem;
@@ -416,12 +454,18 @@ const Overlay = styled(motion.div)`
   }
 `;
 
+const TitleAnimation = styled(motion.div).attrs(() => ({
+  initial: { opacity: 0, x: -20 },
+  animate: { opacity: 1, x: 0 },
+  transition: { delay: 0.2, duration: 0.5 }
+}))``;
+
 export default function DashboardCasierJudiciaire() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("statistiques");
-   const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const checkViewport = () => {
@@ -459,8 +503,6 @@ export default function DashboardCasierJudiciaire() {
     }
   };
 
-   
-
   return (
     <>
       <GlobalStyles />
@@ -485,13 +527,7 @@ export default function DashboardCasierJudiciaire() {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               <SidebarHeader>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.75rem",
-                  }}
-                >
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                   <LogoIcon />
                   <span style={{ fontSize: "1.15rem", fontWeight: "600" }}>
                     GuiCJ
@@ -535,7 +571,6 @@ export default function DashboardCasierJudiciaire() {
                   <Shield size={18} />
                   Gérer les comptes
                 </li>
-
                 <li
                   className={activeTab === "demandes" ? "active" : ""}
                   onClick={() => setActiveTab("demandes")}
@@ -543,15 +578,6 @@ export default function DashboardCasierJudiciaire() {
                   <Send size={18} />
                   Gérer les demandes
                 </li>
-
-                <li
-                  className={activeTab === "càsierjudiciàir" ? "active" : ""}
-                  onClick={() => setActiveTab("càsierjudiciàir")}
-                >
-                  <Users size={18} />
-                  Les casiers judiciaires
-                </li>
-
                 <li
                   className={activeTab === "condamnations" ? "active" : ""}
                   onClick={() => setActiveTab("condamnations")}
@@ -559,7 +585,13 @@ export default function DashboardCasierJudiciaire() {
                   <Gavel size={18} />
                   Les condamnations
                 </li>
-
+                <li
+                  className={activeTab === "càsierjudiciàir" ? "active" : ""}
+                  onClick={() => setActiveTab("càsierjudiciàir")}
+                >
+                  <Users size={18} />
+                  Les casiers judiciaires
+                </li>
                 <li
                   className={activeTab === "caisse" ? "active" : ""}
                   onClick={() => setActiveTab("caisse")}
@@ -567,8 +599,6 @@ export default function DashboardCasierJudiciaire() {
                   <Wallet size={18} />
                   La caisse
                 </li>
-
-              
               </SidebarList>
             </SidebarContainer>
           )}
@@ -576,14 +606,7 @@ export default function DashboardCasierJudiciaire() {
 
         <MainContent>
           <Header>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                minWidth: 0,
-              }}
-            >
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", minWidth: 0 }}>
               <MobileMenuButton onClick={() => setSidebarOpen(!sidebarOpen)}>
                 {sidebarOpen ? (
                   <X size={20} color={colors.blueMarine} />
@@ -593,24 +616,20 @@ export default function DashboardCasierJudiciaire() {
               </MobileMenuButton>
 
               <HeaderTitle>
-                {activeTab === "statistiques" && "Tableau de Bord des status  "}
-                {activeTab === "statistiquesdeux" &&
-                  "Tableau de Bord Judiciaire"}
+                {activeTab === "statistiques" && "Tableau de Bord des status"}
+                {activeTab === "statistiquesdeux" && "Tableau de Bord Judiciaire"}
                 {activeTab === "compte" && "Gestion des comptes"}
                 {activeTab === "demandes" && "Gestion des demandes"}
-                {activeTab === "càsierjudiciàir" &&
-                  "Gestion des càsierjudiciàir"}
+                {activeTab === "càsierjudiciàir" && "Gestion des càsierjudiciàir"}
                 {activeTab === "condamnations" && "Gestion des condamnations"}
                 {activeTab === "caisse" && "Gestion de la caisse"}
               </HeaderTitle>
             </div>
 
             <ButtonGroup>
-              <Button className="" >
-              
+              <Button className="">
                 <LogoutButton />
               </Button>
-             
             </ButtonGroup>
           </Header>
 
@@ -628,13 +647,34 @@ export default function DashboardCasierJudiciaire() {
               </ErrorState>
             ) : loading ? (
               <LoadingState>
-                <Loader2 size={40} className="animate-spin" />
-                <p>Chargement des données...</p>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                >
+                  <Loader2 size={40} />
+                </motion.div>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  Chargement des données...
+                </motion.p>
               </LoadingState>
             ) : (
-              <>
+              <AnimatePresence mode="wait">
                 {activeTab === "statistiques" && (
-                  <>
+                  <motion.div
+                    key="statistiques"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                  >
+                    <TitleAnimation>
+                      <HeaderTitle>Tableau de Bord des status</HeaderTitle>
+                    </TitleAnimation>
+
                     <ChartGrid>
                       <ChartCard>
                         <ChartTitle>
@@ -678,13 +718,23 @@ export default function DashboardCasierJudiciaire() {
                         </div>
                       </ChartCard>
                     </ChartGrid>
-                  </>
+                  </motion.div>
                 )}
 
                 {activeTab === "statistiquesdeux" && (
-                  <>
+                  <motion.div
+                    key="statistiquesdeux"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                  >
+                    <TitleAnimation>
+                      <HeaderTitle>Tableau de Bord Judiciaire</HeaderTitle>
+                    </TitleAnimation>
+
                     <ChartGrid>
-                    <ChartCard>
+                      <ChartCard>
                         <ChartTitle>
                           <Send size={20} color={colors.blueMarine} />
                           Statuts des demandes de casier
@@ -702,18 +752,70 @@ export default function DashboardCasierJudiciaire() {
                           <TbleoListe />
                         </div>
                       </ChartCard>
-
-                     
                     </ChartGrid>
-                  </>
+                  </motion.div>
                 )}
 
-                {activeTab === "compte" && <Senregistrerpourad />}
-                {activeTab === "demandes" && <GestiondemàndcsierAdmin />}
-                {activeTab === "càsierjudiciàir" && <CsierJudicirpouradmin />}
-                {activeTab === "condamnations" && <GestioncondAdmin />}
-                {activeTab === "caisse" && <GestionCaisse />}
-              </>
+                {activeTab === "compte" && (
+                  <motion.div
+                    key="compte"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                  >
+                    <Senregistrerpourad />
+                  </motion.div>
+                )}
+
+                {activeTab === "demandes" && (
+                  <motion.div
+                    key="demandes"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                  >
+                    <GestiondemàndcsierAdmin />
+                  </motion.div>
+                )}
+
+                {activeTab === "càsierjudiciàir" && (
+                  <motion.div
+                    key="càsierjudiciàir"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                  >
+                    <CsierJudicirpouradmin />
+                  </motion.div>
+                )}
+
+                {activeTab === "condamnations" && (
+                  <motion.div
+                    key="condamnations"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                  >
+                    <GestioncondAdmin />
+                  </motion.div>
+                )}
+
+                {activeTab === "caisse" && (
+                  <motion.div
+                    key="caisse"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                  >
+                    <GestionCaisse />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             )}
           </Content>
         </MainContent>

@@ -190,7 +190,7 @@ const ErrorMessage = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem; /* Taille de police réduite */
+  font-size: 0.8rem; /* Taille de police réduite */
 `;
 
 function ListeCondamnationsdmin() {
