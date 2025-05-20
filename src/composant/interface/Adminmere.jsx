@@ -681,7 +681,7 @@ export default function DashboardCasierJudiciaire() {
                           <BarChart2 size={20} color={colors.blueMarine} />
                           Répartition par Tribunaux : {total}
                         </ChartTitle>
-                        <div style={{ height: "300px" }}>
+                        <div style={{ height: "350px" }}>
                           <Condamnationsprtribunl />
                         </div>
                       </ChartCard>
@@ -691,7 +691,7 @@ export default function DashboardCasierJudiciaire() {
                           <CalendarSearch size={20} color={colors.blueMarine} />
                           Condamnations par Date
                         </ChartTitle>
-                        <div style={{ height: "200px" }}>
+                        <div  style={{ height: "350px" }}>
                           <CondemnationChart />
                         </div>
                       </ChartCard>
