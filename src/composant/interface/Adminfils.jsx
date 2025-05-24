@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
-import { 
- 
-  FaLayerGroup,
-
-} from "react-icons/fa";
+import {FaLayerGroup} from "react-icons/fa";
 import LogoutButton from "../identification/Deconne";
+import { motion } from "framer-motion";
  
 // Palette de couleurs
 const colors = {
@@ -133,7 +130,68 @@ const MainButton = styled.button`
     transform: scale(0.95);
   }
 `;
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 
+  @media (max-width: 767px) {
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: flex-start;
+  }
+`;
+
+const Button = styled(motion.button).attrs(() => ({
+  whileHover: { scale: 1.05 },
+  whileTap: { scale: 0.95 }
+}))`
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &.primary {
+    background: ${colors.greenDark};
+    color: ${colors.white};
+    box-shadow: 0 2px 4px rgba(26, 77, 46, 0.2);
+  }
+
+  &.accent {
+    background: ${colors.goldenYellow};
+    color: ${colors.blueMarine};
+    box-shadow: 0 2px 4px rgba(242, 201, 76, 0.3);
+  }
+
+  &.outline {
+    background: transparent;
+    border: 1px solid ${colors.blueMarine};
+    color: ${colors.blueMarine};
+  }
+
+  @media (max-width: 767px) {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    flex-grow: 1;
+    justify-content: center;
+  }
+`;
 
 const DropdownContainer = styled.div`
   display: flex;
@@ -179,9 +237,13 @@ const Adminfils = () => {
 
   return (
     <Container>
-      
+ <ButtonGroup>
+              <Button className="">
+              <LogoutButton /> {/* Utilisation de votre composant LogoutButton */}
+                Deconexion
+              </Button>
+            </ButtonGroup>      
 
-      <LogoutButton /> {/* Utilisation de votre composant LogoutButton */}
 
       <Heading>Sécurité et légalité depuis chez vous sans file d'attente.</Heading>
 

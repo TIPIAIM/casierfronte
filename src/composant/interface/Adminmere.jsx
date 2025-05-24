@@ -15,6 +15,7 @@ import {
   Power,
   ChartNoAxesCombined,
 } from "lucide-react";
+//GestiondemàndcsierAdmin 
 import axios from "axios";
 import styled, { createGlobalStyle } from "styled-components";
 import CondemnationChart from "../Pourlecsier/GestionAdmin/gestioncond/Statistique/GrphCondapardate";
@@ -628,7 +629,7 @@ export default function DashboardCasierJudiciaire() {
 
             <ButtonGroup>
               <Button className="">
-                <LogoutButton />
+                <LogoutButton />Deconexion
               </Button>
             </ButtonGroup>
           </Header>

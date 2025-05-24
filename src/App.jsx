@@ -77,9 +77,11 @@ function App() {
           <Route path="/gestionCondanations" element={<GestioncondAdmin />} />
           
           <Route path="/adminmere" element={<Adminmere />} />
+         {/*   <Route path="/CodeRfinl" element={<CodeRfinl />} />
 
          
-          {/*   */}
+            path="/CodeRfinl"
+            element={<CodeRfinl>*/}
           {/*à video Visiteur */}
           {/*à video Visiteur */}
           <Route path="/demandeid/:id" element={<DemandeDetail />} />
@@ -107,8 +109,12 @@ function App() {
           {/* Protection des route admin lors de connexion config àpres */}
           <Route path="/adminfils" element={<Adminfils />} /> {/*à video */}
           <Route path="/voir-mes-demandes" element={<Voirmademande />} />{" "}
-          {/*à video */}
+          {/*à video  */}
           <Route
+            path="/etranger"
+            element={<ProtectedRoute>{/* <Etrngerguinee /> */}</ProtectedRoute>}
+          />
+            <Route
             path="/etranger"
             element={<ProtectedRoute>{/* <Etrngerguinee /> */}</ProtectedRoute>}
           />
