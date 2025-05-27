@@ -1,6 +1,6 @@
 // authService.jsx
 
-const BASE_URL = "http://localhost:2027";
+const BASE_URL = import.meta.env.VITE_b;
 
 export const login = async (credentials) => {
   const response = await fetch(`${BASE_URL}/api/auth/login`, {
