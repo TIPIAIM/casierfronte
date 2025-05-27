@@ -33,27 +33,24 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
       const response = await axios.post(
         `${import.meta.env.VITE_b}/api/auth/logout`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        {}, // corps vide
+        { withCredentials: true } // ⬅️ important !
       );
-
+  
       if (response.status === 200) {
-        logout();
+        alert("✅ Vous avez été déconnecté avec succès !");
+        logout(); // déclenche le changement de contexte
         navigate("/");
       }
     } catch (error) {
-      console.error("Erreur :", error);
+      console.error("Erreur de déconnexion :", error);
       logout();
       navigate("/login");
     }
   };
+  
 
   return <AnimatedLogoutIcon onClick={handleLogout} title="Se déconnecter" />;
 };

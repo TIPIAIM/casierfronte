@@ -1,10 +1,13 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 //import "./App.css";
 import LoginForm from "./composant/identification/LoginForm";
-import Adminfils from "./composant/interface/Adminfils";
-import ProtectedRoute from "./composant/identification/ProtectedRoute ";
-import Visiteur from "./composant/interface/Visiteur";
 import Senregistrer from "./composant/identification/Senregistrer";
+import VerifyEmail from "./composant/identification/VerifyEmail";
+import ProtectedRoute from "./composant/identification/ProtectedRoute ";
+
+import Adminfils from "./composant/interface/Adminfils";
+import Visiteur from "./composant/interface/Visiteur";
+
 import Guineedemrce from "./composant/Pourlecsier/Guineen/Guineedemrce";
 import Etrngerguinee from "./composant/Pourlecsier/Etrnger/Etrngerguinee";
 import Videoexpli from "./composant/Pourlecsier/Videoexpli";
@@ -23,8 +26,9 @@ import CsierJudicirpouradmin from "./composant/Pourlecsier/GestionAdmin/CsierJud
 import GestiondemàndcsierAdmin from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/GestiondemàndcsierAdmin";
 import GestioncondAdmin from "./composant/Pourlecsier/GestionAdmin/gestioncond/GestionCondanations";
 import Adminmere from "./composant/interface/Adminmere";
- import TbleoListe from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/Sttistk/TbleoListe";
- 
+import TbleoListe from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/Sttistk/TbleoListe";
+import SessionList from "./composant/Pourlecsier/GestionAdmin/Session/SessionList";
+
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
   {
@@ -60,6 +64,7 @@ function App() {
           <Route index element={<Interfcedebut />} />
           <Route path="/seconnecter" element={<LoginForm />} />
           <Route path="/enregistrer" element={<Senregistrer />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/demande-guinee" element={<Guineedemrce />} />
           <Route path="/demande-etranger" element={<Etrngerguinee />} />
           <Route path="/videoexplic" element={<Videoexpli />} /> {/*à video */}
@@ -67,21 +72,16 @@ function App() {
           <Route path="/demandesList" element={<DemandesList />} />{" "}
           <Route path="/gestiondesdeux" element={<Gestiondesdeux />} />{" "}
           <Route path="/demandesListstati" element={<TbleoListe />} />{" "}
-
-          {/*à video demandesList
+          {/*à video demandesList SessionList
            */}
           <Route path="/debut" element={<Visiteur />} /> {/*à video */}
           <Route path="/gestionDetC" element={<GestionDetC />} />
           <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
-          <Route path="/gestiondemande" element={<GestiondemàndcsierAdmin />} />{/*Listedem*/}
+          <Route path="/gestiondemande" element={<GestiondemàndcsierAdmin />} />
+          {/*Listedem*/}
           <Route path="/gestionCondanations" element={<GestioncondAdmin />} />
-          
           <Route path="/adminmere" element={<Adminmere />} />
-         {/*   <Route path="/CodeRfinl" element={<CodeRfinl />} />
-
-         
-            path="/CodeRfinl"
-            element={<CodeRfinl>*/}
+          <Route path="/sessionlist" element={<SessionList />} />
           {/*à video Visiteur */}
           {/*à video Visiteur */}
           <Route path="/demandeid/:id" element={<DemandeDetail />} />
@@ -114,7 +114,7 @@ function App() {
             path="/etranger"
             element={<ProtectedRoute>{/* <Etrngerguinee /> */}</ProtectedRoute>}
           />
-            <Route
+          <Route
             path="/etranger"
             element={<ProtectedRoute>{/* <Etrngerguinee /> */}</ProtectedRoute>}
           />

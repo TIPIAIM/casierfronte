@@ -14,6 +14,7 @@ import {
   Wallet,
   Power,
   ChartNoAxesCombined,
+  BellPlus,
 } from "lucide-react";
 //GestiondemàndcsierAdmin 
 import axios from "axios";
@@ -29,6 +30,7 @@ import GestiondemàndcsierAdmin from "../Pourlecsier/GestionAdmin/gestionenregis
 import GestioncondAdmin from "../Pourlecsier/GestionAdmin/gestioncond/GestionCondanations";
 import CsierJudicirpouradmin from "../Pourlecsier/GestionAdmin/CsierJudicirpouradmin";
 import LogoutButton from "../identification/Deconne";
+import SessionList from "../Pourlecsier/GestionAdmin/Session/SessionList";
 
 // Palette de couleurs
 const colors = {
@@ -593,6 +595,15 @@ export default function DashboardCasierJudiciaire() {
                   <Users size={18} />
                   Les casiers judiciaires
                 </li>
+                
+                <li
+                  className={activeTab === "sessionlist" ? "active" : ""}
+                  onClick={() => setActiveTab("sessionlist")}
+                >
+                   <BellPlus  size={18}/>                 
+                  Sessions utilisateurs
+                </li>
+
                 <li
                   className={activeTab === "caisse" ? "active" : ""}
                   onClick={() => setActiveTab("caisse")}
@@ -600,6 +611,7 @@ export default function DashboardCasierJudiciaire() {
                   <Wallet size={18} />
                   La caisse
                 </li>
+             
               </SidebarList>
             </SidebarContainer>
           )}
@@ -624,6 +636,9 @@ export default function DashboardCasierJudiciaire() {
                 {activeTab === "càsierjudiciàir" && "Gestion des càsierjudiciàir"}
                 {activeTab === "condamnations" && "Gestion des condamnations"}
                 {activeTab === "caisse" && "Gestion de la caisse"}
+                {activeTab === "sessionlist" && " Sessions utilisateurs"}
+       
+                
               </HeaderTitle>
             </div>
 
@@ -816,6 +831,19 @@ export default function DashboardCasierJudiciaire() {
                     <GestionCaisse />
                   </motion.div>
                 )}
+
+{activeTab === "sessionlist" && (
+                  <motion.div
+                    key="caisse"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                  >
+                    <SessionList />
+                  </motion.div>
+                )}
+
               </AnimatePresence>
             )}
           </Content>

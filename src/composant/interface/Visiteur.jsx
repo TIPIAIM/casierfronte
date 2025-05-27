@@ -8,7 +8,6 @@ import {
   FaHome,
   FaEnvelope,
   FaMobileAlt,
-  FaDownload,
   FaQuestionCircle,
   FaArrowLeft,
 } from "react-icons/fa";
