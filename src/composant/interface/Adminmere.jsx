@@ -15,8 +15,16 @@ import {
   Power,
   ChartNoAxesCombined,
   BellPlus,
+  ChevronDown,
+  ChevronRight,
+  Home,
+  FileText,
+  Settings,
+  User,
+  CreditCard,
+  Database,
+  Activity
 } from "lucide-react";
-//GestiondemàndcsierAdmin 
 import axios from "axios";
 import styled, { createGlobalStyle } from "styled-components";
 import CondemnationChart from "../Pourlecsier/GestionAdmin/gestioncond/Statistique/GrphCondapardate";
@@ -32,37 +40,59 @@ import CsierJudicirpouradmin from "../Pourlecsier/GestionAdmin/CsierJudicirpoura
 import LogoutButton from "../identification/Deconne";
 import SessionList from "../Pourlecsier/GestionAdmin/Session/SessionList";
 
-// Palette de couleurs
+// Palette de couleurs étendue
 const colors = {
-  blueMarine: "#002B5B",
-  greenDark: "#1A4D2E",
-  goldenYellow: "#F2C94C",
+  primary: "#002B5B",
+  secondary: "#1A4D2E",
+  accent: "#F2C94C",
   white: "#FFFFFF",
+  lightGray: "#F8F9FA",
+  mediumGray: "#E5E7EB",
+  darkGray: "#6B7280",
+  black: "#111827",
+  success: "#10B981",
+  warning: "#F59E0B",
+  danger: "#EF4444",
+  info: "#3B82F6"
 };
 
-// Animations
+// Thème sombre optionnel
+const darkTheme = {
+  background: "#1F2937",
+  card: "#374151",
+  text: "#F9FAFB",
+  border: "#4B5563"
+};
+
+// Animations améliorées
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
   animate: { 
     opacity: 1, 
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: [0.6, -0.05, 0.01, 0.99]
+      duration: 0.4,
+      ease: [0.32, 0.72, 0, 1]
     }
   },
-  exit: { opacity: 0, y: -20 }
+  exit: { 
+    opacity: 0, 
+    y: -20,
+    transition: {
+      duration: 0.3
+    }
+  }
 };
 
 const cardVariants = {
-  offscreen: { y: 50, opacity: 0 },
+  offscreen: { y: 20, opacity: 0 },
   onscreen: {
     y: 0,
     opacity: 1,
     transition: {
       type: "spring",
-      bounce: 0.4,
-      duration: 0.8
+      bounce: 0.2,
+      duration: 0.6
     }
   }
 };
@@ -72,14 +102,29 @@ const staggerContainer = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3
+      staggerChildren: 0.05,
+      delayChildren: 0.1
     }
   }
 };
 
-// Reset et styles globaux
+// Reset et styles globaux modernes
 const GlobalStyles = createGlobalStyle`
+  :root {
+    --primary: ${colors.primary};
+    --secondary: ${colors.secondary};
+    --accent: ${colors.accent};
+    --white: ${colors.white};
+    --light-gray: ${colors.lightGray};
+    --medium-gray: ${colors.mediumGray};
+    --dark-gray: ${colors.darkGray};
+    --black: ${colors.black};
+    --success: ${colors.success};
+    --warning: ${colors.warning};
+    --danger: ${colors.danger};
+    --info: ${colors.info};
+  }
+
   * {
     box-sizing: border-box;
     margin: 0;
@@ -87,17 +132,45 @@ const GlobalStyles = createGlobalStyle`
   }
   
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--light-gray);
+    color: var(--black);
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
   }
 `;
 
-// Styles avec styled-components
+// Styles modernisés avec styled-components
 const DashboardContainer = styled.div`
   display: flex;
   min-height: 100vh;
-  background: #f8f9fa;
+  background: var(--light-gray);
+  position: relative;
 
   @media (max-width: 1023px) {
     flex-direction: column;
@@ -115,7 +188,8 @@ const MainContent = styled(motion.div).attrs(() => ({
   flex-direction: column;
   overflow: hidden;
   min-width: 0;
-  margin-left: 300px;
+  margin-left: 260px;
+  transition: margin-left 0.2s ease;
 
   @media (max-width: 1023px) {
     margin-left: 0;
@@ -123,18 +197,20 @@ const MainContent = styled(motion.div).attrs(() => ({
 `;
 
 const SidebarContainer = styled(motion.div)`
-  background: ${colors.greenDark};
-  color: ${colors.white};
+  background: var(--secondary);
+  color: var(--white);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   z-index: 100;
-  width: 300px;
+  width: 260px;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   height: 100vh;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s ease;
 
   @media (max-width: 1023px) {
     position: fixed;
@@ -145,7 +221,7 @@ const SidebarContainer = styled(motion.div)`
     width: 280px;
     transform: ${({ sidebarOpen }) => 
       sidebarOpen ? 'translateX(0)' : 'translateX(-100%)'};
-    transition: transform 0.3s ease;
+    z-index: 1000;
   }
 
   @media (max-width: 480px) {
@@ -154,43 +230,67 @@ const SidebarContainer = styled(motion.div)`
 `;
 
 const SidebarHeader = styled.div`
-  padding: 1.25rem 1.5rem;
+  padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  min-height: 70px;
+  min-height: 64px;
+  background: rgba(0, 0, 0, 0.05);
 
   @media (max-width: 767px) {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
+  }
+`;
+
+const SidebarLogo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  svg {
+    flex-shrink: 0;
   }
 `;
 
 const SidebarList = styled.ul`
-  padding: 1rem;
+  padding: 0.75rem;
   flex-grow: 1;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 
   li {
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 0.75rem;
     margin-bottom: 0.25rem;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
 
     &:hover {
       background: rgba(255, 255, 255, 0.1);
-      color: ${colors.goldenYellow};
+      color: var(--white);
     }
 
     &.active {
-      background: rgba(242, 201, 76, 0.2);
-      color: ${colors.goldenYellow};
-      font-weight: 500;
+      background: rgba(242, 201, 76, 0.15);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
     }
 
     @media (max-width: 767px) {
@@ -201,95 +301,136 @@ const SidebarList = styled.ul`
 `;
 
 const Header = styled.header`
-  padding: 0.75rem 2rem;
-  background: ${colors.white};
-  box-shadow: 0 2px 10px rgba(0, 43, 91, 0.1);
+  padding: 0 1.5rem;
+  background: var(--white);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
   z-index: 50;
-  min-height: 70px;
+  min-height: 64px;
+  border-bottom: 1px solid var(--medium-gray);
+  position: sticky;
+  top: 0;
 
   @media (max-width: 1023px) {
-    padding: 0.75rem 1.5rem;
+    padding: 0 1.25rem;
     margin-left: 0;
   }
 
   @media (max-width: 767px) {
-    padding: 0.75rem 1rem;
+    padding: 0 1rem;
     gap: 0.75rem;
   }
 `;
 
 const HeaderTitle = styled.h1`
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: ${colors.blueMarine};
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  svg {
+    color: var(--dark-gray);
+  }
 
   @media (max-width: 1023px) {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 
   @media (max-width: 479px) {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 `;
 
-const ButtonGroup = styled.div`
+const HeaderActions = styled.div`
   display: flex;
+  align-items: center;
   gap: 0.75rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
 
   @media (max-width: 767px) {
     gap: 0.5rem;
-    width: 100%;
-    justify-content: flex-start;
   }
 `;
 
 const Button = styled(motion.button).attrs(() => ({
-  whileHover: { scale: 1.05 },
-  whileTap: { scale: 0.95 }
+  whileHover: { scale: 1.03 },
+  whileTap: { scale: 0.98 }
 }))`
-  padding: 0.55rem 1.1rem;
-  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
   cursor: pointer;
   white-space: nowrap;
+  background: var(--white);
+  color: var(--primary);
+  border: 1px solid var(--medium-gray);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    background: var(--light-gray);
+  }
 
   &.primary {
-    background: ${colors.greenDark};
-    color: ${colors.white};
-    box-shadow: 0 2px 4px rgba(26, 77, 46, 0.2);
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+
+    &:hover {
+      background: #00204f;
+    }
   }
 
   &.accent {
-    background: ${colors.goldenYellow};
-    color: ${colors.blueMarine};
-    box-shadow: 0 2px 4px rgba(242, 201, 76, 0.3);
+    background: var(--accent);
+    color: var(--primary);
+    border-color: var(--accent);
+
+    &:hover {
+      background: #f0c040;
+    }
   }
 
-  &.outline {
+  &.danger {
+    background: var(--danger);
+    color: var(--white);
+    border-color: var(--danger);
+
+    &:hover {
+      background: #dc2626;
+    }
+  }
+
+  &.icon {
+    padding: 0.5rem;
+    border-radius: 50%;
     background: transparent;
-    border: 1px solid ${colors.blueMarine};
-    color: ${colors.blueMarine};
+    border: none;
+    box-shadow: none;
+    color: var(--dark-gray);
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.05);
+      color: var(--black);
+    }
   }
 
   @media (max-width: 767px) {
-    padding: 0.5rem 0.9rem;
-    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
 
     svg {
       width: 16px;
@@ -298,8 +439,10 @@ const Button = styled(motion.button).attrs(() => ({
   }
 
   @media (max-width: 479px) {
-    flex-grow: 1;
-    justify-content: center;
+    padding: 0.5rem;
+    span {
+      display: none;
+    }
   }
 `;
 
@@ -307,7 +450,7 @@ const Content = styled(motion.main)`
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
-  background: #f8f9fa;
+  background: var(--light-gray);
 
   @media (max-width: 1023px) {
     padding: 1.25rem;
@@ -324,59 +467,72 @@ const ChartGrid = styled(motion.div).attrs(() => ({
   animate: "show"
 }))`
   display: grid;
-  gap: 1.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
 
   @media (max-width: 767px) {
-    gap: 1.25rem;
+    gap: 1rem;
   }
 `;
 
 const ChartCard = styled(motion.div).attrs(() => ({
   variants: cardVariants,
-  viewport: { once: true, amount: 0.2 }
+  viewport: { once: true, amount: 0.1 }
 }))`
-  background: ${colors.white};
-  border-radius: 2px;
-  box-shadow: 0 4px 12px rgba(0, 43, 91, 0.08);
-  padding: 1.5rem;
-  transition: transform 0.9s ease, box-shadow 0.9s ease;
-  border: 1px solid rgba(0, 43, 91, 0.08);
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+  border: 1px solid var(--medium-gray);
   min-width: 0;
   will-change: transform;
+  position: relative;
+  overflow: hidden;
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 43, 91, 0.12);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary);
   }
 
   @media (max-width: 767px) {
-    padding: 1.25rem;
+    padding: 1rem;
   }
 `;
 
 const ChartTitle = styled(motion.h3).attrs(() => ({
-  initial: { opacity: 0, x: -20 },
+  initial: { opacity: 0, x: -10 },
   animate: { opacity: 1, x: 0 },
-  transition: { delay: 0.2, duration: 0.5 }
+  transition: { delay: 0.1, duration: 0.3 }
 }))`
-  font-size: 1rem;
-  font-weight: 700;
-  color: ${colors.blueMarine};
-  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(0, 43, 91, 0.1);
+  gap: 0.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--medium-gray);
 
   svg {
+    color: var(--dark-gray);
     flex-shrink: 0;
   }
 
   @media (max-width: 767px) {
-    font-size: 1.05rem;
-    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
   }
 `;
 
@@ -386,44 +542,49 @@ const LoadingState = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
-  color: ${colors.blueMarine};
+  gap: 1rem;
+  color: var(--primary);
 
   p {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
+    color: var(--dark-gray);
   }
 
   @media (max-width: 767px) {
     height: 300px;
+    gap: 0.75rem;
 
     p {
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
   }
 `;
 
 const ErrorState = styled.div`
-  padding: 1.75rem;
+  padding: 1.5rem;
   background: rgba(239, 68, 68, 0.05);
   border-radius: 8px;
   border: 1px solid rgba(239, 68, 68, 0.2);
-  color: #dc2626;
+  color: var(--danger);
   text-align: center;
-  max-width: 600px;
-  margin: 2rem auto;
+  max-width: 500px;
+  margin: 1.5rem auto;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
   p {
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    font-size: 0.95rem;
   }
 
   @media (max-width: 767px) {
-    padding: 1.25rem;
-    margin: 1.5rem auto;
+    padding: 1rem;
+    margin: 1rem auto;
 
     p {
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
     }
   }
 `;
@@ -431,10 +592,15 @@ const ErrorState = styled.div`
 const MobileMenuButton = styled(motion.button).attrs(() => ({
   whileTap: { scale: 0.95 }
 }))`
-  background: rgba(0, 43, 91, 0.05);
-  border-radius: 8px;
+  background: transparent;
+  border-radius: 6px;
   padding: 0.5rem;
   display: none;
+  color: var(--dark-gray);
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
 
   @media (max-width: 1023px) {
     display: flex;
@@ -450,7 +616,8 @@ const Overlay = styled(motion.div)`
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 90;
+  z-index: 900;
+  backdrop-filter: blur(2px);
 
   @media (min-width: 1024px) {
     display: none;
@@ -458,10 +625,67 @@ const Overlay = styled(motion.div)`
 `;
 
 const TitleAnimation = styled(motion.div).attrs(() => ({
-  initial: { opacity: 0, x: -20 },
-  animate: { opacity: 1, x: 0 },
-  transition: { delay: 0.2, duration: 0.5 }
-}))``;
+  initial: { opacity: 0, y: -10 },
+  animate: { opacity: 1, y: 0 },
+  transition: { delay: 0.1, duration: 0.3 }
+}))`
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 767px) {
+    margin-bottom: 1rem;
+  }
+`;
+
+const StatsContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const StatCard = styled.div`
+  background: var(--white);
+  border-radius: 8px;
+  padding: 1.25rem;
+  border: 1px solid var(--medium-gray);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  h3 {
+    font-size: 0.875rem;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  @media (max-width: 767px) {
+    padding: 1rem;
+
+    p {
+      font-size: 1.25rem;
+    }
+  }
+`;
 
 export default function DashboardCasierJudiciaire() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -524,94 +748,107 @@ export default function DashboardCasierJudiciaire() {
         <AnimatePresence>
           {sidebarOpen && (
             <SidebarContainer
-              initial={{ x: -320 }}
+              sidebarOpen={sidebarOpen}
+              initial={{ x: -280 }}
               animate={{ x: 0 }}
-              exit={{ x: -320 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              exit={{ x: -280 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
             >
               <SidebarHeader>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <SidebarLogo>
                   <LogoIcon />
-                  <span style={{ fontSize: "1.15rem", fontWeight: "600" }}>
-                    GuiCJ
-                  </span>
-                </div>
-                <button
+                  <span>GuiCJ</span>
+                </SidebarLogo>
+                <Button 
+                  className="icon" 
                   onClick={closeSidebar}
-                  style={{
-                    background: "rgba(255, 255, 255, 0.1)",
-                    borderRadius: "50%",
-                    width: "32px",
-                    height: "32px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
+                  aria-label="Close sidebar"
                 >
-                  <ChartNoAxesCombined size={18} color={colors.white} />
-                </button>
+                  <X size={18} />
+                </Button>
               </SidebarHeader>
 
               <SidebarList>
                 <li
                   className={activeTab === "statistiques" ? "active" : ""}
-                  onClick={() => setActiveTab("statistiques")}
+                  onClick={() => {
+                    setActiveTab("statistiques");
+                    closeSidebar();
+                  }}
                 >
                   <PieChart size={18} />
-                  Statistiques
+                  <span>Statistiques</span>
                 </li>
                 <li
                   className={activeTab === "statistiquesdeux" ? "active" : ""}
-                  onClick={() => setActiveTab("statistiquesdeux")}
+                  onClick={() => {
+                    setActiveTab("statistiquesdeux");
+                    closeSidebar();
+                  }}
                 >
-                  <PieChart size={18} />
-                  Analyse des demandes
+                  <BarChart2 size={18} />
+                  <span>Analyse des demandes</span>
                 </li>
                 <li
                   className={activeTab === "compte" ? "active" : ""}
-                  onClick={() => setActiveTab("compte")}
+                  onClick={() => {
+                    setActiveTab("compte");
+                    closeSidebar();
+                  }}
                 >
                   <Shield size={18} />
-                  Gérer les comptes
+                  <span>Gérer les comptes</span>
                 </li>
                 <li
                   className={activeTab === "demandes" ? "active" : ""}
-                  onClick={() => setActiveTab("demandes")}
+                  onClick={() => {
+                    setActiveTab("demandes");
+                    closeSidebar();
+                  }}
                 >
                   <Send size={18} />
-                  Gérer les demandes
+                  <span>Gérer les demandes</span>
                 </li>
                 <li
                   className={activeTab === "condamnations" ? "active" : ""}
-                  onClick={() => setActiveTab("condamnations")}
+                  onClick={() => {
+                    setActiveTab("condamnations");
+                    closeSidebar();
+                  }}
                 >
                   <Gavel size={18} />
-                  Les condamnations
+                  <span>Les condamnations</span>
                 </li>
                 <li
                   className={activeTab === "càsierjudiciàir" ? "active" : ""}
-                  onClick={() => setActiveTab("càsierjudiciàir")}
+                  onClick={() => {
+                    setActiveTab("càsierjudiciàir");
+                    closeSidebar();
+                  }}
                 >
                   <Users size={18} />
-                  Les casiers judiciaires
+                  <span>Les casiers judiciaires</span>
                 </li>
-                
                 <li
                   className={activeTab === "sessionlist" ? "active" : ""}
-                  onClick={() => setActiveTab("sessionlist")}
+                  onClick={() => {
+                    setActiveTab("sessionlist");
+                    closeSidebar();
+                  }}
                 >
-                   <BellPlus  size={18}/>                 
-                  Sessions utilisateurs
+                  <BellPlus size={18} />
+                  <span>Sessions utilisateurs</span>
                 </li>
-
                 <li
                   className={activeTab === "caisse" ? "active" : ""}
-                  onClick={() => setActiveTab("caisse")}
+                  onClick={() => {
+                    setActiveTab("caisse");
+                    closeSidebar();
+                  }}
                 >
                   <Wallet size={18} />
-                  La caisse
+                  <span>La caisse</span>
                 </li>
-             
               </SidebarList>
             </SidebarContainer>
           )}
@@ -619,34 +856,72 @@ export default function DashboardCasierJudiciaire() {
 
         <MainContent>
           <Header>
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", minWidth: 0 }}>
-              <MobileMenuButton onClick={() => setSidebarOpen(!sidebarOpen)}>
-                {sidebarOpen ? (
-                  <X size={20} color={colors.blueMarine} />
-                ) : (
-                  <Menu size={20} color={colors.blueMarine} />
-                )}
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", minWidth: 0 }}>
+              <MobileMenuButton 
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                aria-label="Toggle sidebar"
+              >
+                {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
               </MobileMenuButton>
 
               <HeaderTitle>
-                {activeTab === "statistiques" && "Tableau de Bord des status"}
-                {activeTab === "statistiquesdeux" && "Tableau de Bord Judiciaire"}
-                {activeTab === "compte" && "Gestion des comptes"}
-                {activeTab === "demandes" && "Gestion des demandes"}
-                {activeTab === "càsierjudiciàir" && "Gestion des càsierjudiciàir"}
-                {activeTab === "condamnations" && "Gestion des condamnations"}
-                {activeTab === "caisse" && "Gestion de la caisse"}
-                {activeTab === "sessionlist" && " Sessions utilisateurs"}
-       
-                
+                {activeTab === "statistiques" && (
+                  <>
+                    <PieChart size={20} />
+                    <span>Tableau de Bord des status</span>
+                  </>
+                )}
+                {activeTab === "statistiquesdeux" && (
+                  <>
+                    <BarChart2 size={20} />
+                    <span>Tableau de Bord Judiciaire</span>
+                  </>
+                )}
+                {activeTab === "compte" && (
+                  <>
+                    <Shield size={20} />
+                    <span>Gestion des comptes</span>
+                  </>
+                )}
+                {activeTab === "demandes" && (
+                  <>
+                    <Send size={20} />
+                    <span>Gestion des demandes</span>
+                  </>
+                )}
+                {activeTab === "càsierjudiciàir" && (
+                  <>
+                    <Users size={20} />
+                    <span>Gestion des casiers judiciaires</span>
+                  </>
+                )}
+                {activeTab === "condamnations" && (
+                  <>
+                    <Gavel size={20} />
+                    <span>Gestion des condamnations</span>
+                  </>
+                )}
+                {activeTab === "caisse" && (
+                  <>
+                    <Wallet size={20} />
+                    <span>Gestion de la caisse</span>
+                  </>
+                )}
+                {activeTab === "sessionlist" && (
+                  <>
+                    <BellPlus size={20} />
+                    <span>Sessions utilisateurs</span>
+                  </>
+                )}
               </HeaderTitle>
             </div>
 
-            <ButtonGroup>
-              <Button className="">
-                <LogoutButton />Deconexion
+            <HeaderActions>
+              <Button className="outline">
+                <LogoutButton />
+                <span>Déconnexion</span>
               </Button>
-            </ButtonGroup>
+            </HeaderActions>
           </Header>
 
           <Content>
@@ -654,9 +929,8 @@ export default function DashboardCasierJudiciaire() {
               <ErrorState>
                 <p>{error}</p>
                 <Button
-                  className="outline"
+                  className="primary"
                   onClick={() => window.location.reload()}
-                  style={{ marginTop: "1.5rem" }}
                 >
                   Réessayer
                 </Button>
@@ -667,7 +941,7 @@ export default function DashboardCasierJudiciaire() {
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                 >
-                  <Loader2 size={40} />
+                  <Loader2 size={36} />
                 </motion.div>
                 <motion.p
                   initial={{ opacity: 0 }}
@@ -688,14 +962,36 @@ export default function DashboardCasierJudiciaire() {
                     variants={pageVariants}
                   >
                     <TitleAnimation>
-                      <HeaderTitle>Tableau de Bord des status</HeaderTitle>
+                      <HeaderTitle>
+                        <PieChart size={20} />
+                        Tableau de Bord des status
+                      </HeaderTitle>
                     </TitleAnimation>
+
+                    <StatsContainer>
+                      <StatCard>
+                        <h3>Total des dossiers</h3>
+                        <p>{total}</p>
+                      </StatCard>
+                      <StatCard>
+                        <h3>Demandes ce mois</h3>
+                        <p>24</p>
+                      </StatCard>
+                      <StatCard>
+                        <h3>Condamnations</h3>
+                        <p>156</p>
+                      </StatCard>
+                      <StatCard>
+                        <h3>Utilisateurs actifs</h3>
+                        <p>12</p>
+                      </StatCard>
+                    </StatsContainer>
 
                     <ChartGrid>
                       <ChartCard>
                         <ChartTitle>
-                          <BarChart2 size={20} color={colors.blueMarine} />
-                          Répartition par Tribunaux : {total}
+                          <BarChart2 size={18} />
+                          Répartition par Tribunaux
                         </ChartTitle>
                         <div style={{ height: "350px" }}>
                           <Condamnationsprtribunl />
@@ -704,10 +1000,10 @@ export default function DashboardCasierJudiciaire() {
 
                       <ChartCard>
                         <ChartTitle>
-                          <CalendarSearch size={20} color={colors.blueMarine} />
+                          <CalendarSearch size={18} />
                           Condamnations par Date
                         </ChartTitle>
-                        <div  style={{ height: "350px" }}>
+                        <div style={{ height: "350px" }}>
                           <CondemnationChart />
                         </div>
                       </ChartCard>
@@ -716,7 +1012,7 @@ export default function DashboardCasierJudiciaire() {
                     <ChartGrid>
                       <ChartCard>
                         <ChartTitle>
-                          <Send size={20} color={colors.blueMarine} />
+                          <Send size={18} />
                           Répartition des demandes de casier
                         </ChartTitle>
                         <div style={{ height: "300px" }}>
@@ -726,7 +1022,7 @@ export default function DashboardCasierJudiciaire() {
 
                       <ChartCard>
                         <ChartTitle>
-                          <Send size={20} color={colors.blueMarine} />
+                          <Database size={18} />
                           Analyse des demandes de casier
                         </ChartTitle>
                         <div style={{ height: "300px" }}>
@@ -746,13 +1042,16 @@ export default function DashboardCasierJudiciaire() {
                     variants={pageVariants}
                   >
                     <TitleAnimation>
-                      <HeaderTitle>Tableau de Bord Judiciaire</HeaderTitle>
+                      <HeaderTitle>
+                        <BarChart2 size={20} />
+                        Tableau de Bord Judiciaire
+                      </HeaderTitle>
                     </TitleAnimation>
 
                     <ChartGrid>
                       <ChartCard>
                         <ChartTitle>
-                          <Send size={20} color={colors.blueMarine} />
+                          <Activity size={18} />
                           Statuts des demandes de casier
                         </ChartTitle>
                         <div>
@@ -761,7 +1060,7 @@ export default function DashboardCasierJudiciaire() {
                       </ChartCard>
                       <ChartCard>
                         <ChartTitle>
-                          <Send size={20} color={colors.blueMarine} />
+                          <FileText size={18} />
                           Liste des demandes de casier
                         </ChartTitle>
                         <div>
@@ -832,9 +1131,9 @@ export default function DashboardCasierJudiciaire() {
                   </motion.div>
                 )}
 
-{activeTab === "sessionlist" && (
+                {activeTab === "sessionlist" && (
                   <motion.div
-                    key="caisse"
+                    key="sessionlist"
                     initial="initial"
                     animate="animate"
                     exit="exit"
@@ -843,7 +1142,6 @@ export default function DashboardCasierJudiciaire() {
                     <SessionList />
                   </motion.div>
                 )}
-
               </AnimatePresence>
             )}
           </Content>
@@ -861,8 +1159,25 @@ const LogoIcon = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M12 2L3 7L12 12L21 7L12 2Z" fill="#F2C94C" />
-    <path d="M3 12L12 17L21 12" stroke="#F2C94C" strokeWidth="2" />
-    <path d="M3 17L12 22L21 17" stroke="#F2C94C" strokeWidth="2" />
+    <path 
+      fillRule="evenodd" 
+      clipRule="evenodd" 
+      d="M12 2L3 7L12 12L21 7L12 2Z" 
+      fill="#F2C94C" 
+      stroke="#F2C94C" 
+      strokeWidth="2"
+    />
+    <path 
+      d="M3 12L12 17L21 12" 
+      stroke="#F2C94C" 
+      strokeWidth="2" 
+      strokeLinecap="round"
+    />
+    <path 
+      d="M3 17L12 22L21 17" 
+      stroke="#F2C94C" 
+      strokeWidth="2" 
+      strokeLinecap="round"
+    />
   </svg>
 );

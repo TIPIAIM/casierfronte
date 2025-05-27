@@ -83,7 +83,7 @@ function App() {
           <Route path="/adminmere" element={<Adminmere />} />
           <Route path="/sessionlist" element={<SessionList />} />
           {/*à video Visiteur */}
-          {/*à video Visiteur */}
+          {/*à video Visiteur SessionList */}
           <Route path="/demandeid/:id" element={<DemandeDetail />} />
           {/** pour les detil */}
           <Route path="/demandemisejour/:id" element={<DemandeMisejour />} />

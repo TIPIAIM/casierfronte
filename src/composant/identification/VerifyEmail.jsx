@@ -147,7 +147,7 @@ const VerifyEmail = () => {
         setMessage(response.data.message || "Code de vérification invalide.");
       }
     } catch (error) {
-      setMessage("VCode expiré. Veuillez vous réinscrire ou une erreur est survenue pendant la vérification.");
+      setMessage("Code expiré ou mauvais code utiliser . Veuillez vous réinscrire avec le meme mail après 15 min ou vous reinscrire avec un nouveau mail si vous ne voulez pas patienter.");
     }
   };
 
