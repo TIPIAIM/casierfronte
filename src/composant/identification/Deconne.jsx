@@ -47,7 +47,7 @@ const LogoutButton = () => {
     } catch (error) {
       console.error("Erreur de déconnexion :", error);
       logout();
-      navigate("/login");
+      navigate("/");//redirection àpres deconnexion 
     }
   };
   

@@ -5,8 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaArrowLeft } from "react-icons/fa";
 import { login, loginAfter2FA } from "./authService";
 import jurid1 from "../../assets/jurid1.avif";
-import guine from "../../assets/guine.avif";
-import guine1 from "../../assets/guin1.avif";
+ 
 import guine2 from "../../assets/guin2.avif";
 import guine3 from "../../assets/guin3.avif";
 import guine4 from "../../assets/guin4.avif";
@@ -216,7 +215,7 @@ const LoginForm = (props) => {
 
   // Carrousel d'images
   const [currentImage, setCurrentImage] = useState(0);
-  const images = [guine1, jurid1, guine4, guine2, guine, guine5, guine3];
+  const images = [ jurid1, guine4, guine2, guine5, guine3];
   const texts = [
     "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
     "Accédez à vos informations en toute sécurité.\nUn service rapide et fiable.",

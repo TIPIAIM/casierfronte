@@ -202,7 +202,7 @@ const Senregistrer = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const navigate = useNavigate();
 
-  const images = [guine3, guine4, guine5, jurid1, guine2, guine, guine1];
+  const images = [guine3, guine4, guine5, jurid1, guine2];
   const texts = [
     "Bienvenue sur la plateforme officielle du casier judiciaire.\nSimplifiez vos démarches administratives.",
     "Accédez à vos informations en toute sécurité.\nUn service rapide et fiable.",
