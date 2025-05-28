@@ -263,7 +263,7 @@ function TbleoListe() {
 
   // État pour la pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 17;
+  const itemsPerPage = 19;
 
   useEffect(() => {
     const fetchAllDemandes = async () => {

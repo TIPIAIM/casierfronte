@@ -24,8 +24,7 @@ const colors = {
 // ================ STYLES ================
 const Container = styled.div`
   padding: 2rem;
-  background-color: ${colors.lightBg};
-  min-height: 100vh;
+   min-height: 100vh;
   max-width: 1800px;
   margin: 0 auto;
 `;
@@ -40,8 +39,8 @@ const Title = styled(motion.h2)`
 
 const FeatureCards = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
   margin-bottom: 2.5rem;
 `;
 
@@ -50,7 +49,7 @@ const FeatureCard = styled(motion.div)`
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border-left: 4px solid ${props => props.color || colors.secondary};
+  border-bottom: 4px solid ${props => props.color || colors.secondary};
   transition: transform 0.3s, box-shadow 0.3s;
 
   &:hover {
@@ -66,13 +65,13 @@ const FeatureTitle = styled.h3`
   font-size: 1.1rem;
   color: ${colors.primary};
   margin-bottom: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 const FeatureText = styled.p`
   color: ${colors.text};
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 0.85rem;
+  line-height: 1.3;
 `;
 
 const TableWrapper = styled.div`
@@ -92,9 +91,9 @@ const StyledTable = styled(motion.table)`
 const Th = styled.th`
   background-color: ${colors.primary};
   color: ${colors.white};
-  padding: 15px 20px;
+  padding: 10px 17px;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9rem;
   position: sticky;
   top: 0;
@@ -102,7 +101,7 @@ const Th = styled.th`
 `;
 
 const Td = styled.td`
-  padding: 12px 20px;
+  padding: 5px 18px;
   border-bottom: 1px solid ${colors.border};
   font-size: 0.9rem;
   color: ${colors.text};
@@ -336,11 +335,18 @@ const SessionList = () => {
         const response = await axios.get(`${import.meta.env.VITE_b}/traficconnexion/sessions`, {
           withCredentials: true,
         });
-        setSessions(response.data);
+        
+        if (response.data && Array.isArray(response.data)) {
+          setSessions(response.data);
+        } else {
+          throw new Error("Format de données inattendu");
+        }
       } catch (error) {
-        console.error("Erreur lors du chargement des sessions:", error);
-        setNotif({ message: "Erreur lors du chargement des données", type: "error" });
-        setTimeout(() => setNotif({ message: "", type: "" }), 4000);
+        console.error("Erreur fetchSessions:", error);
+        setNotif({ 
+          message: error.response?.data?.message || "Erreur lors du chargement des données", 
+          type: "error" 
+        });
       } finally {
         setIsLoading(false);
       }
@@ -350,47 +356,66 @@ const SessionList = () => {
   }, []);
 
   const handleExport = () => {
-    const dataToExport = sessions.flatMap((user) =>
-      user.connexions.map((con) => ({
-        ID: user.id,
-        Identifiant: user.identifiant,
-        "Nombre de connexions": user.nombreConnexion,
-        "Date de connexion": new Date(con.connectedAt).toLocaleString(),
-        "Date de déconnexion": con.disconnectedAt
-          ? new Date(con.disconnectedAt).toLocaleString()
-          : "En cours...",
-        IP: con.ip || "Non disponible",
-        Navigateur: con.browser || "Non disponible"
-      }))
-    );
+    try {
+      const dataToExport = sessions.flatMap((user) =>
+        user.connexions.map((con) => ({
+          ID: user.id,
+          Identifiant: user.identifiant,
+          "Nombre de connexions": user.nombreConnexion,
+          "Date de connexion": new Date(con.connectedAt).toLocaleString(),
+          "Date de déconnexion": con.disconnectedAt
+            ? new Date(con.disconnectedAt).toLocaleString()
+            : "En cours...",
+          IP: con.ip || "Non disponible",
+          Navigateur: con.browser || "Non disponible",
+          Statut: !con.disconnectedAt ? "Actif" : "Inactif"
+        }))
+      );
 
-    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sessions");
-    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-    const file = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(file, "historique_connexions.xlsx");
-    setNotif({ message: "Export réussi ! Le fichier Excel a été téléchargé.", type: "success" });
-    setTimeout(() => setNotif({ message: "", type: "" }), 4000);
+      const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sessions");
+      const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+      const file = new Blob([excelBuffer], { type: "application/octet-stream" });
+      saveAs(file, "historique_connexions.xlsx");
+      setNotif({ message: "Export réussi ! Le fichier Excel a été téléchargé.", type: "success" });
+    } catch (error) {
+      console.error("Erreur lors de l'export:", error);
+      setNotif({ message: "Erreur lors de l'export des données", type: "error" });
+    } finally {
+      setTimeout(() => setNotif({ message: "", type: "" }), 4000);
+    }
   };
 
   const filtered = sessions.map((user) => {
-    const emailMatch = user.identifiant.toLowerCase().includes(search.toLowerCase()) || 
-                      user.id.includes(search);
-    return emailMatch ? user : { ...user, connexions: [] };
+    try {
+      const emailMatch = user.identifiant?.toLowerCase().includes(search.toLowerCase()) || 
+                        user.id?.includes(search);
+      return emailMatch ? user : { ...user, connexions: [] };
+    } catch (error) {
+      console.error("Erreur lors du filtrage:", error);
+      return { ...user, connexions: [] };
+    }
   });
 
   const paginatedRows = filtered.flatMap((user) =>
-    user.connexions.map((con, idx) => ({
-      id: user.id,
-      identifiant: user.identifiant,
-      nombreConnexion: user.nombreConnexion,
-      connectedAt: con.connectedAt,
-      disconnectedAt: con.disconnectedAt,
-      ip: con.ip || "Non disponible",
-      browser: con.browser || "Non disponible",
-      isActive: !con.disconnectedAt
-    }))
+    user.connexions.map((con, idx) => {
+      try {
+        return {
+          id: user.id,
+          identifiant: user.identifiant,
+          nombreConnexion: user.nombreConnexion,
+          connectedAt: con.connectedAt,
+          disconnectedAt: con.disconnectedAt,
+          ip: con.ip || "Non disponible",
+          browser: con.browser || "Non disponible",
+          isActive: !con.disconnectedAt
+        };
+      } catch (error) {
+        console.error("Erreur lors de la création de la ligne:", error);
+        return null;
+      }
+    }).filter(Boolean)
   );
 
   const indexOfLast = currentPage * itemsPerPage;
@@ -400,12 +425,16 @@ const SessionList = () => {
 
   const chartData = [];
   sessions.forEach((user) => {
-    user.connexions.forEach((con) => {
-      const date = new Date(con.connectedAt).toISOString().split("T")[0];
-      const existing = chartData.find((item) => item.date === date);
-      if (existing) existing.count += 1;
-      else chartData.push({ date, count: 1 });
-    });
+    try {
+      user.connexions.forEach((con) => {
+        const date = new Date(con.connectedAt).toISOString().split("T")[0];
+        const existing = chartData.find((item) => item.date === date);
+        if (existing) existing.count += 1;
+        else chartData.push({ date, count: 1 });
+      });
+    } catch (error) {
+      console.error("Erreur lors de la création des données du graphique:", error);
+    }
   });
 
   // Trier les données du graphique par date
@@ -413,8 +442,23 @@ const SessionList = () => {
 
   // Détection des connexions simultanées suspectes
   const suspiciousSessions = paginatedRows.filter(session => {
-    return session.nombreConnexion > 50;
+    try {
+      return session.nombreConnexion > 50;
+    } catch (error) {
+      console.error("Erreur lors de la détection des sessions suspectes:", error);
+      return false;
+    }
   });
+
+  const getSessionStatus = (session) => {
+    try {
+      if (!session.disconnectedAt) return { text: "Actif", variant: "active" };
+      return { text: "Inactif", variant: "inactive" };
+    } catch (error) {
+      console.error("Erreur lors de la détermination du statut:", error);
+      return { text: "Erreur", variant: "inactive" };
+    }
+  };
 
   return (
     <Container>
@@ -433,16 +477,8 @@ const SessionList = () => {
           {notif.message}
         </Notification>
       )}
+ 
 
-      <Title
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        Tableau de bord des sessions utilisateurs
-      </Title>
-
-      {/* Cartes de fonctionnalités */}
       <FeatureCards>
         <FeatureCard 
           color={colors.primary}
@@ -524,28 +560,36 @@ const SessionList = () => {
             </Tr>
           </thead>
           <tbody>
-            {currentItems.map((item, idx) => (
-              <Tr 
-                key={`${item.id}-${idx}`} 
-                onClick={() => setSelectedSession(item)}
-                style={item.nombreConnexion > 50 ? { background: "#fff1f2" } : {}}
-              >
-                <Td>{item.id}</Td>
-                <Td>{item.identifiant}</Td>
-                <Td>{item.nombreConnexion}</Td>
-                <Td>
-                  <Badge variant={item.isActive ? "active" : "inactive"}>
-                    {item.isActive ? "Actif" : "Inactif"}
-                  </Badge>
-                </Td>
-                <Td>{new Date(item.connectedAt).toLocaleString()}</Td>
-                <Td>
-                  {item.disconnectedAt
-                    ? new Date(item.disconnectedAt).toLocaleString()
-                    : <em style={{ color: colors.secondary }}>Session active</em>}
-                </Td>
-              </Tr>
-            ))}
+            {currentItems.map((item, idx) => {
+              try {
+                const status = getSessionStatus(item);
+                return (
+                  <Tr 
+                    key={`${item.id}-${idx}`} 
+                    onClick={() => setSelectedSession(item)}
+                    style={item.nombreConnexion > 50 ? { background: "#fff1f2" } : {}}
+                  >
+                    <Td>{item.id}</Td>
+                    <Td>{item.identifiant}</Td>
+                    <Td>{item.nombreConnexion}</Td>
+                    <Td>
+                      <Badge variant={status.variant}>
+                        {status.text}
+                      </Badge>
+                    </Td>
+                    <Td>{new Date(item.connectedAt).toLocaleString()}</Td>
+                    <Td>
+                      {item.disconnectedAt
+                        ? new Date(item.disconnectedAt).toLocaleString()
+                        : <em style={{ color: colors.secondary }}>Session active</em>}
+                    </Td>
+                  </Tr>
+                );
+              } catch (error) {
+                console.error("Erreur lors du rendu de la ligne:", error);
+                return null;
+              }
+            })}
           </tbody>
         </StyledTable>
       </TableWrapper>

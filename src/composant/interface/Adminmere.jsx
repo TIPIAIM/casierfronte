@@ -39,6 +39,7 @@ import GestioncondAdmin from "../Pourlecsier/GestionAdmin/gestioncond/GestionCon
 import CsierJudicirpouradmin from "../Pourlecsier/GestionAdmin/CsierJudicirpouradmin";
 import LogoutButton from "../identification/Deconne";
 import SessionList from "../Pourlecsier/GestionAdmin/Session/SessionList";
+import Situàtiondemànde from "../Pourlecsier/GestionAdmin/gestionenregistreent/Sttistk/situàtiondemànde";
 
 // Palette de couleurs étendue
 const colors = {
@@ -361,11 +362,11 @@ const HeaderActions = styled.div`
 `;
 
 const Button = styled(motion.button).attrs(() => ({
-  whileHover: { scale: 1.03 },
-  whileTap: { scale: 0.98 }
+  whileHover: { scale: 0.93 },
+  whileTap: { scale: 0.88 }
 }))`
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1px;
   font-weight: 500;
   font-size: 0.875rem;
   display: flex;
@@ -919,7 +920,7 @@ export default function DashboardCasierJudiciaire() {
             <HeaderActions>
               <Button className="outline">
                 <LogoutButton />
-                <span>Déconnexion</span>
+                <span>Fermer</span>
               </Button>
             </HeaderActions>
           </Header>
@@ -961,30 +962,16 @@ export default function DashboardCasierJudiciaire() {
                     exit="exit"
                     variants={pageVariants}
                   >
-                    <TitleAnimation>
+                     <TitleAnimation>
                       <HeaderTitle>
-                        <PieChart size={20} />
-                        Tableau de Bord des status
+                     
+                      Statistiques des demandes de casier
                       </HeaderTitle>
                     </TitleAnimation>
 
                     <StatsContainer>
-                      <StatCard>
-                        <h3>Total des dossiers</h3>
-                        <p>{total}</p>
-                      </StatCard>
-                      <StatCard>
-                        <h3>Demandes ce mois</h3>
-                        <p>24</p>
-                      </StatCard>
-                      <StatCard>
-                        <h3>Condamnations</h3>
-                        <p>156</p>
-                      </StatCard>
-                      <StatCard>
-                        <h3>Utilisateurs actifs</h3>
-                        <p>12</p>
-                      </StatCard>
+                      <Situàtiondemànde/>
+               
                     </StatsContainer>
 
                     <ChartGrid>
@@ -1041,12 +1028,7 @@ export default function DashboardCasierJudiciaire() {
                     exit="exit"
                     variants={pageVariants}
                   >
-                    <TitleAnimation>
-                      <HeaderTitle>
-                        <BarChart2 size={20} />
-                        Tableau de Bord Judiciaire
-                      </HeaderTitle>
-                    </TitleAnimation>
+                  
 
                     <ChartGrid>
                       <ChartCard>

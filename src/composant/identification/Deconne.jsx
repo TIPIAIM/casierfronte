@@ -8,22 +8,22 @@ import { FiLogOut } from "react-icons/fi"; // Icône logout
 
 // 🎨 Animation des couleurs
 const colorCycle = keyframes`
-  0% { color: #FF5733; }
+  0% { color: red; }
   25% { color: #F2C94C; }
-  50% { color: #3357FF; }
+  50% { color: red; }
   75% { color: #1A4D2E; }
-  100% { color: #002B5B; }
+  100% { color: red; }
 `;
 
 // 🧑‍🎨 Icône stylée avec animation
 const AnimatedLogoutIcon = styled(FiLogOut)`
-  font-size: 28px;
+  font-size: 20px;
   cursor: pointer;
   animation: ${colorCycle} 5s infinite; // 5 couleurs × 3 secondes = 15s
   transition: transform 0.3s ease;
 
   &:hover {
-    transform: scale(1.4);
+    transform: scale(1.2);
   }
 `;
 
@@ -38,7 +38,7 @@ const LogoutButton = () => {
         {}, // corps vide
         { withCredentials: true } // ⬅️ important !
       );
-  
+
       if (response.status === 200) {
         alert("✅ Vous avez été déconnecté avec succès !");
         logout(); // déclenche le changement de contexte
@@ -47,10 +47,9 @@ const LogoutButton = () => {
     } catch (error) {
       console.error("Erreur de déconnexion :", error);
       logout();
-      navigate("/");//redirection àpres deconnexion 
+      navigate("/"); //redirection àpres deconnexion
     }
   };
-  
 
   return <AnimatedLogoutIcon onClick={handleLogout} title="Se déconnecter" />;
 };
