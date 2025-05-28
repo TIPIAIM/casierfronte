@@ -366,11 +366,11 @@ const LoginForm = (props) => {
           </Button>
 
           <LinksContainer>
-            <StyledLink to="/motdepasseoublie">
+         {  /* <StyledLink to="/motdepasseoublie">
               Mot de passe oublié ?
-            </StyledLink>
+            </StyledLink>*/}
             <StyledLink to="/enregistrer">
-              Créer un compte
+              J'ai pas de compte  
             </StyledLink>
           </LinksContainer>
         </Form>

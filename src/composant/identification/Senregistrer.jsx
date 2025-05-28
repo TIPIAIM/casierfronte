@@ -305,7 +305,7 @@ const Senregistrer = () => {
             <Button type="submit" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} disabled={isSubmitting}>
               {isSubmitting ? "Enregistrement..." : "S'enregistrer"}
             </Button>
-            <LoginLink to="/seconnecter">Déjà un compte ? Connectez-vous</LoginLink>
+            <LoginLink to="/seconnecter">J'ai éjà un compte  </LoginLink>
           </Form>
         </FormSection>
       </Content>

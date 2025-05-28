@@ -5,9 +5,12 @@ import { motion } from "framer-motion";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { FiDownload, FiSearch, FiUser, FiCalendar, FiAlertCircle, FiBarChart2, FiClock, FiShield } from "react-icons/fi";
+import { FiDownload, FiSearch, FiUser, FiAlertCircle, FiBarChart2, FiClock, FiShield } from "react-icons/fi";
+
 
 // ================ COULEURS ================
+
+
 const colors = {
   primary: "#0C2340",
   secondary: "#8B7231",
@@ -22,12 +25,15 @@ const colors = {
 };
 
 // ================ STYLES ================
+
+
 const Container = styled.div`
   padding: 2rem;
    min-height: 100vh;
   max-width: 1800px;
   margin: 0 auto;
 `;
+
 
 const Title = styled(motion.h2)`
   font-size: 2.2rem;
@@ -37,12 +43,14 @@ const Title = styled(motion.h2)`
   color: ${colors.primary};
 `;
 
+
 const FeatureCards = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   margin-bottom: 2.5rem;
 `;
+
 
 const FeatureCard = styled(motion.div)`
   background: ${colors.white};
