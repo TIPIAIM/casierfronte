@@ -354,7 +354,7 @@ const HeaderTitle = styled.h1`
 const HeaderActions = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
 
   @media (max-width: 767px) {
     gap: 0.5rem;
@@ -377,7 +377,7 @@ const Button = styled(motion.button).attrs(() => ({
   cursor: pointer;
   white-space: nowrap;
   background: var(--white);
-  color: var(--primary);
+  color: var(--secondary);
   border: 1px solid var(--medium-gray);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 

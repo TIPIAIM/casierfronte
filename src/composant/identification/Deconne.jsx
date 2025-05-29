@@ -1,57 +1,149 @@
 // LogoutButton.jsx
-import React, { useContext } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
 import styled, { keyframes } from "styled-components";
-import { FiLogOut } from "react-icons/fi"; // Icône logout
+import { FiLogOut, FiLoader } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 
-// 🎨 Animation des couleurs
-const colorCycle = keyframes`
-  0% { color: red; }
-  25% { color: #F2C94C; }
-  50% { color: red; }
-  75% { color: #1A4D2E; }
-  100% { color: red; }
+const colors = {
+  primary: "#002B5B",
+  accent:  "#F2C94C",
+  danger:  "#EF4444",
+  light:   "#FFFFFF",
+  gray:    "#6B7280",
+};
+
+const pulse = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 `;
 
-// 🧑‍🎨 Icône stylée avec animation
-const AnimatedLogoutIcon = styled(FiLogOut)`
-  font-size: 20px;
+const IconWrapper = styled.div`
+  font-size: 24px;
   cursor: pointer;
-  animation: ${colorCycle} 5s infinite; // 5 couleurs × 3 secondes = 15s
-  transition: transform 0.3s ease;
-
+  color: ${props => (props.loading ? colors.gray : colors.accent)};
+  transition: color 0.3s;
   &:hover {
-    transform: scale(1.2);
+    animation: ${pulse} 0.6s ease-in-out;
+    color: ${props => (props.loading ? colors.danger : colors.danger)};
   }
+`;
+
+const Spinner = styled(FiLoader)`
+  font-size: 24px;
+  animation: spin 1s linear infinite;
+  @keyframes spin { to { transform: rotate(360deg); } }
+`;
+
+// Snackbar at bottom-left with 10rem offset
+const SnackbarContainer = styled(motion.div)`
+  position: fixed;
+    top: 2rem; /* raised to 10rem from bottom */
+  left: -15rem; /* aligned to left side */
+  max-width: 400px;
+  width: auto;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 1000;
+`;
+
+const Message = styled.div`
+  flex: 1;
+  color: ${colors.primary};
+  font-size: 0.95rem;
+`;
+
+const CancelButton = styled(motion.button)`
+  background: transparent;
+  border: none;
+  color: ${colors.danger};
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+  &:hover { background: rgba(239,68,68,0.1); }
 `;
 
 const LogoutButton = () => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const intervalRef = useRef(null);
 
-  const handleLogout = async () => {
+  const executeLogout = async () => {
+    setLoading(true);
+    clearInterval(intervalRef.current);
     try {
-      const response = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_b}/api/auth/logout`,
-        {}, // corps vide
-        { withCredentials: true } // ⬅️ important !
+        {},
+        { withCredentials: true }
       );
-
-      if (response.status === 200) {
-        alert("✅ Vous avez été déconnecté avec succès !");
-        logout(); // déclenche le changement de contexte
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Erreur de déconnexion :", error);
+    } catch (err) {
+      console.error("Logout error:", err);
+    } finally {
       logout();
-      navigate("/"); //redirection àpres deconnexion
+      navigate("/");
     }
   };
 
-  return <AnimatedLogoutIcon onClick={handleLogout} title="Se déconnecter" />;
+  const scheduleLogout = () => {
+    if (loading) return;
+    setShowSnackbar(true);
+    setCountdown(5);
+    intervalRef.current = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          executeLogout();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  const cancelLogout = () => {
+    clearInterval(intervalRef.current);
+    setShowSnackbar(false);
+  };
+
+  return (
+    <>
+      <IconWrapper onClick={scheduleLogout} loading={loading} title="Se déconnecter">
+        {loading ? <Spinner /> : <FiLogOut />}
+      </IconWrapper>
+
+      <AnimatePresence>
+        {showSnackbar && (
+          <SnackbarContainer
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <Message>Déconnexion dans {countdown} s</Message>
+            <CancelButton
+              onClick={cancelLogout}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >Annuler</CancelButton>
+          </SnackbarContainer>
+        )}
+      </AnimatePresence>
+    </>
+  );
 };
 
 export default LogoutButton;

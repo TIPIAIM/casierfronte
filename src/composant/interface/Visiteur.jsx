@@ -317,19 +317,32 @@ const BackButton = styled.button`
   position: absolute;
   top: 20px;
   left: 20px;
-  background: transparent;
+  gap: 8px;
+  padding: 5px 10px;
+     background-color: #F2C94C;
+  color: #002B5B;
+  border-radius: 50px;
   border: none;
-  color: #f2c94c;
+  font-weight: 600;
+  transition: all 0.3s ease;
   font-size: 1rem;
   cursor: pointer;
   z-index: 3;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  transition: transform 0.2s ease;
+   left: 2rem;
+  top: 2rem;
+   &:hover {
+    background-color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
 
-  &:hover {
-    transform: translateX(-5px);
+  @media (max-width: 768px) {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin-bottom: 1rem;
   }
 `;
 const TermsCheckbox = ({ accepted, onChange, error }) => {
@@ -404,7 +417,7 @@ const handleGoBack = () => {
   <Header/>
    <BackButton onClick={handleGoBack}>
           <FaArrowLeft />
-          
+          Fermer
         </BackButton>
   <Container>
       <ProcedureSection>
