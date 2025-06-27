@@ -269,7 +269,7 @@ const TextAreaField = styled.textarea`
 `;
 
 // Composant principal
-function DemandeMisejour() {
+function DemandeMisejourdmin() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [demande, setDemande] = useState(null);
@@ -291,10 +291,7 @@ function DemandeMisejour() {
     const fetchDemande = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_b}/api/demande/by-id/${id}`,
-          {
-            credentials: "include",
-          }
+          `${import.meta.env.VITE_b}/api/demandedmin/by-id/${id}`
         );
 
         if (!response.ok) {
@@ -336,7 +333,7 @@ function DemandeMisejour() {
   const handleSave = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_b}/api/demande/${id}`,
+        `${import.meta.env.VITE_b}/api/demandedmin/${id}`,
         {
           method: "PUT",
           
@@ -1098,4 +1095,4 @@ function DemandeMisejour() {
   );
 }
 
-export default DemandeMisejour;
+export default DemandeMisejourdmin;

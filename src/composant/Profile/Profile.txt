@@ -1,0 +1,170 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import styled from "styled-components";
+
+// URL de base de ton backend pour servir les fichiers
+const BASE_URL = import.meta.env.VITE_b || "";
+
+const ProfileContainer = styled.div`
+  max-width: 520px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+`;
+
+const Title = styled.h2`
+  color: #002b5b;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+`;
+
+const PhotoPreview = styled.img`
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #1a4d2e;
+  margin-bottom: 1rem;
+  background: #f4f4f4;
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 1rem;
+`;
+
+const Label = styled.label`
+  font-weight: 500;
+  color: #1a4d2e;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.3rem;
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #fafbfc;
+`;
+
+const Button = styled.button`
+  background: #1a4d2e;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-top: 1rem;
+  cursor: pointer;
+  &:hover {
+    background: #002b5b;
+  }
+`;
+
+const ErrorMsg = styled.div`
+  color: #c53030;
+  margin: 0.3rem 0;
+`;
+
+const SuccessMsg = styled.div`
+  color: #1a4d2e;
+  margin: 0.5rem 0 1rem 0;
+  font-weight: bold;
+`;
+
+function getPhotoUrl(photo) {
+  if (!photo) return "/default-avatar.png";
+  // Si c'est déjà une URL absolue (ex: photo stockée par un provider externe)
+  if (photo.startsWith("http")) return photo;
+  // Sinon, construit l'URL complète avec le backend
+  return BASE_URL + photo;
+}
+
+function Profile() {
+  const [user, setUser] = useState(null);
+  const [edit, setEdit] = useState(false);
+  const [values, setValues] = useState({});
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  // Récupère le profil à l'ouverture
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_b}/api/me`, { withCredentials: true })
+      .then(res => {
+        setUser(res.data);
+        setValues(res.data);
+      })
+      .catch(() => setError("Impossible de charger le profil"));
+  }, []);
+
+  const handleChange = e => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+    setError(""); setSuccess("");
+  };
+
+  const handlePhoto = e => {
+    setFile(e.target.files[0]);
+    setError(""); setSuccess("");
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError(""); setSuccess("");
+    const formData = new FormData();
+    Object.keys(values).forEach(key => {
+      if (key !== "photo") formData.append(key, values[key] || "");
+    });
+    if (file) formData.append("photo", file);
+
+    try {
+      const res = await axios.put(`${BASE_URL}/api/me`, formData, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      setUser(res.data);
+      setValues(res.data);
+      setFile(null);
+      setSuccess("Profil mis à jour !");
+    } catch (err) {
+      setError("Erreur lors de la mise à jour");
+    }
+  };
+
+  if (!user) return <ProfileContainer>Chargement...</ProfileContainer>;
+
+  return (
+    <ProfileContainer>
+      <Title>Mon Profil</Title>
+      {success && <SuccessMsg>{success}</SuccessMsg>}
+      <form onSubmit={handleSubmit}>
+        <FormGroup>
+          <PhotoPreview
+            src={file ? URL.createObjectURL(file) : getPhotoUrl(user.photo)}
+            alt="Photo de profil"
+          />
+          <Label>
+            Modifier la photo&nbsp;:
+            <Input type="file" accept="image/*" onChange={handlePhoto} />
+          </Label>
+        </FormGroup>
+        <FormGroup>
+          <Label>Nom :</Label>
+          <Input name="name" value={values.name || ""} onChange={handleChange} />
+        </FormGroup>
+        <FormGroup>
+          <Label>Email :</Label>
+          <Input name="email" value={values.email || ""} onChange={handleChange} />
+        </FormGroup>
+        {/* Ajoute d'autres champs de ton modèle si besoin */}
+        <Button type="submit">Mettre à jour</Button>
+      </form>
+      {error && <ErrorMsg>{error}</ErrorMsg>}
+    </ProfileContainer>
+  );
+}
+
+export default Profile;

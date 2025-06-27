@@ -190,6 +190,7 @@ const Voirmademande = () => {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
+          credentials: "include", // 👈 Ajoute ceci !
         }
       );
 

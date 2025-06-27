@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
-import {FaLayerGroup} from "react-icons/fa";
+import { FaLayerGroup } from "react-icons/fa";
 import LogoutButton from "../identification/Deconne";
 import { motion } from "framer-motion";
- 
+import AvatarProfileButton from "../Profile/AvatarProfileButton";
+
 // Palette de couleurs
 const colors = {
   blueMarine: "#002B5B",
@@ -145,7 +146,7 @@ const ButtonGroup = styled.div`
 
 const Button = styled(motion.button).attrs(() => ({
   whileHover: { scale: 1.05 },
-  whileTap: { scale: 0.95 }
+  whileTap: { scale: 0.95 },
 }))`
   padding: 0.55rem 1.1rem;
   border-radius: 8px;
@@ -201,7 +202,8 @@ const DropdownContainer = styled.div`
   margin-top: 5px;
   max-height: ${(props) => (props.isOpen ? "200px" : "0")};
   overflow: hidden;
-  animation: ${(props) => (props.isOpen ? dropdownFadeIn : "none")} 0.3s ease-out;
+  animation: ${(props) => (props.isOpen ? dropdownFadeIn : "none")} 0.3s
+    ease-out;
 `;
 
 const DropdownButton = styled(Link)`
@@ -228,24 +230,26 @@ const DropdownButton = styled(Link)`
 
 const Adminfils = () => {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
- 
-
   return (
-    <Container>
- <ButtonGroup>
-              <Button className="">
-              <LogoutButton /> {/* Utilisation de votre composant LogoutButton */}
-                Deconexion
-              </Button>
-            </ButtonGroup>      
+<div>
+ <AvatarProfileButton/>
+ <Container>  
+      <ButtonGroup>
+     
+        <Button className="">
+          <LogoutButton /> {/* Utilisation de votre composant LogoutButton */}
+          Deconexion
+        </Button>
+      </ButtonGroup>
 
-
-      <Heading>Sécurité et légalité depuis chez vous sans file d'attente.</Heading>
+      <Heading>
+        Sécurité et légalité depuis chez vous sans file d'attente.
+      </Heading>
 
       <MainButton onClick={toggleDropdown}>
         <span>Commencer </span>
@@ -253,14 +257,14 @@ const Adminfils = () => {
       </MainButton>
 
       <DropdownContainer isOpen={isOpen}>
-        <DropdownButton to="/demande">
-          Commencer ma démarche
-        </DropdownButton>
+        <DropdownButton to="/demande">Commencer ma démarche</DropdownButton>
         <DropdownButton to="/voir-mes-demandes">
           Voir mes demandes
         </DropdownButton>
       </DropdownContainer>
     </Container>
+</div>
+  
   );
 };
 

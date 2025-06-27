@@ -14,7 +14,7 @@ import Videoexpli from "./composant/Pourlecsier/Videoexpli";
 import Voirmademande from "./composant/Pourlecsier/Voirmademande";
 import Commencerdem from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/Commencerdem";
 import DemandesList from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/DemandesList";
-import DemandeDetail from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/DemandeDetail";
+import DemandeDetail from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/DemandeDetaildmin";
 import DemandeMisejour from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/DemandeMisejour";
 import EnregistreCondntion from "./composant/Pourlecsier/GestionAdmin/gestioncond/CondntionEnregistre";
 import ListeCondamnations from "./composant/Pourlecsier/GestionAdmin/gestioncond/ListeCondamnations";
@@ -28,9 +28,16 @@ import GestioncondAdmin from "./composant/Pourlecsier/GestionAdmin/gestioncond/G
 import Adminmere from "./composant/interface/Adminmere";
 import TbleoListe from "./composant/Pourlecsier/GestionAdmin/gestionenregistreent/Sttistk/TbleoListe";
 import SessionList from "./composant/Pourlecsier/GestionAdmin/Session/SessionList";
-
+import InstallPWAButton from "./composant/Applicationtelech/InstallPWAButton";
+import { useEffect } from "react";
 //Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
+  useEffect(() => {
+    window.addEventListener("appinstalled", () => {
+      alert("Merci d’avoir installé l’application !");
+      // ou : toast("Merci d’avoir installé…")
+    });
+  }, []);
   {
     /*
        <div>
@@ -59,6 +66,7 @@ function App() {
   }
   return (
     <div>
+      <InstallPWAButton />
       <BrowserRouter>
         <Routes>
           <Route index element={<Interfcedebut />} />
@@ -72,7 +80,7 @@ function App() {
           <Route path="/demandesList" element={<DemandesList />} />{" "}
           <Route path="/gestiondesdeux" element={<Gestiondesdeux />} />{" "}
           <Route path="/demandesListstati" element={<TbleoListe />} />{" "}
-          {/*à video demandesList SessionList
+          {/*à video demandemisejour demandesList SessionList
            */}
           <Route path="/debut" element={<Visiteur />} /> {/*à video */}
           <Route path="/gestionDetC" element={<GestionDetC />} />
@@ -83,7 +91,6 @@ function App() {
           <Route path="/adminmere" element={<Adminmere />} />
           <Route path="/sessionlist" element={<SessionList />} />
           {/*à video Visiteur */}
-          {/*à video Visiteur SessionList */}
           <Route path="/demandeid/:id" element={<DemandeDetail />} />
           {/** pour les detil */}
           <Route path="/demandemisejour/:id" element={<DemandeMisejour />} />
@@ -110,10 +117,6 @@ function App() {
           <Route path="/adminfils" element={<Adminfils />} /> {/*à video */}
           <Route path="/voir-mes-demandes" element={<Voirmademande />} />{" "}
           {/*à video  */}
-          <Route
-            path="/etranger"
-            element={<ProtectedRoute>{/* <Etrngerguinee /> */}</ProtectedRoute>}
-          />
           <Route
             path="/etranger"
             element={<ProtectedRoute>{/* <Etrngerguinee /> */}</ProtectedRoute>}

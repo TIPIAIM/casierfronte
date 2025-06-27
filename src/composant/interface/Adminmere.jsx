@@ -40,6 +40,7 @@ import CsierJudicirpouradmin from "../Pourlecsier/GestionAdmin/CsierJudicirpoura
 import LogoutButton from "../identification/Deconne";
 import SessionList from "../Pourlecsier/GestionAdmin/Session/SessionList";
 import Situàtiondemànde from "../Pourlecsier/GestionAdmin/gestionenregistreent/Sttistk/situàtiondemànde";
+import AvatarProfileButtondmin from "../Profile/AvatarProfileButtondmin";
 
 // Palette de couleurs étendue
 const colors = {
@@ -55,14 +56,6 @@ const colors = {
   warning: "#F59E0B",
   danger: "#EF4444",
   info: "#3B82F6"
-};
-
-// Thème sombre optionnel
-const darkTheme = {
-  background: "#1F2937",
-  card: "#374151",
-  text: "#F9FAFB",
-  border: "#4B5563"
 };
 
 // Animations améliorées
@@ -850,6 +843,7 @@ export default function DashboardCasierJudiciaire() {
                   <Wallet size={18} />
                   <span>La caisse</span>
                 </li>
+                <AvatarProfileButtondmin/>{/**bouttom profil */}
               </SidebarList>
             </SidebarContainer>
           )}

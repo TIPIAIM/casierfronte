@@ -269,7 +269,12 @@ function TbleoListe() {
     const fetchAllDemandes = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_b}/api/demande/`);
+        const response = await fetch(`${import.meta.env.VITE_b}/api/demande/`,
+          {
+            credentials: "include",
+          }
+
+        );
         if (!response.ok) throw new Error("Erreur de chargement des demandes");
         const data = await response.json();
 

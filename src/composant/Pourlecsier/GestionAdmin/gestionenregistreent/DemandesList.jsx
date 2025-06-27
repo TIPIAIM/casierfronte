@@ -366,7 +366,11 @@ function DemandesList() {
     const fetchAllDemandes = async () => {
       setLoading(true);
       try {
-        const response = await fetch( `${import.meta.env.VITE_b}/api/demande/ `);
+        const response = await fetch( `${import.meta.env.VITE_b}/api/demande/ `,
+          {
+            credentials: "include" 
+          }
+        );
 
         if (!response.ok) throw new Error("Erreur de chargement des demandes");
 
@@ -449,6 +453,7 @@ function DemandesList() {
 
           {
             method: "DELETE",
+           credentials: "include" 
           }
         );
 

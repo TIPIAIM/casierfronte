@@ -624,6 +624,9 @@ function CondntionEnregistredmin() {
         `${import.meta.env.VITE_b}/api/demande`,
          {
         method: "POST",
+        
+          credentials: "include",
+      
         // NE PAS METTRE 'Content-Type' : il sera défini automatiquement avec le boundary
         body: formDataToSend,
       });

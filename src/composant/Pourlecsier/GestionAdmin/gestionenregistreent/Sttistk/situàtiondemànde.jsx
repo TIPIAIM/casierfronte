@@ -104,7 +104,11 @@ function SituationDemande() {
     const fetchAllDemandes = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${import.meta.env.VITE_b}/api/demande`);
+        const res = await fetch(`${import.meta.env.VITE_b}/api/demande`,
+          {
+            credentials: "include",
+          }
+        );
         if (!res.ok) {
           throw new Error(`Erreur ${res.status} lors du chargement`);
         }

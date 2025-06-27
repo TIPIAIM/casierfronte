@@ -9,7 +9,7 @@ import jurid1 from "../../assets/jurid1.avif";
 import guine3 from "../../assets/guin3.avif";
 import guine4 from "../../assets/guin4.avif";
 import guine5 from "../../assets/guin5.avif";
-
+ 
 const colors = {
   blueMarine: "#002B5B",
   greenDark: "#1A4D2E",
@@ -224,8 +224,9 @@ const Senregistrer = () => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_b}/api/auth/register`, { name, email, password });
       if (response.data.success) {
-        alert("Enregistrement réussi ! Veuillez vérifier votre email.");
-        navigate("/verify-email");
+       alert("Enregistrement réussi ! Veuillez vérifier votre email.");
+    
+     navigate("/verify-email");
       } else {
         setErrorMessage(response.data.message || "Erreur d'enregistrement");
       }
@@ -266,6 +267,7 @@ const Senregistrer = () => {
           }}>
             <Logo src={jurid1} alt="Logo" />
             <Title>Créer un compte</Title>
+           
 </div>
 
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

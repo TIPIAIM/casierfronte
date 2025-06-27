@@ -679,10 +679,11 @@ function Commencerdem() {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_b}/api/demande`,
-
     
         {
         method: "POST",
+        credentials: "include" ,// 👈 Ajoute ça pour envoyer les cookies
+
         // NE PAS METTRE 'Content-Type' : il sera défini automatiquement avec le boundary
         body: formDataToSend,
       });
@@ -690,7 +691,7 @@ function Commencerdem() {
       if (!response.ok) throw new Error("Erreur serveur");
       //
       const result = await response.json();
-      // Envoi de l'email avec la référence
+      // Envoi de l'email avec la référence /api/demande
       const emailResponse = await fetch(
         `${import.meta.env.VITE_b}/apii/send-reference-email`,
 

@@ -59,7 +59,8 @@ const DeliveryMethodChart2 = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `${import.meta.env.VITE_b}/api/demande/`
+          `${import.meta.env.VITE_b}/api/demande/`,
+          { withCredentials: true } // 👈 AJOUTE ÇA
         );
 
         if (response.data.success) {

@@ -97,10 +97,12 @@ export default function Interfcedebut() {
         <header className="flex justify-between items-center mb-6">
           <div className="text-4xl font-black text-yellow-400">⚖️</div>
           <nav className="space-x-6 text-sm">
-            <Link to="/videoexplic" className=" hover:text-yellow-500 no-underline font-bold  text-gray-300">
+            <Link
+              to="/videoexplic"
+              className=" hover:text-yellow-500 no-underline font-bold  text-gray-300"
+            >
               Tutoriel
             </Link>
-           
           </nav>
         </header>
 
@@ -122,11 +124,10 @@ export default function Interfcedebut() {
 
         {/* Form */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
-          <button className="bg-yellow-500 hover:bg-green-500 text-black font-semibold px-6 py-3 hover:text-yellow-500 transition-all duration-300">
-           <Link to='/debut' className="no-underline font-bold text-black">
-            Commencer
-           </Link>
-           
+          <button className="bg-yellow-500 hover:bg-green-800 text-black font-semibold px-6 py-3 hover:text-yellow-500 transition-all duration-300">
+            <Link to="/debut" className="no-underline font-bold text-black">
+              Commencerr
+            </Link>
           </button>
         </div>
 

@@ -163,16 +163,7 @@ export default function GestiondemàndcsierAdmin() {
     <Container>
       <HeaderContainer>
         <HeaderTop>
-          {/*  <BackButton 
-            onClick={() => navigate(-1)} 
-            aria-label="Retour"
-            style={{ animationDelay: '0.1s' }}
-          >
-            <ArrowLeft size={26} />
-          </BackButton>
-          <Title style={{ animationDelay: '0.2s' }}>
-               Gestion des demandes
-          </Title>*/}
+           
         </HeaderTop>
 
         <ButtonGroup style={{ animationDelay: "0.3s" }}>
