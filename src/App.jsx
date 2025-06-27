@@ -30,7 +30,7 @@ import TbleoListe from "./composant/Pourlecsier/GestionAdmin/gestionenregistreen
 import SessionList from "./composant/Pourlecsier/GestionAdmin/Session/SessionList";
 import InstallPWAButton from "./composant/Applicationtelech/InstallPWAButton";
 import { useEffect } from "react";
-//Assure-toi que la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
+//Assure-toi que AvatarProfileButtondmin la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
   useEffect(() => {
     window.addEventListener("appinstalled", () => {
