@@ -26,7 +26,6 @@ export default defineConfig({
         "/EnregistreCondanation",
         "/listeCondamnations",
         "/casier",
-        "/voir-mes-demandes",
         "/etranger",
       ],
     }),
