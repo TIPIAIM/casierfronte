@@ -1,7 +1,7 @@
-import React, { useState,useEffect  } from "react";
+import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { FaSearch, FaArrowLeft } from "react-icons/fa";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Animations et styles existants...
 const fadeInUp = keyframes`
@@ -169,24 +169,15 @@ const Voirmademande = () => {
   const [reference, setReference] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
- useEffect(() => {
-    const refFromUrl = searchParams.get("ref");
-    if (refFromUrl) {
-      setReference(refFromUrl);
-      handleSubmit(refFromUrl); // lancement auto de la recherche
-    }
-  }, [searchParams]);
 
   const handleInputChange = (e) => {
     setReference(e.target.value);
     setError("");
   };
 
-
   const handleSubmit = async () => {
     if (!reference.trim()) {
-      setError("Veuillez entrer la référence de demande");
+      setError("Veuillez entrer votre référence de demande");
       return;
     }
 
@@ -221,7 +212,7 @@ const Voirmademande = () => {
   };
 
   const handleGoBack = () => {
-    navigate("/adminfils"); //gfgffgg Retour à la page précédente
+    navigate("/adminfils"); // Retour à la page précédente
   };
 
   return (
@@ -244,7 +235,7 @@ const Voirmademande = () => {
         <InputGroup>
           <InputField
             type="text"
-            placeholder="Référence de demande (CR-... ...)"
+            placeholder="Référence de demande (CR-...)"
             value={reference}
             onChange={handleInputChange}
             onKeyPress={(e) => e.key === "Enter" && handleSubmit()}

@@ -126,9 +126,9 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^http:\/\/localhost:2025\/api\/\/?.*$/,
-            //  urlPattern: /^https:\/\/casiergn\.verser\.app\/api\//,
-
+            //urlPattern: /^http:\/\/localhost:2025\/api\/\/?.*$/,
+            // urlPattern: /^https:\/\/casiergn\.verser\.app\/api\//,
+             urlPattern: /^https:\/\/casierba\.onrender\.com\/api\//,
             handler: "NetworkFirst",
             options: {
               cacheName: "api-cache",
