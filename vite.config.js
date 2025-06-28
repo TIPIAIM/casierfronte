@@ -26,6 +26,7 @@ export default defineConfig({
         "/EnregistreCondanation",
         "/listeCondamnations",
         "/casier",
+        "/voir-mes-demandes",
         "/etranger",
       ],
     }),
@@ -74,37 +75,37 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB (par exemple) rollupOptions
         // Fallback offline page (optionnel) :casieradmin
-        // Les routes à pré-cacher (mets ici toutes les pages importantes !)
-        additionalManifestEntries: [
-          { url: "/", revision: null },
-          { url: "/seconnecter", revision: null },
-          { url: "/enregistrer", revision: null },
-          { url: "/verify-email", revision: null },
-          { url: "/demande-guinee", revision: null },
-          { url: "/demande-etranger", revision: null },
-          { url: "/videoexplic", revision: null },
-          { url: "/demande", revision: null },
-          { url: "/demandesList", revision: null },
-          { url: "/gestiondesdeux", revision: null },
-          { url: "/demandesListstati", revision: null },
-          { url: "/debut", revision: null },
-          { url: "/gestionDetC", revision: null },
-          { url: "/casieradmin", revision: null },
-          { url: "/gestiondemande", revision: null },
-          { url: "/gestionCondanations", revision: null },
-          { url: "/adminmere", revision: null },
-          { url: "/EnregistreCondanation", revision: null },
-          { url: "/sessionlist", revision: null },
-          { url: "/listeCondamnations", revision: null },
-          { url: "/casier", revision: null },
-          { url: "/adminfils", revision: null },
-          { url: "/voir-mes-demandes", revision: null },
-          { url: "/etranger", revision: null },
-          // Ajoute toutes les routes fixes ici gestiondesdeux
-          // Pour les routes dynamiques comme /demandeid/:id => mets au moins le chemin de base, ou prépare une page de fallback "détail"
-        ],
-        // Ajoute ceci pour gerer les pàges non rencontrées:
-        navigateFallback: "/offline.html",
+         // Les routes à pré-cacher (mets ici toutes les pages importantes !)
+    additionalManifestEntries: [
+      { url: '/', revision: null },
+      { url: '/seconnecter', revision: null },
+      { url: '/enregistrer', revision: null },
+      { url: '/verify-email', revision: null },
+      { url: '/demande-guinee', revision: null },
+      { url: '/demande-etranger', revision: null },
+      { url: '/videoexplic', revision: null },
+      { url: '/demande', revision: null },
+      { url: '/demandesList', revision: null },
+      { url: '/gestiondesdeux', revision: null },
+      { url: '/demandesListstati', revision: null },
+      { url: '/debut', revision: null },
+      { url: '/gestionDetC', revision: null },
+      { url: '/casieradmin', revision: null },
+      { url: '/gestiondemande', revision: null },
+      { url: '/gestionCondanations', revision: null },
+      { url: '/adminmere', revision: null },
+      { url: '/EnregistreCondanation', revision: null },
+      { url: '/sessionlist', revision: null },
+      { url: '/listeCondamnations', revision: null },
+      { url: '/casier', revision: null },
+      { url: '/adminfils', revision: null },
+      { url: '/voir-mes-demandes', revision: null },
+      { url: '/etranger', revision: null },
+      // Ajoute toutes les routes fixes ici gestiondesdeux 
+      // Pour les routes dynamiques comme /demandeid/:id => mets au moins le chemin de base, ou prépare une page de fallback "détail"
+    ],
+ // Ajoute ceci pour gerer les pàges non rencontrées:
+ navigateFallback: '/offline.html',
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.destination === "document",
@@ -126,20 +127,8 @@ export default defineConfig({
           },
           {
             //urlPattern: /^http:\/\/localhost:2025\/api\/\/?.*$/,
-            // urlPattern: /^https:\/\/casiergn\.verser\.app\/api\//,
-            urlPattern: /^https:\/\/casierba\.onrender\.com\/api\//,
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "api-cache",
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 24 * 60 * 60,
-              },
-              networkTimeoutSeconds: 10,
-            },
-          },
-          {
-            urlPattern: /^http:\/\/localhost:2027\/api\/\/?.*$/,
+             urlPattern: /^https:\/\/casiergn\.verser\.app\/api\//,
+
             handler: "NetworkFirst",
             options: {
               cacheName: "api-cache",
@@ -153,14 +142,15 @@ export default defineConfig({
         ],
       },
     }),
+
   ],
   build: {
     outDir: "dist",
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes("node_modules")) {
-            return "vendor";
+          if (id.includes('node_modules')) {
+            return 'vendor';
           }
         },
       },
