@@ -93,7 +93,7 @@ function App() {
           <Route path="/demandeid/:id" element={<DemandeDetail />} />
           {/** pour les detil */}
           <Route path="/demandemisejour/:id" element={<DemandeMisejour />} />
-          {/** pour les mise à jour */}
+          {/** pour verify-email les mise à jour */}
           <Route
             path="/EnregistreCondanation"
             element={<EnregistreCondntion />}
