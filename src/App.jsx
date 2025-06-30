@@ -80,8 +80,7 @@ function App() {
           <Route path="/demandesList" element={<DemandesList />} />{" "}
           <Route path="/gestiondesdeux" element={<Gestiondesdeux />} />{" "}
           <Route path="/demandesListstati" element={<TbleoListe />} />{" "}
-          {/*à video demandemisejour demandesList SessionList
-           */}
+ 
           <Route path="/debut" element={<Visiteur />} /> {/*à video */}
           <Route path="/gestionDetC" element={<GestionDetC />} />
           <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
