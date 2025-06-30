@@ -85,11 +85,11 @@ function App() {
           <Route path="/gestionDetC" element={<GestionDetC />} />
           <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
           <Route path="/gestiondemande" element={<GestiondemàndcsierAdmin />} />
-          {/*Listedem*/}
+         
           <Route path="/gestionCondanations" element={<GestioncondAdmin />} />
           <Route path="/adminmere" element={<Adminmere />} />
           <Route path="/sessionlist" element={<SessionList />} />
-          {/*à video Visiteur */}
+          
           <Route path="/demandeid/:id" element={<DemandeDetail />} />
           {/** pour les detil */}
           <Route path="/demandemisejour/:id" element={<DemandeMisejour />} />
