@@ -679,14 +679,15 @@ function Commencerdem() {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_b}/api/demande`,
-    
-        {
-        method: "POST",
-        credentials: "include" ,// 👈 Ajoute ça pour envoyer les cookies
 
-        // NE PAS METTRE 'Content-Type' : il sera défini automatiquement avec le boundary
-        body: formDataToSend,
-      });
+        {
+          method: "POST",
+          credentials: "include", // 👈 Ajoute ça pour envoyer les cookies
+
+          // NE PAS METTRE 'Content-Type' : il sera défini automatiquement avec le boundary
+          body: formDataToSend,
+        }
+      );
 
       if (!response.ok) throw new Error("Erreur serveur");
       //
@@ -695,12 +696,12 @@ function Commencerdem() {
       const emailResponse = await fetch(
         `${import.meta.env.VITE_b}/apii/send-reference-email`,
 
-      
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({
             to: formData.personalInfo.email,
             reference: result.reference,
@@ -825,16 +826,16 @@ function Commencerdem() {
             </DeliveryOption>
 
             <DeliveryOption
-              selected={formData.deliveryMethod ==="postal"}
+              selected={formData.deliveryMethod === "postal"}
               onClick={() =>
-                setFormData({ ...formData, deliveryMethod:"postal" })
+                setFormData({ ...formData, deliveryMethod: "postal" })
               }
             >
               <input
                 type="radio"
                 name="deliveryMethod"
                 value="postal"
-                checked={formData.deliveryMethod ==="postal"}
+                checked={formData.deliveryMethod === "postal"}
                 onChange={() => {}}
               />
               <div>
@@ -1189,11 +1190,6 @@ function Commencerdem() {
                     placeholder="75001"
                     // aria-invalid={!!errors.postalCode}
                   />
-                  {/* {errors.postalCode && (
-                  <ErrorMessage>
-                    <AlertCircle size={14} /> {errors.postalCode}
-                  </ErrorMessage>
-                )}*/}
                 </FormGroup>
 
                 <FormGroup>
@@ -1376,14 +1372,12 @@ function Commencerdem() {
 
   return (
     <Container>
-       <BackButton to="/Adminfils">
-          <FaArrowLeft /> {/* Icône de retour */}
-        </BackButton>
+      <BackButton to="/Adminfils">
+        <FaArrowLeft /> {/* Icône de retour */}
+      </BackButton>
       <Header>
-       
         <h1>Demande d'extrait de casier judiciaire</h1>
         <p>Service en ligne sécurisé du Ministère de la Justice</p>
-     
       </Header>
 
       {step < 4 && (

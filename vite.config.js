@@ -101,7 +101,7 @@ export default defineConfig({
       { url: '/adminfils', revision: null },
       { url: '/voir-mes-demandes', revision: null },
       { url: '/etranger', revision: null },
-      // Ajoute toutes les routes fixes ici gestiondesdeux 
+      // Ajoute toutes les routes fixes ici   
       // Pour les routes dynamiques comme /demandeid/:id => mets au moins le chemin de base, ou prépare une page de fallback "détail"
     ],
  // Ajoute ceci pour gerer les pàges non rencontrées:
