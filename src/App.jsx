@@ -30,6 +30,7 @@ import TbleoListe from "./composant/Pourlecsier/GestionAdmin/gestionenregistreen
 import SessionList from "./composant/Pourlecsier/GestionAdmin/Session/SessionList";
 import InstallPWAButton from "./composant/Applicationtelech/InstallPWAButton";
 import { useEffect } from "react";
+import MonQRCode from "./kr";
 //Assure-toi que AvatarProfileButtondmin la route Adminfils est protégée et accessible uniquement aux utilisateurs authentifiés.
 function App() {
   useEffect(() => {
@@ -80,17 +81,16 @@ function App() {
           <Route path="/demandesList" element={<DemandesList />} />{" "}
           <Route path="/gestiondesdeux" element={<Gestiondesdeux />} />{" "}
           <Route path="/demandesListstati" element={<TbleoListe />} />{" "}
- 
           <Route path="/debut" element={<Visiteur />} /> {/*à video */}
           <Route path="/gestionDetC" element={<GestionDetC />} />
           <Route path="/casieradmin" element={<CsierJudicirpouradmin />} />
           <Route path="/gestiondemande" element={<GestiondemàndcsierAdmin />} />
-         
           <Route path="/gestionCondanations" element={<GestioncondAdmin />} />
           <Route path="/adminmere" element={<Adminmere />} />
           <Route path="/sessionlist" element={<SessionList />} />
-          
           <Route path="/demandeid/:id" element={<DemandeDetail />} />
+          <Route path="/monQRCode" element={<MonQRCode />} />
+
           {/** pour les detil */}
           <Route path="/demandemisejour/:id" element={<DemandeMisejour />} />
           {/** pour verify-email les mise à jour */}
@@ -101,6 +101,9 @@ function App() {
           <Route path="/listeCondamnations" element={<ListeCondamnations />} />
           <Route path="/casier" element={<Casier />} />
           {/*à video 
+
+
+
           <Route
             path="/gestionenregistrement"
             element={<ProtectedRoute>{/*<Adminfils />*/}
