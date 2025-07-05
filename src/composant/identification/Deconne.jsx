@@ -6,6 +6,7 @@ import { AuthContext } from "./AuthContext";
 import styled, { keyframes } from "styled-components";
 import { FiLogOut, FiLoader } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import { Power } from "lucide-react";
 
 const colors = {
   primary: "#002B5B",
@@ -27,7 +28,7 @@ const IconWrapper = styled.div`
   color: ${props => (props.loading ? colors.gray : colors.accent)};
   transition: color 0.3s;
   &:hover {
-    animation: ${pulse} 0.6s ease-in-out;
+    animation: ${pulse} 0.5s ease-in-out;
     color: ${props => (props.loading ? colors.danger : colors.danger)};
   }
 `;
@@ -38,23 +39,31 @@ const Spinner = styled(FiLoader)`
   @keyframes spin { to { transform: rotate(360deg); } }
 `;
 
-// Snackbar at bottom-left with 10rem offset
+// Snackbar centré au milieu de l'écran (responsive/pro)
 const SnackbarContainer = styled(motion.div)`
   position: fixed;
-    top: 2rem; /* raised to 10rem from bottom */
-  left: -15rem; /* aligned to left side */
-  max-width: 400px;
-  width: auto;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 95vw;
+  width: 350px;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  z-index: 1000;
+  gap: 1rem;
+  z-index: 2000;
+  @media (max-width: 500px) {
+    width: 98vw;
+    max-width: 98vw;
+    padding: 0.9rem 0.7rem;
+    font-size: 0.99rem;
+  }
 `;
+
 
 const Message = styled.div`
   flex: 1;
@@ -118,11 +127,11 @@ const LogoutButton = () => {
     clearInterval(intervalRef.current);
     setShowSnackbar(false);
   };
-
+//Power
   return (
     <>
       <IconWrapper onClick={scheduleLogout} loading={loading} title="Se déconnecter">
-        {loading ? <Spinner /> : <FiLogOut />}
+        {loading ? <Spinner /> : <Power />}
       </IconWrapper>
 
       <AnimatePresence>
@@ -133,7 +142,7 @@ const LogoutButton = () => {
             exit={{ opacity: 0, y: 50 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Message>Déconnexion dans {countdown} s</Message>
+            <Message>Déconnexion dans {countdown} s</Message>
             <CancelButton
               onClick={cancelLogout}
               whileHover={{ scale: 1.05 }}

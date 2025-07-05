@@ -15,15 +15,15 @@ const colors = {
 
 const Wrapper = styled.div`
   position: fixed;
-  top: 52px;
-  right: 58px;
+  top: 10px;
+  right: 20px;
   z-index: 1200;
 `;
 
 const AvatarBtn = styled.img`
-  width: 66px; height: 66px; border-radius: 50%;
+  width: 40px; height: 40px; border-radius: 5%;
   object-fit: cover;
-  border: 2px solid #1a4d2e;
+  border: px solid #1a4d2e;
   background: #fafbfc;
   cursor: pointer;
   box-shadow: 0 2px 10px rgba(0,0,0,0.10);

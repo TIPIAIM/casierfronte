@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { FiDownloadCloud } from "react-icons/fi";
 
-// Palette de couleurs de ton projet
 const colors = {
   blueMarine: "#002B5B",
   greenDark: "#1A4D2E",
@@ -116,38 +115,70 @@ const IconCloud = styled(FiDownloadCloud)`
 
 const InstallPWAButton = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(true); // Toujours visible !
+  const [installed, setInstalled] = useState(false);
 
+  // On tracke manuellement si c'est installé (en plus de l'événement natif)
   useEffect(() => {
     const handler = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
+      setInstalled(false);
       setShowButton(true);
     };
     window.addEventListener("beforeinstallprompt", handler);
-    return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
+    window.addEventListener("appinstalled", () => {
+      setInstalled(true);
+      setShowButton(true); // Le bouton reste, mais état différent
+      localStorage.setItem("pwa_installed", "yes"); // Pour plus de contrôle
+    });
 
-  useEffect(() => {
-    window.addEventListener("appinstalled", () => setShowButton(false));
+    // Vérifie déjà installé (prévient le bouton sur les navigateurs modernes)
+    if (window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone) {
+      setInstalled(true);
+      localStorage.setItem("pwa_installed", "yes");
+    } else if (localStorage.getItem("pwa_installed") === "yes") {
+      setInstalled(true);
+    }
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handler);
+    };
   }, []);
 
   const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    setShowButton(outcome !== "accepted");
-    setDeferredPrompt(null);
-    // Ajout UX mobile : légère vibration
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") {
+        setInstalled(true);
+        localStorage.setItem("pwa_installed", "yes");
+      }
+      setDeferredPrompt(null);
+    } else {
+      // Si le prompt n'est pas dispo, donne une astuce
+      alert(
+        "Pour installer l'application, ouvrez le menu de votre navigateur et choisissez 'Ajouter à l'écran d'accueil'."
+      );
+    }
     if (window.navigator.vibrate) window.navigator.vibrate(18);
   };
 
   if (!showButton) return null;
 
   return (
-    <Btn onClick={handleInstallClick} aria-label="Installer l’application">
+    <Btn
+      onClick={installed ? undefined : handleInstallClick}
+      aria-label={installed ? "Déjà installée" : "Installer l’application"}
+      disabled={installed}
+      style={{
+        opacity: installed ? 0.62 : 1,
+        cursor: installed ? "not-allowed" : "pointer",
+      }}
+    >
       <IconCloud />
-      <AnimatedText>Installer l’application</AnimatedText>
+      <AnimatedText>
+        {installed ? "Déjà installée" : "Installer l’application"}
+      </AnimatedText>
     </Btn>
   );
 };
