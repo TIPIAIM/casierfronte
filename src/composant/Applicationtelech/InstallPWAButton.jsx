@@ -168,7 +168,7 @@ const InstallPWAButton = () => {
   return (
     <Btn
       onClick={installed ? undefined : handleInstallClick}
-      aria-label={installed ? "Déjà installée" : "Installer l’application"}
+      aria-label={installed ? "Déjà installée" : "Installer"}
       disabled={installed}
       style={{
         opacity: installed ? 0.62 : 1,
@@ -177,7 +177,7 @@ const InstallPWAButton = () => {
     >
       <IconCloud />
       <AnimatedText>
-        {installed ? "Déjà installée" : "Installer l’application"}
+        {installed ? "Déjà installée" : "Installer"}
       </AnimatedText>
     </Btn>
   );
