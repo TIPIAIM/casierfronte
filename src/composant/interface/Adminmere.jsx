@@ -602,7 +602,7 @@ export default function DashboardCasierJudiciaire() {
                         <ChartTitle>
                           <CalendarSearch size={18} />
                           Condamnations par Date
-                        </ChartTitle>
+                          </ChartTitle>
                         <div style={{ height: "350px" }}>
                           <CondemnationChart />
                         </div>

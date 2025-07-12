@@ -91,7 +91,7 @@ function App() {
           <Route path="/demandeid/:id" element={<DemandeDetail />} />
           <Route path="/monQRCode" element={<MonQRCode />} />
 
-          {/** pour les detil */}
+          {/** pour les detil statistiques*/}
           <Route path="/demandemisejour/:id" element={<DemandeMisejour />} />
           {/** pour verify-email les mise à jour */}
           <Route

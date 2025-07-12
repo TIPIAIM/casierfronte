@@ -103,11 +103,17 @@ function SituationDemande() {
   useEffect(() => {
     const fetchAllDemandes = async () => {
       setLoading(true);
+
       try {
+        const token = localStorage.getItem('token'); // adapte si tu utilises un autre nom
         const res = await fetch(`${import.meta.env.VITE_b}/api/demande`,
-          {
+          { headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
             credentials: "include",
-          }
+          }         
+          
         );
         if (!res.ok) {
           throw new Error(`Erreur ${res.status} lors du chargement`);
